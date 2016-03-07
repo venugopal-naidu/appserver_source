@@ -62,6 +62,15 @@ class UrlMappings {
 
 
     "/api/$namespace/search/doctor"(controller: 'search', action: 'searchDoctor') {}
+    "/api/$namespace/search/specialitiesAndHospitals"(controller: 'search', action: 'listSpecialitiesAndHospitals') {}
+    "/api/$namespace/search/hospitals"(controller: 'search', action: 'listHospitals') {}
+    "/api/$namespace/search/hospital/specialities"(controller: 'search', action: 'listHospitalSpecialities') {}
+
+
+
+    "/api/$namespace/doctor/$action"(controller: 'doctor') {}
+
+
 
     //  add new mappings above for better managing
 
