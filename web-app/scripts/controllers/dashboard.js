@@ -52,11 +52,6 @@ app
               name: 'Revive Multi-Specialty Clinics & Fertility Centre',
               address : '795 Folsom Ave, Suite 600, San Francisco, CA 94107',
               phone : '(123) 456-7890'
-            },
-            {
-              name: 'Revive Multi-Specialty Clinics & Fertility Centre',
-              address : '795 Folsom Ave, Suite 600, San Francisco, CA 94107',
-              phone : '(123) 456-7890'
             }
           ]
         },
@@ -118,14 +113,18 @@ app
       var url = 'http://183.82.103.141:8080/vellkare/api/v0/search/specialitiesAndHospitals';
       var dataToSend = { location: 'Hyderabad'};
       $http.get(url,dataToSend).success(function(data){
-          $scope.specialties = ['Dentist','Dermatology‎','Anesthesiology','Emergency Medicine','Hand Surgery'];
-          $scope.hospitals = ['Image Hospital','Pacific Hospitals','Fernandez Hospital','Apollo Hospitals','GNRC Hospitals'];
+        $scope.specialties = ['Dentist','Dermatology‎','Anesthesiology','Emergency Medicine','Hand Surgery'];
+        $scope.hospitals = ['Image Hospital','Pacific Hospitals','Fernandez Hospital','Apollo Hospitals','GNRC Hospitals'];
       });
     };
 
-      $scope.showCalendar = function(index){
-          $('#doctorAppointment_'+index).fullCalendar('render');
-      }
-
+    $scope.showDoctorAppointmentCalendar = function(index){
+      // Hide all other opened calendars
+      $('.doctorAppointment.collapse').collapse('hide');
+      // Show current calendar
+      $('#doctor_calendar_'+index).collapse('toggle');
+      // Render calendar view for this screen size
+      $('#doctorAppointment_'+index).fullCalendar('render');
+    };
     $scope.getSpecialitiesAndHospitals();
   });
