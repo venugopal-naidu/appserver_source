@@ -8,7 +8,7 @@
  * Controller of the minovateApp
  */
 app
-  .controller('DashboardCtrl', function($scope,$http,$mdBottomSheet){
+  .controller('DashboardCtrl', function($scope,$http,$mdBottomSheet,$window){
 
     $scope.doctorsList = [];
     $scope.labsList = [];
@@ -44,6 +44,7 @@ app
     $scope.findDoctor = function(){
       $scope.doctorsList = [
         {
+          id: 1,
           name: 'Dr. Satyanath R V',
           degree : 'M.D., Skin & STD',
           specialities : 'Homeopath , General Physician',
@@ -56,6 +57,7 @@ app
           ]
         },
         {
+          id: 2,
           name: 'Dr. Satyanath R V',
           degree : 'M.D., Skin & STD',
           specialities : 'Homeopath , General Physician',
@@ -118,13 +120,15 @@ app
       });
     };
 
-    $scope.showDoctorAppointmentCalendar = function(index){
+    $scope.showDoctorAppointmentCalendar = function(doctor,index){
       // Hide all other opened calendars
       $('.doctorAppointment.collapse').collapse('hide');
       // Show current calendar
       $('#doctor_calendar_'+index).collapse('toggle');
       // Render calendar view for this screen size
       $('#doctorAppointment_'+index).fullCalendar('render');
+      // Save doctor data to local storage
+      $window.localStorage.selectedDoctor = doctor.id;
     };
     $scope.getSpecialitiesAndHospitals();
   });
