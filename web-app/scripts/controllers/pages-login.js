@@ -8,7 +8,25 @@
  * Controller of the minovateApp
  */
 app
-  .controller('LoginCtrl', function ($scope, $state, $http) {
+  .controller('LoginCtrl', function ($scope, $state, $http, $window) {
+      $scope.selectedDoctor = null;
+      $scope.doctorAppointmentDate = null;
+      $scope.doctorAppointmentDate = $window.localStorage.doctorAppointmentDate;
+      if($window.localStorage.selectedDoctor != null){
+          $scope.selectedDoctor = {
+              name: 'Dr. Satyanath R V',
+              degree : 'M.D., Skin & STD',
+              specialities : 'Homeopath , General Physician',
+              hospitals: [
+                  {
+                      name: 'Revive Multi-Specialty Clinics & Fertility Centre',
+                      address : '795 Folsom Ave, Suite 600, San Francisco, CA 94107',
+                      phone : '(123) 456-7890'
+                  }
+              ]
+          };
+      }
+
     $scope.login = function() {
         var dataToSend = {
             "clientId":"vellkare-client",
@@ -22,4 +40,5 @@ app
             alert("something went wrong");
         });
     };
+      alert("Selected doctor:" + $window.localStorage.selectedDoctor);
   });

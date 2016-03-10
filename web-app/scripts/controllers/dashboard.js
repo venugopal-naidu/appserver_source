@@ -8,7 +8,7 @@
  * Controller of the minovateApp
  */
 app
-  .controller('DashboardCtrl', function($scope,$http,$mdBottomSheet){
+  .controller('DashboardCtrl', function($scope,$http,$mdBottomSheet,$window){
 
     $scope.doctorsList = [];
     $scope.labsList = [];
@@ -44,6 +44,7 @@ app
     $scope.findDoctor = function(){
       $scope.doctorsList = [
         {
+          id: 1,
           name: 'Dr. Satyanath R V',
           degree : 'M.D., Skin & STD',
           specialities : 'Homeopath , General Physician',
@@ -52,15 +53,11 @@ app
               name: 'Revive Multi-Specialty Clinics & Fertility Centre',
               address : '795 Folsom Ave, Suite 600, San Francisco, CA 94107',
               phone : '(123) 456-7890'
-            },
-            {
-              name: 'Revive Multi-Specialty Clinics & Fertility Centre',
-              address : '795 Folsom Ave, Suite 600, San Francisco, CA 94107',
-              phone : '(123) 456-7890'
             }
           ]
         },
         {
+          id: 2,
           name: 'Dr. Satyanath R V',
           degree : 'M.D., Skin & STD',
           specialities : 'Homeopath , General Physician',
@@ -118,14 +115,20 @@ app
       var url = 'http://183.82.103.141:8080/vellkare/api/v0/search/specialitiesAndHospitals';
       var dataToSend = { location: 'Hyderabad'};
       $http.get(url,dataToSend).success(function(data){
-          $scope.specialties = ['Dentist','Dermatology‎','Anesthesiology','Emergency Medicine','Hand Surgery'];
-          $scope.hospitals = ['Image Hospital','Pacific Hospitals','Fernandez Hospital','Apollo Hospitals','GNRC Hospitals'];
+        $scope.specialties = ['Dentist','Dermatology‎','Anesthesiology','Emergency Medicine','Hand Surgery'];
+        $scope.hospitals = ['Image Hospital','Pacific Hospitals','Fernandez Hospital','Apollo Hospitals','GNRC Hospitals'];
       });
     };
 
-      $scope.showCalendar = function(index){
-          $('#doctorAppointment_'+index).fullCalendar('render');
-      }
-
+    $scope.showDoctorAppointmentCalendar = function(doctor,index){
+      // Hide all other opened calendars
+      $('.doctorAppointment.collapse').collapse('hide');
+      // Show current calendar
+      $('#doctor_calendar_'+index).collapse('toggle');
+      // Render calendar view for this screen size
+      $('#doctorAppointment_'+index).fullCalendar('render');
+      // Save doctor data to local storage
+      $window.localStorage.selectedDoctor = doctor.id;
+    };
     $scope.getSpecialitiesAndHospitals();
   });

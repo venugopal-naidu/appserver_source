@@ -8,23 +8,25 @@
  * Controller of the minovateApp
  */
 app
-  .controller('AppointmentCtrl', function ($scope,$compile,uiCalendarConfig, $state) {
+  .controller('AppointmentCtrl', function ($scope,$compile,uiCalendarConfig, $state,$window) {
 
     $scope.bookAppointment = function( date, jsEvent, view ){
-      alert(date);
+      alert('Clicked on: ' + date);
+      $window.localStorage.doctorAppointmentDate = date;
+      // If not authenticated user redirect to login page
       $state.go('core.login');
+
     };
 
     /* config object */
     $scope.uiConfig = {
       calendar:{
-        height: 450,
+        defaultView: 'agendaWeek',
+        selectHelper: true,
         editable: true,
-        header:{
-          left: 'today prev,next',
-          center: 'title',
-          right: 'month,agendaWeek,agendaDay'
-        },
+        allDaySlot: false,
+        height: 350,
+        header:false,
         dayClick: $scope.bookAppointment
       }
     };

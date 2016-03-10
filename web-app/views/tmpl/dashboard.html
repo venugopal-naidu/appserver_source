@@ -134,18 +134,15 @@
                                                 <br tyle="display: inline;">
                                                 <span style="display: inline;">10:00AM-1:00PM</span>
                                             </li>
-                                            <li  class="m-10">
-                                                <i class="fa fa-rupee"></i><strong>300</strong>
-                                            </li>
                                         </ul>
                                     </td>
                                     <td class="child">
-                                        <button class="btn btn-success btn-ef btn-ef-7 btn-ef-7b mb-10" style="margin-top: 110px" ng-click="showCalendar($index)" data-toggle="collapse" data-target="#doctor_calendar_{{$index}}"><i class="fa fa-calendar"></i> Book Appointment</button>
+                                        <button class="btn btn-success btn-ef btn-ef-7 btn-ef-7b mb-10" style="margin-top: 110px" ng-click="showDoctorAppointmentCalendar(doctor,$index)"><i class="fa fa-calendar"></i> Book Appointment</button>
                                     </td>
                                 </tr>
-                                <tr id="doctor_calendar_{{$index}}" class="collapse" ng-repeat-end>
+                                <tr id="doctor_calendar_{{$index}}" class="collapse doctorAppointment" ng-repeat-end>
                                     <td style="border: 0" colspan="4" ng-controller="AppointmentCtrl">
-                                        <div class="calendar doctorAppointment" id="doctorAppointment_{{$index}}" calendar="doctorAppointment" ui-calendar="uiConfig.calendar"></div>
+                                        <div class="calendar" id="doctorAppointment_{{$index}}" calendar="doctorAppointment" ui-calendar="uiConfig.calendar"></div>
                                     </td>
                                 </tr>
                         </tbody>
@@ -263,11 +260,30 @@
 
             </section>
             <!-- /tile -->
-
-
         </div>
     </div>
     <!-- tile -->
 </div>
+
+<style>
+
+    table.fc-agenda-slots td.fc-widget-content:hover
+    {
+        cursor: pointer;
+        background-color: #F1F1F1;
+    }
+    .fc-widget-header{
+        border-top: 1px solid #e2e2e2 !important;
+        border-bottom: 1px solid #e2e2e2 !important;
+        background-color: #f2f2f2 !important;
+    }
+    .fc-widget-header.fc-first{
+        border-left: 1px solid #e2e2e2 !important;
+    }
+    .fc-widget-header.fc-last{
+        border-right: 1px solid #e2e2e2 !important;
+    }
+
+</style>
 
 

@@ -1,0 +1,118 @@
+{
+  "name": "minovate",
+  "version": "1.2.0",
+  "dependencies": {
+    "angular": "~1.4.6",
+    "angular-animate": "1.4.6",
+    "angular-bootstrap": "latest",
+    "angular-bootstrap-nav-tree": "*",
+    "angular-cookies": "1.4.6",
+    "angular-datatables": "~0.5.0",
+    "angular-file-upload": "~2.1.4",
+    "angular-flot": "~0.0.13",
+    "angular-fontawesome": "~0.4.0",
+    "angular-fullscreen": "~1.0.1",
+    "angular-loading-bar": "~0.8.0",
+    "angular-material": "~0.11.1",
+    "angular-momentjs": "~0.2.2",
+    "angular-resource": "1.4.6",
+    "angular-sanitize": "1.4.6",
+    "angular-smart-table": "~2.1.3",
+    "angular-translate": "~2.8.0",
+    "angular-translate-loader-static-files": "~2.8.0",
+    "angular-translate-storage-local": "~2.8.0",
+    "angular-ui-calendar": "~0.8.1",
+    "angular-ui-grid": "~3.0.6",
+    "angular-ui-router": "~0.2.15",
+    "angular-ui-select": "~0.12.1",
+    "angular-ui-tree": "~2.9.0",
+    "angular-ui-utils": "~0.2.3",
+    "animate.css": "~3.4.0",
+    "bootstrap": "~3.3.5",
+    "bootstrap-daterangepicker": "~2.0.11",
+    "flot": "~0.8.3",
+    "flot-spline": "*",
+    "flot.tooltip": "~0.8.4",
+    "font-awesome": "~4.4.0",
+    "html.sortable": "~0.3.0",
+    "imagesloaded": "latest",
+    "jquery.slimscroll": "~1.3.6",
+    "material-design-iconic-font": "~2.1.1",
+    "ng-bs-daterangepicker": "~0.0.5",
+    "ng-table": "~1.0.0-beta.5",
+    "oclazyload": "~1.0.5",
+    "owl-carousel": "~1.3.2",
+    "textAngular": "latest",
+    "simple-line-icons": "~2.2.1"
+  },
+  "devDependencies": {
+    "angular-mocks": "1.2.16",
+    "angular-scenario": "1.2.16"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "./dist/css/bootstrap.css",
+        "./dist/js/bootstrap.min.js"
+      ]
+    },
+    "font-awesome": {
+      "main": [
+        "css/font-awesome.min.css"
+      ]
+    },
+    "material-design-iconic-font": {
+      "main": [
+        "./dist/css/material-design-iconic-font.css"
+      ]
+    },
+    "flot": {
+      "main": [
+        "jquery.flot.js",
+        "jquery.flot.resize.js"
+      ]
+    },
+    "flot-spline": {
+      "main": "./js/jquery.flot.spline.min.js"
+    },
+    "angular-datatables": {
+      "main": [
+        "./dist/angular-datatables.min.js",
+        "./dist/plugins/bootstrap/angular-datatables.bootstrap.min.js",
+        "./dist/plugins/colreorder/angular-datatables.colreorder.min.js",
+        "./dist/plugins/columnfilter/angular-datatables.columnfilter.min.js",
+        "./dist/plugins/colvis/angular-datatables.colvis.min.js",
+        "./dist/plugins/fixedcolumns/angular-datatables.fixedcolumns.min.js",
+        "./dist/plugins/fixedheader/angular-datatables.fixedheader.min.js",
+        "./dist/plugins/scroller/angular-datatables.scroller.min.js",
+        "./dist/plugins/tabletools/angular-datatables.tabletools.min.js"
+      ]
+    },
+    "owl-carousel": {
+      "main": [
+        "./owl-carousel/owl.carousel.min.js",
+        "./owl-carousel/owl.carousel.css",
+        "./owl-carousel/owl.theme.css"
+      ]
+    },
+    "textAngular": {
+      "main": [
+        "./dist/textAngular-rangy.min.js",
+        "./dist/textAngular-sanitize.min.js",
+        "./dist/textAngular.min.js"
+      ],
+      "dependencies": {}
+    },
+    "leaflet-heat": {
+      "main": "./dist/leaflet-heat.js"
+    }
+  },
+  "appPath": "app",
+  "resolutions": {
+    "angular": "1.4.6",
+    "bootstrap": "~3.3.5",
+    "jquery": ">= 1.9.0",
+    "bootstrap-daterangepicker": "~2.0.11",
+    "moment": ">=2.9.0"
+  }
+}
