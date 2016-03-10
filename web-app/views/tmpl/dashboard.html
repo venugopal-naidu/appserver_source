@@ -1,0 +1,273 @@
+<div class="page page-dashboard page-datatables">
+    <!-- Free from search -->
+    <form role="form">
+        <div class="form-group">
+            <div class="input-group search-bar">
+                <input type="text" class="form-control input-lg" name="search" placeholder="Looking for Doctors, Clinics, Hospitals, Labs, Specialities ... in Hyderabad" value="">
+                <span class="input-group-btn">
+                  <button class="btn btn-default btn-lg" type="button"><i class="fa fa-search"></i> Search</button>
+                </span>
+            </div>
+        </div>
+    </form>
+    <!-- Advanced search -->
+    <form class="row mt-40" role="form">
+        <div class="form-group col-md-2">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                <label type="text" class="form-control col-md-10">Hyderabad</label>
+            </div>
+        </div>
+        <div class="form-group col-md-3">
+            <ui-select ng-model="searchType.selected" on-select="searchTypeChanged($item)">
+                <ui-select-match placeholder="Looking for Doctor/Lab">{{$select.selected.name}}</ui-select-match>
+                <ui-select-choices repeat="searchType in searchTypes | filter: $select.search">
+                    <span ng-bind-html="searchType.name | highlight: $select.search"></span>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+        <div ng-show="searchType.selected.name == 'Doctor'">
+            <div class="form-group col-md-3">
+                <ui-select ng-model="specialty.selected" search-enabled="true" append-to-body="true">
+                    <ui-select-match placeholder="Specialty">{{$select.selected}}</ui-select-match>
+                    <ui-select-choices repeat="specialty in specialties | filter: $select.search">
+                        <span ng-bind-html="specialty | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class="form-group col-md-3">
+                <ui-select ng-model="hospital.selected"  ng-disabled="disabled">
+                    <ui-select-match placeholder="Hospital">{{$select.selected}}</ui-select-match>
+                    <ui-select-choices repeat="hospital in hospitals | filter: $select.search">
+                        <span ng-bind-html="hospital | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class="form-group col-md-1 text-center">
+                <button class="btn btn-primary btn-ef btn-ef-5 btn-ef-5a mb-10" title="Find Doctors" ng-click="findDoctor()"><i class="fa fa-stethoscope"></i> <span>Find</span></button>
+                <a href="" ng-click="clearDoctorsResult()">Clear</a>
+            </div>
+        </div>
+        <div data-ng-show="searchType.selected.name == 'Lab'">
+            <div class="form-group col-md-3">
+                <ui-select ng-model="testCategory.selected" search-enabled="true" append-to-body="true">
+                    <ui-select-match placeholder="Test category">{{$select.selected}}</ui-select-match>
+                    <ui-select-choices repeat="testCategory in testCategories | filter: $select.search">
+                        <span ng-bind-html="testCategory | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class="form-group col-md-3">
+                <ui-select ng-model="testCenter.selected"  ng-disabled="disabled">
+                    <ui-select-match placeholder="Diagnose center">{{$select.selected}}</ui-select-match>
+                    <ui-select-choices repeat="testCenter in testCenters | filter: $select.search">
+                        <span ng-bind-html="testCenter | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class="form-group col-md-1 text-center">
+                <button class="btn btn-primary btn-ef btn-ef-5 btn-ef-5a mb-10" title="Find Labs" ng-click="findLab()"><i class="fa fa-flask"></i> <span>Find</span></button>
+                <a href="" ng-click="clearLabsResult()">Clear</a>
+            </div>
+        </div>
+    </form>
+    <div class="row"  ng-show="searchType.selected.name == 'Doctor'">
+        <div class="col-md-12">
+            <!-- tile -->
+            <section class="tile" fullscreen="isFullscreen03">
+
+                <!-- tile header -->
+                <div class="tile-header dvd dvd-btm">
+                    <h1 class="custom-font"><strong>List of Doctors </strong></h1>
+                    <div class="pull-right">
+                        <label class="checkbox checkbox-inline checkbox-custom-alt mt-0">
+                            <input type="checkbox" checked="checked" aria-controls="doctorsSearchList"><i></i> Male </label>
+                        <label class="checkbox checkbox-inline checkbox-custom-alt">
+                            <input type="checkbox" checked="checked" aria-controls="doctorsSearchList"><i></i> Female
+                        </label>
+                    </div>
+
+                </div>
+                <!-- /tile header -->
+
+                <!-- tile body -->
+                <div class="tile-body dataTables_wrapper form-inline no-footer">
+                    <table class="table table-custom" id="doctorsSearchList">
+                        <tbody>
+                                <tr class="child" ng-repeat-start="doctor in doctorsList">
+                                    <td class="child">
+                                        <div class="dotor-profile-pic">
+                                            <div class="thumb thumb-xl">
+                                                <img class="img-thumbnail" ng-src="images/doctor_profile_pic.png" alt="">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="child">
+                                        <ul style="display: inline-block;list-style-type: none;margin: 0;padding: 0;">
+                                            <li>
+                                                <h2 class="custom-font text-cyan m-0">{{ doctor.name }}</h2>
+                                                <strong>{{ doctor.degree }}</strong>
+                                            </li>
+                                            <li>
+                                                <p class="text-muted">{{ doctor.specialities }}</p>
+                                            </li>
+                                            <li class="mt-10" ng-repeat="hospital in doctor.hospitals">
+                                                <address>
+                                                    <strong>{{ hospital.name }}</strong><br>
+                                                    {{ hospital.address }}<br>
+                                                    <abbr title="Phone">P:</abbr> {{ hospital.phone }}
+                                                </address>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td class="child">
+                                        <ul class="list-unstyled">
+                                            <li class="m-10">
+                                                <span class="strong days-timing">MON-SAT</span>
+                                                <br>
+                                                <span class="hours-timing">10:00AM-1:00PM</span>
+                                                ,&nbsp;
+                                                <span class="hours-timing">5:00PM-10:00PM</span>
+                                            </li>
+                                            <li  class="m-10">
+                                                <span style="display: inline;">SUN</span>
+                                                <br tyle="display: inline;">
+                                                <span style="display: inline;">10:00AM-1:00PM</span>
+                                            </li>
+                                            <li  class="m-10">
+                                                <i class="fa fa-rupee"></i><strong>300</strong>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td class="child">
+                                        <button class="btn btn-success btn-ef btn-ef-7 btn-ef-7b mb-10" style="margin-top: 110px" ng-click="showCalendar($index)" data-toggle="collapse" data-target="#doctor_calendar_{{$index}}"><i class="fa fa-calendar"></i> Book Appointment</button>
+                                    </td>
+                                </tr>
+                                <tr id="doctor_calendar_{{$index}}" class="collapse" ng-repeat-end>
+                                    <td style="border: 0" colspan="4" ng-controller="AppointmentCtrl">
+                                        <div class="calendar doctorAppointment" id="doctorAppointment_{{$index}}" calendar="doctorAppointment" ui-calendar="uiConfig.calendar"></div>
+                                    </td>
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /tile body -->
+
+            </section>
+
+
+        </div>
+    </div>
+    <div class="row"  ng-show="searchType.selected.name == 'Lab'">
+        <div class="col-md-12">
+            <!-- tile -->
+            <section class="tile" fullscreen="isFullscreen03">
+
+                <!-- tile header -->
+                <div class="tile-header dvd dvd-btm">
+                    <h1 class="custom-font"><strong>List of Labs </strong></h1>
+                </div>
+                <!-- /tile header -->
+                <!-- tile body -->
+                <div class="tile-body dataTables_wrapper form-inline no-footer"  ng-controller="ResponsiveDatatableCtrl as showCase">
+                    <table class="table table-custom" id="labsSearchList">
+                        <tbody>
+                        <tr class="child" ng-repeat-start="lab in labsList">
+                            <td class="child">
+                                <div class="dotor-profile-pic">
+                                    <div class="thumb thumb-xl">
+                                        <img class="img-thumbnail" ng-src="images/diagnostic_center.jpg" alt="">
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="child">
+                                <ul style="display: inline-block;list-style-type: none;margin: 0;padding: 0;">
+                                    <li>
+                                        <h2 class="custom-font text-cyan m-0">{{lab.name}}</h2>
+                                    </li>
+                                    <li class="mt-10">
+                                        <address>
+                                            {{lab.contact.address}}<br>
+                                            <abbr title="Phone">P:</abbr> {{lab.contact.phone}}
+                                        </address>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td class="child">
+                                <ul class="list-unstyled">
+                                    <li class="m-10">
+                                        <span class="strong days-timing">MON-SAT</span>
+                                        <br>
+                                        <span class="hours-timing">10:00AM-1:00PM</span>
+                                        ,&nbsp;
+                                        <span class="hours-timing">5:00PM-10:00PM</span>
+                                    </li>
+                                    <li  class="m-10">
+                                        <span style="display: inline;">SUN</span>
+                                        <br tyle="display: inline;">
+                                        <span style="display: inline;">10:00AM-1:00PM</span>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td class="child">
+                                <button class="btn btn-success btn-ef btn-ef-7 btn-ef-7b mb-10" style="margin-top: 110px" data-toggle="collapse" data-target="#lab_calendar_{{$index}}"><i class="fa fa-calendar"></i> Book Appointment</button>
+                            </td>
+                        </tr>
+                        <tr id="lab_calendar_{{$index}}" class="collapse" ng-repeat-end>
+                            <td style="border: 0" colspan="4" ng-controller="CalendarCtrl">
+                                <div class="tcol">
+                                    <div class="p-15 bg-white">
+
+                                        <div class="pull-right">
+
+                                            <button type="button" class="btn btn-sm btn-default" ng-click="today()">today</button>
+
+                                            <div class="btn-group">
+                                                <button class="btn btn-default btn-sm" ng-click="changeView('agendaDay', 'myCalendar1')">Day</button>
+                                                <button class="btn btn-default btn-sm" ng-click="changeView('agendaWeek', 'myCalendar1')">Week</button>
+                                                <button class="btn btn-default btn-sm" ng-click="changeView('month', 'myCalendar1')">Month</button>
+                                            </div>
+
+                                        </div>
+
+                                        <h4 class="custom-font text-default m-0">Calendar</h4>
+
+                                    </div>
+                                    <div class="p-15">
+
+                                        <div class="fc-overlay">
+                                            <div class="panel b-solid">
+                                                <h4 class="text-light mt-0">{{event.title}}</h4>
+                                                <div class="b-b b-solid mb-10"></div>
+                                                <div class="text-muted"><i class="icon-calendar mr-5"></i> {{event.start | date:'medium'}}</div>
+                                                <div class="text-muted" ng-show='event.end'><i class="icon-clock mr-5"></i> {{event.end | date:'medium'}}</div>
+                                                <div class="text-muted" ng-show='event.location'><i class="icon-pointer mr-5"></i> {{event.location}}</div>
+                                                <div class="mt-10">{{event.info}}</div>
+                                                <div class="mt-10">{{event.url}}</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="calendar" ng-model="eventSources" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>
+
+
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tbody>
+                        </tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /tile body -->
+
+            </section>
+            <!-- /tile -->
+
+
+        </div>
+    </div>
+    <!-- tile -->
+</div>
+
+

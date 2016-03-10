@@ -1,0 +1,22 @@
+<div id="sidebar-wrap" ng-controller="NavCtrl">
+  <uib-accordion close-others="oneAtTime" slimscroll="{height: '100%'}">
+
+    <uib-accordion-group is-open="status.isFirstOpen" ng-class="{'open': status.isFirstOpen, 'closed': !status.isFirstOpen}">
+      <uib-accordion-heading>
+      </uib-accordion-heading>
+      <ul id="navigation">
+        <li ui-sref-active="active"><a ui-sref="app.dashboard"><fa name="dashboard"></fa> <span>{{ 'Menu.DASHBOARD' | translate }}</span></a></li>
+        <li ui-sref-active="active" class="active">
+          <a ui-sref="app.calendar" href="#/app/calendar">
+            <i class="fa fa-calendar-o" name="calendar-o"></i>
+            <span class="ng-binding">My Calendar</span>
+          </a>
+        </li>
+        <li ui-sref-active="active" class="active">
+          <a ui-sref="app.custom.myrecords" class="ng-binding" href="#/app/custom/myrecords"><i class="fa fa-file" name="upload"></i>My Health Records
+          </a>
+        </li>
+      </ul>
+    </uib-accordion-group>
+  </uib-accordion>
+</div>
