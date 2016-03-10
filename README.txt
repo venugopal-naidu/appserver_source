@@ -40,15 +40,15 @@ DataBase Setup
 
 	\> mysql -u root -p
 	\> {enter password}
-	mysql> create schema starter_app_dev
+	mysql> create database vellkare
 
 API Server Configuration
 ==========================
-set the grails.serverURL = "http://starterapp.com:8080/vellkare" for development environment to use social connections like facebook, linkedIn, GitHub and Instagram
+set the grails.serverURL = "http://vellkare.com:8080/vellkare" for development environment to use social connections like facebook, linkedIn, GitHub and Instagram
 
 and set the loopback ip address to starterapp.com in hosts file
 eg:
-127.0.0.1    starterapp.com
+127.0.0.1    vellkare.com
 	
 	
 StarterAPI code setup
