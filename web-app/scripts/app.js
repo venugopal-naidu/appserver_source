@@ -168,14 +168,12 @@ var app = angular
       //My Records page
       .state('app.custom.myrecords', {
         url: '/myrecords',
-        controller: 'GalleryCtrl',
+        controller: 'MyHealthRecordsCtrl',
         templateUrl: 'views/tmpl/custom/myrecords.html',
         resolve: {
           plugins: ['$ocLazyLoad', function($ocLazyLoad) {
             return $ocLazyLoad.load([
-              'scripts/vendor/mixitup/jquery.mixitup.js',
-              'scripts/vendor/magnific/magnific-popup.css',
-              'scripts/vendor/magnific/jquery.magnific-popup.min.js'
+              'scripts/vendor/filestyle/bootstrap-filestyle.min.js'
             ]);
           }]
         }
