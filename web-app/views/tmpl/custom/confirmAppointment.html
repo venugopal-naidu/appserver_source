@@ -1,0 +1,68 @@
+<div class="page">
+
+  <div class="container w-xxl p-15 bg-white mt-20">
+    <table class="table table-custom" id="doctorsSearchList">
+      <tbody>
+      <tr class="child">
+        <td class="child">
+          <div class="dotor-profile-pic">
+            <div class="thumb thumb-xl">
+              <img class="img-thumbnail" ng-src="images/doctor_profile_pic.png" alt="">
+            </div>
+          </div>
+        </td>
+        <td class="child">
+          <ul class="list-unstyled">
+            <li class="m-10">
+              <span class="strong days-timing">MON-SAT</span>
+              <br>
+              <span class="hours-timing">10:00AM-1:00PM</span>
+              ,&nbsp;
+              <span class="hours-timing">5:00PM-10:00PM</span>
+            </li>
+            <li  class="m-10">
+              <span style="display: inline;">SUN</span>
+              <br tyle="display: inline;">
+              <span style="display: inline;">10:00AM-1:00PM</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="child" colspan="2">
+          <ul style="display: inline-block;list-style-type: none;margin: 0;padding: 0;">
+            <li>
+              <h2 class="custom-font text-cyan m-0">{{ selectedDoctor.name }}</h2>
+              <strong>{{ selectedDoctor.degree }}</strong>
+            </li>
+            <li>
+              <p class="text-muted">{{ selectedDoctor.specialities }}</p>
+            </li>
+            <li class="mt-10" ng-repeat="hospital in selectedDoctor.hospitals">
+              <address>
+                <strong>{{ hospital.name }}</strong><br>
+                {{ hospital.address }}<br>
+                <abbr title="Phone">P:</abbr> {{ hospital.phone }}
+              </address>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <form name="form" class="form-validation mt-20" novalidate>
+      <div class="form-group">
+        <input type="text" name="appointmentFor" class="form-control underline-input" placeholder="Please enter reason to visit" ng-model="appointmentFor">
+      </div>
+    </form>
+
+    <div class="bg-slategray lt wrap-reset mt-40 text-center">
+      <p class="m-0">
+				<a href="" ng-click="confirmAppointment()" class="text-uppercase">Confirm Appointment</a>
+			</p>
+    </div>
+
+  </div>
+
+</div>

@@ -1,97 +1,35 @@
 <div class="page page-core page-login">
 
-  <div class="col-md-6">
-    <div class="w-420 p-15 bg-white mt-40 text-center">
+  <div class="container w-420 p-15 bg-white mt-40 text-center">
 
 
-      <h2 class="text-light text-greensea">Log In</h2>
+    <h2 class="text-light text-greensea">Log In</h2>
 
-      <form name="form" class="form-validation mt-20" novalidate>
-
-        <div class="form-group">
-          <input type="text" name="username" class="form-control underline-input" placeholder="User Name" ng-model="username" required>
-        </div>
-
-        <div class="form-group">
-          <input type="password" name="password" placeholder="Password" class="form-control underline-input" ng-model="password" required>
-        </div>
-
-        <div class="form-group text-left mt-20">
-          <button type="submit" class="btn btn-greensea b-0 br-2 mr-5" ng-click="login()" ng-disabled='form.$invalid'>Login</button>
-          <label class="checkbox checkbox-custom checkbox-custom-sm inline-block">
-            <input type="checkbox"><i></i> Remember me
-          </label>
-          <a ui-sref="core.forgotpass" class="pull-right mt-10">Forgot Password?</a>
-        </div>
-
-      </form>
-
-      <div class="bg-slategray lt wrap-reset mt-40">
-        <p class="m-0">
-          <a ui-sref="core.signup" class="text-uppercase">Create an account</a>
-        </p>
+    <form name="form" class="form-validation mt-20" novalidate>
+      <div class="form-group">
+        <input type="text" name="username" class="form-control underline-input" placeholder="User Name" ng-model="username" required>
       </div>
 
-    </div>
-  </div>
-  <div class="col-md-6">
-    <div class="w-420 p-15 bg-white mt-40">
-      <table class="table table-custom" id="doctorsSearchList">
-        <tbody>
-        <tr class="child" ng-show="selectedDoctor != null">
-          <td class="child">
-            <div class="dotor-profile-pic">
-              <div class="thumb thumb-xl">
-                <img class="img-thumbnail" ng-src="images/doctor_profile_pic.png" alt="">
-              </div>
-            </div>
-          </td>
-          <td class="child">
-            <ul class="list-unstyled">
-              <li class="m-10">
-                <span class="strong days-timing">MON-SAT</span>
-                <br>
-                <span class="hours-timing">10:00AM-1:00PM</span>
-                ,&nbsp;
-                <span class="hours-timing">5:00PM-10:00PM</span>
-              </li>
-              <li  class="m-10">
-                <span style="display: inline;">SUN</span>
-                <br tyle="display: inline;">
-                <span style="display: inline;">10:00AM-1:00PM</span>
-              </li>
-            </ul>
-          </td>
-          </tr>
-        <tr>
-          <td class="child" colspan="2">
-            <ul style="display: inline-block;list-style-type: none;margin: 0;padding: 0;">
-              <li>
-                <h2 class="custom-font text-cyan m-0">{{ selectedDoctor.name }}</h2>
-                <strong>{{ selectedDoctor.degree }}</strong>
-              </li>
-              <li>
-                <p class="text-muted">{{ selectedDoctor.specialities }}</p>
-              </li>
-              <li class="mt-10" ng-repeat="hospital in selectedDoctor.hospitals">
-                <address>
-                  <strong>{{ hospital.name }}</strong><br>
-                  {{ hospital.address }}<br>
-                  <abbr title="Phone">P:</abbr> {{ hospital.phone }}
-                </address>
-              </li>
-            </ul>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-      <div class="bg-slategray lt wrap-reset mt-40 text-center">
-        <p class="m-0">
-          <a class="text-uppercase">{{ doctorAppointmentDate }}</a>
-        </p>
+      <div class="form-group">
+        <input type="password" name="password" placeholder="Password" class="form-control underline-input" ng-model="password" required>
       </div>
 
+      <div class="form-group text-left mt-20">
+        <button type="submit" class="btn btn-greensea b-0 br-2 mr-5" ng-click="login()" ng-disabled='form.$invalid'>Login</button>
+        <label class="checkbox checkbox-custom checkbox-custom-sm inline-block">
+          <input type="checkbox"><i></i> Remember me
+        </label>
+        <a ui-sref="core.forgotpass" class="pull-right mt-10">Forgot Password?</a>
+      </div>
+
+    </form>
+
+    <div class="bg-slategray lt wrap-reset mt-40">
+      <p class="m-0">
+				<a ui-sref="core.signup" class="text-uppercase">Create an account</a>
+			</p>
     </div>
+
   </div>
 
 </div>
