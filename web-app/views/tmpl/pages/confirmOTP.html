@@ -13,13 +13,12 @@
       <div class="form-group">
         <input type="password" name="password" placeholder="Password" class="form-control underline-input" ng-model="password" required>
       </div>
+      <div class="bg-slategray lt wrap-reset mt-20 textcenter">
+        <p class="m-0">
+          <button type="button" class="btn btn-greensea b-0 text-uppercase" ng-click="confirmOTP()" ng-disabled='form.$invalid'>Set Password</button>
+        </p>
+      </div>
     </form>
-
-    <div class="bg-slategray lt wrap-reset mt-40">
-      <p class="m-0">
-				<a href="" ng-click="confirmOTP()" class="text-uppercase">Set Password</a>
-			</p>
-    </div>
   </div>
 
 </div>
