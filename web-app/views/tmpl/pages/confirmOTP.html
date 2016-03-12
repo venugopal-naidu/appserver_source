@@ -1,0 +1,24 @@
+<div class="page page-core page-login">
+
+  <div class="container w-420 p-15 bg-white mt-40 text-center">
+
+
+    <h2 class="text-light text-greensea">Confirm OTP</h2>
+
+    <form name="form" class="form-validation mt-20" novalidate>
+      <div class="form-group">
+        <input type="text" name="otp" class="form-control underline-input" placeholder="OTP" ng-model="otp" required>
+      </div>
+
+      <div class="form-group">
+        <input type="password" name="password" placeholder="Password" class="form-control underline-input" ng-model="password" required>
+      </div>
+      <div class="bg-slategray lt wrap-reset mt-20 textcenter">
+        <p class="m-0">
+          <button type="button" class="btn btn-greensea b-0 text-uppercase" ng-click="confirmOTP()" ng-disabled='form.$invalid'>Set Password</button>
+        </p>
+      </div>
+    </form>
+  </div>
+
+</div>

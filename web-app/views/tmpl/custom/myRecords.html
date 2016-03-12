@@ -1,129 +1,88 @@
-<div class="page page-upload" nv-file-drop="" uploader="uploader" filters="queueLimit, customFilter">
-
-
-    <div class="tbox tbox-sm">
-
-
-        <div class="tcol w-lg bg-tr-white lt">
-
-            <div class="p-15 bg-white b-r">
-
-
-                <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" -->
-                <div class="form-group">
-                    <h4 class="custom-font text-default m-0">Upload your health records</h4>
-                    <p></p>
-                    <input ui-jq="filestyle" type="file" class="filestyle " ui-options="{
-            buttonText: 'Select files',
-            iconName: 'fa fa-inbox'
-          }" nv-file-select="" uploader="uploader" multiple>
-                </div>
-            </div>
-        </div>
-
-
-    </div>
-
-
-</div>
-
-
-<div class="page page-gallery">
-
+<div class="page page-tables-bootstrap">
     <!-- page content -->
-    <div class="pagecontent" style="min-height: 800px">
+    <div class="pagecontent">
+        <!-- row -->
+        <div class="row">
+            <!-- col -->
+            <div class="col-md-12">
+                <!-- tile -->
+                <section class="tile" fullscreen="isFullscreen02">
 
-        <uib-tabset class="tabs-dark tab-nopadding">
+                    <!-- tile header -->
+                    <div class="tile-header dvd dvd-btm">
+                        <h1 class="custom-font"><strong>My Health Records</strong></h1>
+                    </div>
+                    <!-- /tile header -->
 
-            <uib-tab >
+                    <!-- tile body -->
+                    <div class="tile-body table-custom">
+                        <form class="form-inline" ng-submit="uploadRecord()">
+                            <table datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="table table-custom">
+                                <thead>
+                                <tr>
+                                    <th class="b-0">
+                                        <div class="form-group">
+                                            <input ui-jq="filestyle" type="file" class="filestyle" ui-options="{buttonText: 'Select file'iconName: 'fa fa-inbox'}" nv-file-select="" uploader="uploader">
+                                        </div>
+                                    </th>
+                                    <th class="b-0">
+                                        <div class="form-group">
+                                            <label>
+                                                <input type="text" class="form-control input-sm" name="firstName" ng-model="firstName" placeholder="Record Name">
+                                            </label>
+                                        </div>
+                                    </th>
+                                    <th class="b-0">
+                                        <div class="form-group">
+                                            <label>
+                                                <input type="text" class="form-control input-sm" name="firstName" ng-model="person2Add.firstName"  placeholder="Record Type">
+                                            </label>
+                                        </div>
+                                    </th>
+                                    <th class="b-0">
+                                        <div class="form-group">
+                                            <label>
+                                                <input type="text" class="form-control input-sm" name="lastName" ng-model="person2Add.lastName" placeholder="Comments">
+                                            </label>
+                                        </div>
+                                    </th>
+                                    <th class="b-0">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-success btn-ef btn-ef-3 btn-ef-3c mb-5">Upload Record <i class="fa fa-upload"></i></button>
+                                        </div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th class="bt-0">Record Name</th>
+                                    <th class="bt-0">Record Type</th>
+                                    <th class="bt-0">Issued Date</th>
+                                    <th class="bt-0">Comments</th>
+                                    <th class="bt-0"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="record in records">
+                                    <td>{{ record.name }}</td>
+                                    <td>{{ record.type }}</td>
+                                    <td>{{ record.issuedDate }}</td>
+                                    <td>{{ record.comments }}</td>
+                                    <td>
+                                        <a href ng-click="" class="text-success text-uppercase text-strong text-sm mr-10">Edit</a>
+                                        <a href ng-click="" class="text-danger text-uppercase text-strong text-sm mr-10">Remove</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                    <!-- /tile body -->
 
-                <ul class="mix-filter pull-right">
-                    <li class="filter active" data-filter="all">
-                        All
-                    </li>
-                    <li class="filter" data-filter=".cats">
-                        Doctor notes
-                    </li>
-                    <li class="filter" data-filter=".animals">
-                        Lab reports
-                    </li>
-                    <li class="filter" data-filter=".cities">
-                        Prescriptions
-                    </li>
-
-                </ul>
-
-                <ul class="mix-controls">
-                    <li class="select-all">
-                        <label class="checkbox checkbox-custom checkbox-custom-sm inline-block m-0">
-
-                        </label>
-                    </li>
-
-                </ul>
-
-                <!-- row -->
-                <div class="row mix-grid" ui-jq="mixItUp">
-
-                    <div class="gallery" ui-jq="magnificPopup"
-                         ui-options="{
-            delegate: 'a.img-preview',
-		        type: 'image',
-		        tLoading: 'Loading image #%curr%...',
-            mainClass: 'mfp-img-mobile',
-            gallery: {
-              enabled: true,
-              navigateByImgClick: true,
-              preload: [0,1]
-            }
-           }">
-
-                        <div class="page page-datatables">
-
-
-                            <!-- tile -->
-                            <section class="tile" fullscreen="isFullscreen01">
-
-                                <!-- tile header -->
-                                <div class="tile-header dvd dvd-btm">
-                                    <h1 class="custom-font"><strong>Doctor</strong> Notes</h1>
-                                </div>
-                                <!-- /tile header -->
-
-                                <!-- tile body -->
-                                <div class="tile-body">
-                                    <table datatable="" dt-options="showcase.dtOptions" dt-columns="showcase.dtColumns" class="table table-custom ng-isolate-scope dataTable no-footer" style="display: table; width: 785px;" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
-                                        <thead>
-                                        <tr role="row">
-                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="First name: activate to sort column ascending" style="width: 121px;">Date</th>
-                                            <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="ID: activate to sort column descending" style="width: 299px;">Name</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr role="row" class="odd row_selected"><td>10/15/2016</td><td class="sorting_1"><a href="#">Dr. Veena's notes</a></td></tr>
-                                        <tr role="row" class="even"><td>01/20/2016</td><td class="sorting_1"><a href="#">Physiotherapy notes</a></td></tr>
-                                        <tr role="row" class="odd"><td>04/10/2015</td><td class="sorting_1"><a href="#">Dr. Suchitra's notes</a></td></tr>
-                                        <tr role="row" class="odd"><td>05/12/2015</td><td class="sorting_1"><a href="#">Dr. Mehra's notes</a></td></tr>
-                                        <tr role="row" class="odd"><td>04/10/2015</td><td class="sorting_1"><a href="#">Dr. Hari's notes</a></td></tr>
-                                        </tbody></table>
-                                </div>
-                                <!-- /tile body -->
-
-                            </section>
-                            <!-- /tile -->
-
-                        </div>
-
-                </div>
-                <!-- /row -->
-
-            </uib-tab>
-        </uib-tabset>
-
+                </section>
+                <!-- /tile -->
+            </div>
+            <!-- /col -->
+        </div>
+        <!-- /row -->
     </div>
     <!-- /page content -->
-
-
-
-
 </div>
