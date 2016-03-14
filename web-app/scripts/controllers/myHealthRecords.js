@@ -29,12 +29,10 @@ app
     }
 
     vm.records = [
-      { name: 'Record 1', type: 'Type 1', issuedDate: '12-10-2016', comments: 'Comments 1'},
-      { name: 'Record 2', type: 'Type 1', issuedDate: '11-10-2016', comments: 'Comments 1'},
-      { name: 'Record 3', type: 'Type 1', issuedDate: '10-10-2016', comments: 'Comments 1'},
-      { name: 'Record 4', type: 'Type 1', issuedDate: '09-10-2016', comments: 'Comments 1'},
-      { name: 'Record 5', type: 'Type 1', issuedDate: '08-10-2016', comments: 'Comments 1'},
-      { name: 'Record 6', type: 'Type 1', issuedDate: '07-10-2016', comments: 'Comments 1'},
+      { name: 'Dr. Satyanath\'s notes', type: 'Doctor notes', issuedDate: 'October 12, 2015', comments: 'Appt notes from Dr.Satyanath'},
+      { name: 'Backache prescription', type: 'Prescription', issuedDate: 'November 10, 2016', comments: 'Backache medicines'},
+      { name: 'X-ray report', type: 'Lab report', issuedDate: 'January 15, 2016', comments: 'X-ray at Focus diagnostics'},
+      { name: 'MRI report', type: 'Lab report', issuedDate: 'February 4, 2016', comments: 'MRI of spine'},
     ];
     vm.dtOptions = DTOptionsBuilder.newOptions().withPaginationType('full_numbers').withBootstrap();
     vm.dtColumnDefs = [

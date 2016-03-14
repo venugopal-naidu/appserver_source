@@ -111,6 +111,11 @@ var app = angular
         url: '/app',
         templateUrl: 'views/tmpl/app.html'
       })
+        .state('app_nl', {
+            abstract: true,
+            url: '/app_nl',
+            templateUrl: 'views/app_nl.html'
+        })
       //app core pages (errors, login,signup)
       .state('core', {
         abstract: true,
@@ -140,6 +145,20 @@ var app = angular
         url: '/page404',
         templateUrl: 'views/tmpl/pages/page404.html'
       })
+      //homepage
+        .state('app_nl.home', {
+            url: '/home',
+            controller: 'DashboardCtrl',
+            templateUrl: 'views/tmpl/dashboard.html',
+            resolve: {
+                plugins: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        'scripts/vendor/datatables/datatables.bootstrap.min.css',
+                        'scripts/vendor/datatables/datatables.bootstrap.min.css'
+                    ]);
+                }]
+            }
+        })
       //dashboard
       .state('app.dashboard', {
         url: '/dashboard',

@@ -53,13 +53,13 @@ app
   .controller('ConfirmAppointmentCtrl', function ($scope,$compile,uiCalendarConfig, $state,$window) {
     $scope.selectedDoctor = {
       name: 'Dr. Satyanath R V',
-      degree : 'M.D., Skin & STD',
-      specialities : 'Homeopath , General Physician',
+      degree : 'M.D.',
+      specialities : 'Dermatology, General Medicine',
       hospitals: [
         {
-          name: 'Revive Multi-Specialty Clinics & Fertility Centre',
-          address : '795 Folsom Ave, Suite 600, San Francisco, CA 94107',
-          phone : '(123) 456-7890'
+          name: 'Continental Hospitals',
+          address : 'Gachibowli',
+          phone : '(040) 456-7890'
         }
       ]
     };

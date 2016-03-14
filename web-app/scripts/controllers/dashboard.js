@@ -29,7 +29,7 @@ app
       {id: 2, name: 'Lab'}
     ];
     $scope.searchType = { selected: $scope.searchTypes[0] };
-
+      $scope.searchStarted = false;
     $scope.searchTypeChanged = function(item){
       /*alert(item.name);*/
     };
@@ -42,33 +42,47 @@ app
 
 
     $scope.findDoctor = function(){
-      $scope.doctorsList = [
+        $scope.searchStarted = true;
+            $scope.doctorsList = [
         {
           id: 1,
           name: 'Dr. Satyanath R V',
-          degree : 'M.D., Skin & STD',
-          specialities : 'Homeopath , General Physician',
+          degree : 'M.D.',
+          specialities : 'Dermatology , General Medicine',
           hospitals: [
             {
-              name: 'Revive Multi-Specialty Clinics & Fertility Centre',
-              address : '795 Folsom Ave, Suite 600, San Francisco, CA 94107',
-              phone : '(123) 456-7890'
+              name: 'Continental Hospitals',
+              address : 'Gachibowli',
+              phone : '(040) 456-7890'
             }
           ]
         },
         {
           id: 2,
-          name: 'Dr. Satyanath R V',
-          degree : 'M.D., Skin & STD',
-          specialities : 'Homeopath , General Physician',
+          name: 'Dr. Vineet K',
+          degree : 'M.D., FRCS',
+          specialities : 'Dermatology',
           hospitals: [
             {
-              name: 'Revive Multi-Specialty Clinics & Fertility Centre',
-              address : '795 Folsom Ave, Suite 600, San Francisco, CA 94107',
-              phone : '(123) 456-7890'
+              name: 'Apollo Hospital',
+              address : 'Jubilee Hills, Hyderabad',
+              phone : '(040) 788-9988'
             }
           ]
-        }
+        },
+          {
+              id: 3,
+              name: 'Dr. Aparana',
+              degree : 'M.D.',
+              specialities : 'Pediatric Dermatology',
+              hospitals: [
+                  {
+                      name: 'Rainbow Hospitals',
+                      address : 'Madhapur, Hyderabad',
+                      phone : '(040) 456-7890'
+                  }
+              ]
+          }
       ];
     };
 
@@ -83,15 +97,15 @@ app
         {
           name: 'Vijaya Diagnostic Centre',
           contact: {
-            address : '795 Folsom Ave, Suite 600, San Francisco, CA 94107',
-            phone : '(123) 456-7890'
+            address : 'Ameerpet, Hyderabad',
+            phone : '(040) 956-7890'
           }
         },
         {
-          name: 'Vijaya Diagnostic Centre',
+          name: 'Focus Diagnostics',
           contact: {
-            address : '795 Folsom Ave, Suite 600, San Francisco, CA 94107',
-            phone : '(123) 456-7890'
+            address : 'Nacharam, Hyderabad',
+            phone : '(040) 456-7890'
           }
         }
       ];

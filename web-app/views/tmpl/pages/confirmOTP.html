@@ -3,7 +3,10 @@
   <div class="container w-420 p-15 bg-white mt-40 text-center">
 
 
-    <h2 class="text-light text-greensea">Confirm OTP</h2>
+    <h2 class="text-light text-greensea">Set Password</h2>
+    <p class="help-block text-left">
+      We sent an OTP to the specified phone number and email address. Please enter it below to set your password.
+    </p>
 
     <form name="form" class="form-validation mt-20" novalidate>
       <div class="form-group">
@@ -13,10 +16,10 @@
       <div class="form-group">
         <input type="password" name="password" placeholder="Password" class="form-control underline-input" ng-model="password" required>
       </div>
-      <div class="bg-slategray lt wrap-reset mt-20 textcenter">
-        <p class="m-0">
-          <button type="button" class="btn btn-greensea b-0 text-uppercase" ng-click="confirmOTP()" ng-disabled='form.$invalid'>Set Password</button>
-        </p>
+      <div class="row">
+        <div class="col-sm-12">
+          <button type="button" class="btn btn-greensea pull-right" ng-click="confirmOTP()" ng-disabled='form.$invalid'>Set Password</button>
+        </div>
       </div>
     </form>
   </div>
