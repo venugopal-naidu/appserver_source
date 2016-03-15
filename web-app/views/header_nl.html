@@ -10,13 +10,41 @@
   <!-- Branding end -->
 
   <!-- Right-side navigation -->
-  <ul class="nav-right pull-right list-inline">
+  <ul class="nav-right pull-right list-inline" ng-if="userId == null">
     <li class="dropdown nav-profile" uib-dropdown>
       <a class="pull-left" ui-sref="core.signup">Sign up</a>
       </li>
     <li class="dropdown nav-profile" uib-dropdown>
       <a class="pull-left" ui-sref="core.login">Login
       </a>
+    </li>
+  </ul>
+  <!-- Right-side navigation end -->
+
+  <!-- Right-side navigation -->
+  <ul class="nav-right pull-right list-inline" ng-if="userId != null">
+
+    <li class="dropdown nav-profile" uib-dropdown>
+
+      <a href class="dropdown-toggle" uib-dropdown-toggle>
+        <!--<img src="images/profile-photo.jpg" alt="" class="img-circle size-30x30">-->
+        <span>{{ main.name }} <fa name="angle-down"></fa></span>
+      </a>
+
+      <ul class="dropdown-menu animated littleFadeInRight" role="menu">
+        <li>
+          <a href="#">
+            <fa name="user"></fa>Dashboard
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <fa name="sign-out"></fa>Logout
+          </a>
+        </li>
+
+      </ul>
+
     </li>
   </ul>
   <!-- Right-side navigation end -->
