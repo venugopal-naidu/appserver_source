@@ -19,7 +19,7 @@
                     <!-- tile header -->
                     <div class="tile-header dvd dvd-btm">
                         <h1 class="custom-font"><strong>My Health Records</strong></h1>
-                       <button style="margin-bottom:20px; margin-right:20px" class="controls btn btn-primary">Upload a new record</button>
+                       <button style="margin-bottom:20px; margin-right:20px" class="controls btn btn-primary" ng-click="openUploadRecordModal(lg)">Upload a new record</button>
                     </div>
                     <!-- /tile header -->
 
@@ -60,3 +60,61 @@
     </div>
     <!-- /page content -->
 </div>
+
+<!-- Upload health record modal-->
+<script type="text/ng-template" id="uploadHealthRecordModal">
+  <form class="form-horizontal form-validation" name="uploadRecordForm" novalidate>
+  <div class="modal-header">
+    <h3 class="modal-title custom-font">Upload Health Record</h3>
+  </div>
+  <div class="modal-body">
+      <div class="form-group">
+        <label for="recordName" class="col-sm-3 control-label">Record Name*</label>
+        <div class="col-sm-9">
+          <input type="email" class="form-control" id="recordName" ng-modal="recordName" placeholder="Record name to identify" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">Record Type</label>
+        <div class="col-sm-9">
+          <ui-select ng-model="recordType.selected"  ng-disabled="disabled" class="w-md mb-10">
+            <ui-select-match placeholder="Select record type">{{$select.selected}} <a href ng-click="clearRecordType($event)"><i class="fa fa-times"></i></a></ui-select-match>
+            <ui-select-choices repeat="recordType in recordTypes | filter: $select.search">
+              <span ng-bind-html="recordType | highlight: $select.search"></span>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">Issued date</label>
+        <div class="col-sm-9">
+          <div class="input-group w-md">
+            <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" required/>
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">Record</label>
+        <div class="col-sm-9">
+          <input ui-jq="filestyle" type="file" class="filestyle" ui-options="{
+                    buttonText: 'Select record',
+                    iconName: 'fa fa-inbox'
+                  }">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="message">Description: </label>
+        <div class="col-sm-9">
+          <textarea class="form-control" rows="3" name="message" id="message" placeholder="Write something about record..." ng-model="user.message"></textarea>
+        </div>
+      </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success btn-ef btn-ef-3 btn-ef-3c" ng-click="uploadHealthRecord()" ng-disabled='uploadRecordForm.$invalid'><i class="fa fa-upload"></i> Upload</button>
+    <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" ng-click="cancel()"><i class="fa fa-arrow-left"></i> Cancel</button>
+  </div>
+  </form>
+</script>
