@@ -102,7 +102,7 @@
                 <div class="tile-body dataTables_wrapper form-inline no-footer">
                     <table class="table table-custom" id="doctorsSearchList">
                         <tbody>
-                                <tr class="child" ng-repeat-start="doctor in doctorsList">
+                                <tr class="child" ng-repeat-start="doctor in doctorsList.doctors">
                                     <td class="child">
                                         <div class="dotor-profile-pic">
                                             <div class="thumb thumb-xl">
@@ -114,17 +114,29 @@
                                         <ul style="display: inline-block;list-style-type: none;margin: 0;padding: 0;">
                                             <li>
                                                 <h2 class="custom-font text-cyan m-0">{{ doctor.name }}</h2>
-                                                <strong>{{ doctor.degree }}</strong>
+                                                <strong>
+                                                    <span ng-if="doctor.degree1 != null">{{ doctor.degree1 }}</span>
+                                                    <span ng-if="doctor.degree2 != null">, {{ doctor.degree2 }}</span>
+                                                    <span ng-if="doctor.degree3 != null">, {{ doctor.degree3 }}</span>
+                                                    <span ng-if="doctor.degree4 != null">, {{ doctor.degree4 }}</span>
+                                                    <span ng-if="doctor.degree5 != null">, {{ doctor.degree5 }}</span>
+                                                </strong>
                                             </li>
                                             <li>
-                                                <p class="text-muted">{{ doctor.specialities }}</p>
+                                                <p class="text-muted">{{ doctor.speciality }}</p>
                                             </li>
                                             <li class="mt-10" ng-repeat="hospital in doctor.hospitals">
                                                 <address>
                                                     <strong>{{ hospital.name }}</strong><br>
-                                                    {{ hospital.address }}<br>
+                                                    <span ng-if="hospital.address1 != null">{{ hospital.address1 }}</span><br />
+                                                    <span ng-if="hospital.address2 != null">{{ hospital.address2 }}</span>
+                                                    <span ng-if="hospital.address3 != null">{{ hospital.address3 }}</span>
+                                                    <span ng-if="hospital.address4 != null">{{ hospital.address4 }}</span><br />
                                                     <abbr title="Phone">P:</abbr> {{ hospital.phone }}
                                                 </address>
+                                                <p class="text-muted">
+                                                    <span ng-repeat="availability in hospital.availability">{{ availability.from | date: 'h:mma'}} To {{ availability.to | date: 'h:mma'}}, </span>
+                                                </p>
                                             </li>
                                         </ul>
                                     </td>
@@ -133,9 +145,9 @@
                                             <li class="m-10">
                                                 <span class="strong days-timing">MON-SAT</span>
                                                 <br>
-                                                <span class="hours-timing">10:00AM-1:00PM</span>
-                                                ,&nbsp;
-                                                <span class="hours-timing">5:00PM-10:00PM</span>
+                                                <span class="hours-timing">{{ doctor.hospitals[0].availability[0].from | date: 'h:mma' }} To {{ doctor.hospitals[0].availability[0].to | date: 'h:mma' }}</span>
+                                                <br />
+                                                <span class="hours-timing">{{ doctor.hospitals[0].availability[1].from | date: 'h:mma' }} To {{ doctor.hospitals[0].availability[1].to | date: 'h:mma' }}</span>
                                             </li>
                                             <li  class="m-10">
                                                 <span style="display: inline;">SUN</span>
