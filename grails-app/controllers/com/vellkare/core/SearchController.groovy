@@ -80,6 +80,18 @@ class SearchController {
       }
       return d
     }
+    if(fromObj instanceof Lab && toType == LabMini) {
+      def lab = fromObj
+      LabMini d = new LabMini()
+      ['id', 'name', 'address1', 'address2',
+       'address3', 'address4', 'state', 'city', 'country', 'postalCode',
+       'website','velkareVerified'].each { name ->
+        def val = lab."${name}"
+        d."${name}" = val
+      }
+      return d
+    }
+    return null
   }
 
   def listHospitalSpecialities(SearchCommand cmd){
@@ -123,6 +135,62 @@ class SearchController {
     doctors:doctors)
   }
 
+  def listTestAndLabsNames(){
+    def tests = LabPackageTest.createCriteria().list{ createAlias('test', 't')
+      projections {
+        distinct 't.name'
+      }
+    }*.toLowerCase()*.capitalize().sort()
+
+    def labs = LabPackageTest.createCriteria().list{ createAlias('lab', 'l')
+      projections {
+        distinct 'l.name'
+      }
+    }*.toLowerCase()*.capitalize().sort()
+    respond (tests: tests, labs:labs)
+  }
+
+  def listLabsForTest(SearchCommand cmd){
+    def labs = LabPackageTest.createCriteria().list{
+      createAlias('test', 't')
+      createAlias('lab', 'l')
+      projections {
+        property 'l.name'
+      }
+      if(cmd.testName)
+        ilike('t.name', cmd.testName)
+    }.unique()*.toLowerCase()*.capitalize()
+
+    respond( testName :cmd.testName, labs: labs )
+  }
+
+  def listTestInLab(SearchCommand cmd){
+    def tests = LabPackageTest.createCriteria().list{
+      createAlias('test', 't')
+      createAlias('lab', 'l')
+      projections {
+        property 't.name'
+      }
+      if(cmd.labName)
+        ilike('l.name', cmd.labName)
+    }.unique()*.toLowerCase()*.capitalize().sort()
+
+    respond( labName :cmd.labName, tests: tests )
+
+  }
+  def listLabs(SearchCommand cmd){
+    def labs = LabPackageTest.createCriteria().list{
+      createAlias('test', 't')
+      projections {
+        distinct 'lab'
+      }
+      if(cmd.testName)
+        ilike('t.name', cmd.testName)
+    }.collect { transformObject(Lab, LabMini, it)}
+    respond( testName :cmd.testName, labs: labs )
+  }
+
+
 }
 
 @Validateable
@@ -137,5 +205,6 @@ class SearchCommand {
   String speciality
   String hospital
   String location
-
+  String testName
+  String labName
 }

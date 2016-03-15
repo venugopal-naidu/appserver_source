@@ -40,7 +40,7 @@ class DoctorHospital implements Serializable {
   int hashCode() {
     def builder = new HashCodeBuilder()
     if (doctor) builder.append(doctor.id)
-    if (hospital) builder.append(hospital.id)
+    if (hospital) builder.append('.').append(hospital.id)
     builder.toHashCode()
   }
 
