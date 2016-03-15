@@ -1,5 +1,7 @@
 package com.vellkare.core
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+
 class Hospital {
   String name;
   String hosGeocode
@@ -17,7 +19,7 @@ class Hospital {
   String fax
   String email
   String specialists
-  String velkareVerified
+  Boolean velkareVerified
 
   static constraints = {
     address1 nullable: true

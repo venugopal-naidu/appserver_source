@@ -9,6 +9,15 @@ class DoctorHospital implements Serializable {
   Doctor doctor
   Hospital hospital
   boolean velkareVerified = false
+  String serviceHoursFrom
+  String serviceHoursTo
+  Long serviceProviderId
+
+  static constraints = {
+    serviceHoursFrom nullable: true
+    serviceHoursTo nullable: true
+    serviceProviderId nullable: true
+  }
 
   static belongsTo = [
     doctor  : Doctor,

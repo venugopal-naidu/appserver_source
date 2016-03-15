@@ -1,5 +1,7 @@
 package com.vellkare.core
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+
 class Doctor {
 
   String name
@@ -9,7 +11,7 @@ class Doctor {
   String phone
   String fax
   String email
-  boolean velkareVerified = false
+  Boolean velkareVerified = false
   String degree1
   String univ1
   String degree2
@@ -24,9 +26,13 @@ class Doctor {
   String awards
   String language
 
+  @JsonIgnore
   Set<DoctorSpeciality> specialities = new HashSet<>()
 
-  static hasMany = [ specialities: DoctorSpeciality]
+  @JsonIgnore
+  Set<DoctorHospital> hospitals = new HashSet<>()
+
+  static hasMany = [ specialities: DoctorSpeciality, hospitals : DoctorHospital]
 
   static constraints = {
     description  nullable: true

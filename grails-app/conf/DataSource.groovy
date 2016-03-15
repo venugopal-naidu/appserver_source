@@ -22,7 +22,7 @@ environments {
       //    url = "jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE"
       url = "jdbc:mysql://localhost/vellkare"
       username = "root"
-      password = "123456"
+      password = "oRacle@!#12345"
       driverClassName = "com.mysql.jdbc.Driver"
       logSql: true
       properties {
@@ -66,8 +66,8 @@ environments {
       url = "jdbc:mysql://localhost/vellkare"
       driverClassName = "com.mysql.jdbc.Driver"
       pooled = true
-      username = "vellkare"
-      password = "Vellkare@1234"
+      username = "root"
+      password = "oRacle@!#12345"
       properties {
         maxActive = -1
         minEvictableIdleTimeMillis = 1800000

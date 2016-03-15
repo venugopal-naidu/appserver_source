@@ -61,6 +61,7 @@ grails.project.dependency.resolution = {
     compile "javax.ws.rs:jsr311-api:1.1.1"
     //compile "org.reflections:reflections:0.9.9-RC1"
     compile "org.apache.httpcomponents:httpcore:4.4.1"
+    compile 'org.apache.commons:commons-math3:3.2'
 
     // GEB
     test "org.gebish:geb-junit4:0.12.2"
