@@ -27,7 +27,7 @@ class MemberRole implements Serializable {
   int hashCode() {
     def builder = new HashCodeBuilder()
     if (member) builder.append(member.id)
-    if (role) builder.append(role.id)
+    if (role) builder.append('.').append(role.id)
     builder.toHashCode()
   }
 

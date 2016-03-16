@@ -1,10 +1,7 @@
 package com.vellkare.core
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
-
-class Hospital {
-  String name;
-  String hosGeocode
+class Lab {
+  String name
   String address1
   String address2
   String address3
@@ -18,8 +15,9 @@ class Hospital {
   String phone
   String fax
   String email
-  String specialists
-  Boolean velkareVerified
+  Boolean velkareVerified = false
+
+  Set<LabPackageTest> packages
 
   static constraints = {
     address1 nullable: true
@@ -35,7 +33,7 @@ class Hospital {
     phone nullable: true
     fax nullable: true
     email nullable: true
-    specialists nullable: true
-    velkareVerified nullable: true
   }
+
+  static hasMany = [packages: LabPackageTest]
 }

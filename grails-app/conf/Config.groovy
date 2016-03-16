@@ -327,6 +327,13 @@ grails {
       welcomeEmail: true
     }
   }
+}
 
-
+registration{
+  verification {
+    phone = false
+    email = false
+    from = "vellkare@gmail.com"
+    verifyController = "/registration/verify"
+  }
 }

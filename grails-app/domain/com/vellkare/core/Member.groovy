@@ -34,10 +34,12 @@ class Member {
   Address permanentAddress
   Address currentAddress
 
+  Registration registration
+
 
   def memberService
 
-  static belongsTo = [login: Login]
+  static belongsTo = [login: Login, registration : Registration]
 
   static hasMany = [roles: MemberRole]
 
