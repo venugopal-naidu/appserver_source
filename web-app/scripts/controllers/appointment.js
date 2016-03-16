@@ -16,6 +16,7 @@ app
       // If not authenticated user redirect to login page
       $state.go('core.login');
     };
+    $scope.eventSources = [];
 
     /* config object */
     $scope.uiConfig = {
@@ -23,8 +24,8 @@ app
         defaultView: 'agendaWeek',
         allDaySlot: false,
         height: 350,
-        selectHelper: true,
         editable: true,
+        aspectRatio: 1.5,
         header:{
           left: 'title',
           center: '',
@@ -86,4 +87,7 @@ app
        alert("something went wrong");
        });*/
     };
+
+
+
   });
