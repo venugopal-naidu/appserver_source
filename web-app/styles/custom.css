@@ -4,3 +4,20 @@
 body {
     background-color: #ffffff;
 }
+#footer {
+    background-color: #51445f;
+    line-height: 48px;
+    min-height: 48px;
+    color: #ffffff
+}
+.appWrapper.header-fixed.aside-fixed #footer {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    left: 250px;
+    padding-left: 0;
+    padding-top: 0;
+    /* z-index: 1; */
+}
