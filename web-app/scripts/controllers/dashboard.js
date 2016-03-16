@@ -10,232 +10,77 @@
 app
   .controller('DashboardCtrl', function($scope,$http,$mdBottomSheet,$window){
 
+    /* Declare and Init scope variables */
     $scope.doctorsList = [];
     $scope.labsList = [];
-    $scope.specialties = [];
-    $scope.specialty = null;
+    $scope.specialities = [];
+    $scope.speciality = {};
     $scope.hospitals = [];
-    $scope.hospital = null;
-
-    $scope.testCategories = [];
-    $scope.testCategory = null;
-    $scope.testCenters = [];
-    $scope.testCenter = null;
-
-
+    $scope.hospital = {};
+    $scope.tests = [];
+    $scope.test = {};
+    $scope.labs = [];
+    $scope.lab = {};
 
     $scope.searchTypes = [
       {id: 1, name: 'Doctor'},
       {id: 2, name: 'Lab'}
     ];
     $scope.searchType = { selected: $scope.searchTypes[0] };
+
+
     $scope.searchStarted = false;
+
+    /* Handle drop down changes */
     $scope.searchTypeChanged = function(item){
-      /*alert(item.name);*/
+
     };
 
-    $scope.testCategories = ['Image Hospital','Pacific Hospitals','Fernandez Hospital','Apollo Hospitals','GNRC Hospitals'];
-    $scope.testCategory = {};
+    $scope.specialityChanged = function(speciality){
+      $scope.getHospitals(speciality);
+    };
 
-    $scope.testCenters = ['Image Hospital','Pacific Hospitals','Fernandez Hospital','Apollo Hospitals','GNRC Hospitals'];
-    $scope.testCenter = {};
+    $scope.hospitalChanged = function(hospital){
+      $scope.getSpecialities(hospital);
+    };
 
+    $scope.testChanged = function(testName){
+      $scope.getLabs(testName);
+    };
+
+    $scope.labChanged = function(labName){
+      $scope.getTests(labName);
+    };
+
+
+    /* Find and clear search result */
 
     $scope.findDoctor = function(){
       $scope.searchStarted = true;
-      $scope.doctorsList = {
-        "location": "Hyderabad",
-        "hospital": null,
-        "speciality": "General",
-        "doctors": [
-          {
-            "class": "com.vellkare.core.Doctor",
-            "id": 1,
-            "awards": null,
-            "degree1": "MBBS",
-            "degree2": "M.D (OBG& GYNE)",
-            "degree3": null,
-            "degree4": null,
-            "degree5": null,
-            "description": "",
-            "speciality": "General",
-            "email": "SOMAJIGUDA@YASHODA.IN",
-            "experience": 0,
-            "fax": null,
-            "gender": "FEMALE",
-            "language": null,
-            "name": "DR.SUJATHA KANDI",
-            "phone": "040 6658 8499 DIAL EXTENSION: 165",
-            "univ1": null,
-            "univ2": null,
-            "univ3": null,
-            "univ4": null,
-            "univ5": null,
-            "velkareVerified": null,
-            "website": null,
-            "hospitals": [
-              {
-                "class": "com.vellkare.core.Hospital",
-                "id": 240,
-                "address1": "KHARKHANA ",
-                "address2": "PLOT NO 37\/B, VASAVI NAGAR,NEAR TO KHARKHANA POLICE\nSTATION",
-                "address3": "",
-                "address4": "",
-                "city": "HYDERABAD",
-                "country": "",
-                "district": "HYDERABAD",
-                "email": "",
-                "fax": "",
-                "hosGeocode": "GH-TS-HYD-411",
-                "name": "MAANYA SPECIALITY CLINIC",
-                "phone": "040 3951 5134",
-                "postalCode": "500009",
-                "specialists": "ENT HOSPITALS, ENT SURGEON DOCTORS, PAEDIATRIC ENT DOCTORS",
-                "state": "TELANGANA",
-                "velkareVerified": "",
-                "website": "",
-                availability:[{"from": "1288323623006",
-                  "to": "1288323623006"},
-                  {"from": "1288323623006",
-                    "to": "1288323623006"}]
-              },
-              {
-                "class": "com.vellkare.core.Hospital",
-                "id": 240,
-                "address1": "KHARKHANA ",
-                "address2": "PLOT NO 37\/B, VASAVI NAGAR,NEAR TO KHARKHANA POLICE\nSTATION",
-                "address3": "",
-                "address4": "",
-                "city": "HYDERABAD",
-                "country": "",
-                "district": "HYDERABAD",
-                "email": "",
-                "fax": "",
-                "hosGeocode": "GH-TS-HYD-411",
-                "name": "MAANYA SPECIALITY CLINIC",
-                "phone": "040 3951 5134",
-                "postalCode": "500009",
-                "specialists": "ENT HOSPITALS, ENT SURGEON DOCTORS, PAEDIATRIC ENT DOCTORS",
-                "state": "TELANGANA",
-                "velkareVerified": "",
-                "website": "",
-                availability:[{"from": "1288323623006",
-                  "to": "1288323623006"},
-                  {"from": "1288323623006",
-                    "to": "1288323623006"}]
-              }
-            ]
-          },
-          {
-            "class": "com.vellkare.core.Doctor",
-            "id": 1,
-            "awards": null,
-            "degree1": "MBBS",
-            "degree2": "M.D (OBG& GYNE)",
-            "degree3": null,
-            "degree4": null,
-            "degree5": null,
-            "speciality": "General",
-            "description": "",
-            "email": "SOMAJIGUDA@YASHODA.IN",
-            "experience": 0,
-            "fax": null,
-            "gender": "FEMALE",
-            "language": null,
-            "name": "DR.SUJATHA KANDI",
-            "phone": "040 6658 8499 DIAL EXTENSION: 165",
-            "univ1": null,
-            "univ2": null,
-            "univ3": null,
-            "univ4": null,
-            "univ5": null,
-            "velkareVerified": null,
-            "website": null,
-            "hospitals": [
-              {
-                "class": "com.vellkare.core.Hospital",
-                "id": 240,
-                "address1": "KHARKHANA ",
-                "address2": "PLOT NO 37\/B, VASAVI NAGAR,NEAR TO KHARKHANA POLICE\nSTATION",
-                "address3": "",
-                "address4": "",
-                "city": "HYDERABAD",
-                "country": "",
-                "district": "HYDERABAD",
-                "email": "",
-                "fax": "",
-                "hosGeocode": "GH-TS-HYD-411",
-                "name": "MAANYA SPECIALITY CLINIC",
-                "phone": "040 3951 5134",
-                "postalCode": "500009",
-                "specialists": "ENT HOSPITALS, ENT SURGEON DOCTORS, PAEDIATRIC ENT DOCTORS",
-                "state": "TELANGANA",
-                "velkareVerified": "",
-                "website": "",
-                availability:[{"from": "1288323623006",
-                  "to": "1288323623006"},
-                  {"from": "1288323623006",
-                    "to": "1288323623006"}]          },
-              {
-                "class": "com.vellkare.core.Hospital",
-                "id": 240,
-                "address1": "KHARKHANA ",
-                "address2": "PLOT NO 37\/B, VASAVI NAGAR,NEAR TO KHARKHANA POLICE\nSTATION",
-                "address3": "",
-                "address4": "",
-                "city": "HYDERABAD",
-                "country": "",
-                "district": "HYDERABAD",
-                "email": "",
-                "fax": "",
-                "hosGeocode": "GH-TS-HYD-411",
-                "name": "MAANYA SPECIALITY CLINIC",
-                "phone": "040 3951 5134",
-                "postalCode": "500009",
-                "specialists": "ENT HOSPITALS, ENT SURGEON DOCTORS, PAEDIATRIC ENT DOCTORS",
-                "state": "TELANGANA",
-                "velkareVerified": "",
-                "website": "",
-                availability:[{"from": "1288323623006",
-                  "to": "1288323623006"},
-                  {"from": "1288323623006",
-                    "to": "1288323623006"}]          }
-            ]
-          }
-        ]
-      }
-
-
+      var url = 'http://183.82.103.141:8080/vellkare/api/v0/search/doctor';
+      var dataToSend = { "location": 'Hyderabad', "speciality": $scope.speciality.selected ,"hospital": $scope.hospital.selected };
+      $http.get(url,dataToSend).success(function(data){
+        $scope.doctorsList = data.doctors;
+      });
     };
 
     $scope.clearDoctorsResult = function(){
       $scope.doctorsList = [];
-      $scope.specialty = null;
-      $scope.hospital = null;
+      $scope.speciality.selected = null;
+      $scope.hospital.selected = null;
     };
 
     $scope.findLab = function(){
-      $scope.labsList = [
-        {
-          name: 'Vijaya Diagnostic Centre',
-          contact: {
-            address : 'Ameerpet, Hyderabad',
-            phone : '(040) 956-7890'
-          }
-        },
-        {
-          name: 'Focus Diagnostics',
-          contact: {
-            address : 'Nacharam, Hyderabad',
-            phone : '(040) 456-7890'
-          }
-        }
-      ];
+      var url = 'http://183.82.103.141:8080/vellkare/api/v0/search/doctor';
+      var dataToSend = { "location": 'Hyderabad', "speciality": $scope.speciality.selected ,"hospital": $scope.hospital.selected };
+      $http.get(url,dataToSend).success(function(data){
+        $scope.labsList = data.doctors;
+      });
     };
     $scope.clearLabsResult = function(){
       $scope.labsList = [];
-      $scope.testCategory = null;
-      $scope.testCenter = null;
+      $scope.test.selected = null;
+      $scope.lab.selected = null;
     };
 
 
@@ -244,34 +89,91 @@ app
     $scope.findDoctorOrLab = function(){
 
     };
+
+
+
+
+    /* Snippets for all ajax calls */
+
     $scope.getSpecialitiesAndHospitals = function(){
-      $scope.data=[];
-      $scope.specialties = [
-        "Anesthesiology",
-        "Anterior segment services",
-        "Cosmetic surgery",
-        "Cosmetologist",
-        "Diet"
-      ];
-      $scope.hospitals = [
-        "Bhavya clinic",
-        "Chandra clinic",
-        "Divya clinic",
-        "Sai swapna hospital",
-        "Taraporewala nursing home",
-        "Walkin clinic",
-        "Tanvia hospital",
-        "Swarna sai hospital",
-        "Ayush hopital"
-      ]
-      ;
-      /*var url = 'http://183.82.103.141:8080/vellkare/api/v0/search/specialitiesAndHospitals';
-       var dataToSend = { location: 'Hyderabad'};
-       $http.get(url,dataToSend).success(function(data){
-       $scope.specialties = data['specialties'];
-       $scope.hospitals = data['hospitals'];
-       });*/
+      var location = 'Hyderabad';
+      var url = 'http://183.82.103.141:8080/vellkare/api/v0/search/specialitiesAndHospitals?location='+location;
+       $http.get(url).success(function(data){
+         $scope.specialities = data.specialties;
+         $scope.hospitals = data.hospitals;
+       });
     };
+
+    $scope.getSpecialities = function(hospital){
+      var location = 'Hyderabad';
+      var url = 'http://183.82.103.141:8080/vellkare/api/v0/search/hospital/specialities?location='+location+'&hospital='+hospital;
+      $http.get(url).success(function(data){
+        $scope.specialities = data.specialities;
+      });
+    };
+
+    $scope.getHospitals = function(speciality){
+      var location = 'Hyderabad';
+      var url = 'http://183.82.103.141:8080/vellkare/api/v0/search/hospitalNames?location='+location+'&speciality='+speciality;
+      $http.get(url).success(function(data){
+        $scope.hospitals = data.hospitals;
+      });
+    };
+
+
+    $scope.getTestsAndLabs = function(){
+      var location = 'Hyderabad';
+      var url = 'http://183.82.103.141:8080/vellkare/api/v0/search/lab/testsAndLabs?location='+location;
+      $http.get(url).success(function(data){
+        $scope.tests = data.tests;
+        $scope.labs = data.labs;
+      });
+    };
+
+    $scope.getTests = function(labName){
+      var location = 'Hyderabad';
+      var url = 'http://183.82.103.141:8080/vellkare/api/v0/search/lab/listTests?location='+location+'&labName='+labName;
+      $http.get(url).success(function(data){
+        $scope.tests = data.tests;
+      });
+    };
+
+    $scope.getLabs = function(testName){
+      var location = 'Hyderabad';
+      var url = 'http://183.82.103.141:8080/vellkare/api/v0/search/lab/listLabNames?location='+location+'&testName='+testName;
+      $http.get(url).success(function(data){
+        $scope.labs = data.labs;
+      });
+    };
+
+
+    /* Handle clear selected options for all drop downs */
+
+    $scope.clearSelectedSpeciality = function($event) {
+      $scope.speciality.selected = null;
+      $event.preventDefault();
+      $event.stopPropagation();
+    };
+
+    $scope.clearSelectedHospital = function($event) {
+      $scope.hospital.selected = null;
+      $event.preventDefault();
+      $event.stopPropagation();
+    };
+
+    $scope.clearSelectedTest = function($event) {
+      $scope.test.selected = null;
+      $event.preventDefault();
+      $event.stopPropagation();
+    };
+
+    $scope.clearSelectedLab = function($event) {
+      $scope.lab.selected = null;
+      $event.preventDefault();
+      $event.stopPropagation();
+    };
+
+    /* Toggle and render calendar view */
 
     $scope.showDoctorAppointmentCalendar = function(doctor,index){
       // Hide all other opened calendars
@@ -283,5 +185,12 @@ app
       // Save doctor data to local storage
       $window.localStorage.selectedDoctor = doctor.id;
     };
+
+
+    /* On load calls */
+    $scope.getTestsAndLabs();
     $scope.getSpecialitiesAndHospitals();
+
+
+
   });

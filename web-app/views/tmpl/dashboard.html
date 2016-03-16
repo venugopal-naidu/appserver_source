@@ -34,52 +34,57 @@
         </div>
         <div ng-show="searchType.selected.name == 'Doctor'">
             <div class="form-group col-xs-3">
-                <ui-select ng-model="specialty.selected" search-enabled="true" append-to-body="true">
-                    <ui-select-match placeholder="Specialty">{{$select.selected}}</ui-select-match>
-                    <ui-select-choices repeat="specialty in specialties | filter: $select.search">
-                        <span ng-bind-html="specialty | highlight: $select.search"></span>
+                <ui-select ng-model="speciality.selected" search-enabled="true" append-to-body="true" on-select="specialityChanged($item)">
+                    <ui-select-match placeholder="Specialty">{{$select.selected}}<a href ng-click="clearSelectedSpeciality($event)"><i class="fa fa-times"></i></a></ui-select-match>
+                    <ui-select-choices repeat="speciality in specialities | filter: $select.search">
+                        <span ng-bind-html="speciality | highlight: $select.search"></span>
                     </ui-select-choices>
                 </ui-select>
             </div>
             <div class="form-group col-xs-4">
-                <ui-select ng-model="hospital.selected"  ng-disabled="disabled">
-                    <ui-select-match placeholder="Hospital">{{$select.selected}}</ui-select-match>
-                    <ui-select-choices repeat="hospital in hospitals | filter: $select.search">
-                        <span ng-bind-html="hospital | highlight: $select.search"></span>
+                <ui-select ng-model="hospital.selected"  search-enabled="true" append-to-body="true"  on-select="hospitalChanged($item)">
+                    <ui-select-match placeholder="Hospital">{{$select.selected}}<a href ng-click="clearSelectedHospital($event)"><i class="fa fa-times"></i></a></ui-select-match>
+                    <ui-select-choices repeat="hospitalName in hospitals track by $index ">
+                        <span ng-bind-html="hospitalName | highlight: $select.search"></span>
                     </ui-select-choices>
                 </ui-select>
+            </div>
+            <div class="row">
+                <div class="form-group pull-right">
+                    <a style="margin-right:20px" href="" ng-click="clearDoctorsResult()">Reset</a>
+                    <button class="btn btn-primary pa20" title="Find Doctors" ng-click="findDoctor()"><i class="fa fa-search"></i> <span>Search</span></button>
+                </div>
             </div>
 
         </div>
         <div data-ng-show="searchType.selected.name == 'Lab'">
             <div class="form-group col-xs-4">
-                <ui-select ng-model="testCategory.selected" search-enabled="true" append-to-body="true">
-                    <ui-select-match placeholder="Test category">{{$select.selected}}</ui-select-match>
-                    <ui-select-choices repeat="testCategory in testCategories | filter: $select.search">
-                        <span ng-bind-html="testCategory | highlight: $select.search"></span>
+                <ui-select ng-model="test.selected" search-enabled="true" append-to-body="true"  on-select="testChanged($item)">
+                    <ui-select-match placeholder="Test category">{{$select.selected}} <a href ng-click="clearSelectedTest($event)"><i class="fa fa-times"></i></a></ui-select-match>
+                    <ui-select-choices repeat="test in tests | filter: $select.search">
+                        <span ng-bind-html="test | highlight: $select.search"></span>
                     </ui-select-choices>
                 </ui-select>
             </div>
             <div class="form-group col-md-3">
-                <ui-select ng-model="testCenter.selected"  ng-disabled="disabled">
-                    <ui-select-match placeholder="Diagnose center">{{$select.selected}}</ui-select-match>
-                    <ui-select-choices repeat="testCenter in testCenters | filter: $select.search">
-                        <span ng-bind-html="testCenter | highlight: $select.search"></span>
+                <ui-select ng-model="lab.selected"  search-enabled="true" append-to-body="true"  on-select="labChanged($item)">
+                    <ui-select-match placeholder="Diagnose center">{{$select.selected}} <a href ng-click="clearSelectedLab($event)"><i class="fa fa-times"></i></a></ui-select-match>
+                    <ui-select-choices repeat="lab in labs | filter: $select.search">
+                        <span ng-bind-html="lab | highlight: $select.search"></span>
                     </ui-select-choices>
                 </ui-select>
             </div>
-
-        </div>
-        <div class="row">
-            <div class="form-group pull-right">
-                <a style="margin-right:20px" href="" ng-click="clearDoctorsResult()">Reset</a>
-                <button class="btn btn-primary pa20" title="Find Doctors" ng-click="findDoctor()"><i class="fa fa-search"></i> <span>Search</span></button>
-
+            <div class="row">
+                <div class="form-group pull-right">
+                    <a style="margin-right:20px" href="" ng-click="clearLabsResult()">Reset</a>
+                    <button class="btn btn-primary pa20" title="Find Doctors" ng-click="findLab()"><i class="fa fa-search"></i> <span>Search</span></button>
+                </div>
             </div>
         </div>
+
         </div>
     </form>
-    <div class="row"  ng-show="searchType.selected.name == 'Doctor' && searchStarted==true">
+    <div class="row"  ng-show="searchType.selected.name == 'Doctor' && searchStarted==true && doctorsList.length > 0">
         <div class="col-md-12">
             <!-- tile -->
             <section class="tile" fullscreen="isFullscreen03">
@@ -102,7 +107,7 @@
                 <div class="tile-body dataTables_wrapper form-inline no-footer">
                     <table class="table table-custom" id="doctorsSearchList">
                         <tbody>
-                                <tr class="child" ng-repeat-start="doctor in doctorsList.doctors">
+                                <tr class="child" ng-repeat-start="doctor in doctorsList">
                                     <td class="child">
                                         <div class="dotor-profile-pic">
                                             <div class="thumb thumb-xl">
@@ -116,31 +121,31 @@
                                                 <h2 class="custom-font text-cyan m-0">{{ doctor.name }}</h2>
                                                 <strong>
                                                     <span ng-if="doctor.degree1 != null">{{ doctor.degree1 }}</span>
-                                                    <span ng-if="doctor.degree2 != null">, {{ doctor.degree2 }}</span>
-                                                    <span ng-if="doctor.degree3 != null">, {{ doctor.degree3 }}</span>
-                                                    <span ng-if="doctor.degree4 != null">, {{ doctor.degree4 }}</span>
-                                                    <span ng-if="doctor.degree5 != null">, {{ doctor.degree5 }}</span>
+                                                    <span ng-if="doctor.degree2 != ''">, {{ doctor.degree2 }}</span>
+                                                    <span ng-if="doctor.degree3 != ''">, {{ doctor.degree3 }}</span>
+                                                    <span ng-if="doctor.degree4 != ''">, {{ doctor.degree4 }}</span>
+                                                    <span ng-if="doctor.degree5 != ''">, {{ doctor.degree5 }}</span>
                                                 </strong>
                                             </li>
                                             <li>
-                                                <p class="text-muted">{{ doctor.speciality }}</p>
+                                                <span class="text-muted" ng-repeat="speciality in doctor.specialities">{{ speciality }}, </span>
                                             </li>
                                             <li class="mt-10" ng-repeat="hospital in doctor.hospitals">
                                                 <address>
-                                                    <strong>{{ hospital.name }}</strong><br>
-                                                    <span ng-if="hospital.address1 != null">{{ hospital.address1 }}</span><br />
-                                                    <span ng-if="hospital.address2 != null">{{ hospital.address2 }}</span>
+                                                    <strong><i class="fa fa-hospital-o"></i> {{ hospital.name }}</strong><br>
+                                                    <span ng-if="hospital.address1 != null"><i class="fa fa-map-marker"></i> {{ hospital.address1 }}</span>
+                                                    <!--<span ng-if="hospital.address2 != null">{{ hospital.address2 }}</span>
                                                     <span ng-if="hospital.address3 != null">{{ hospital.address3 }}</span>
                                                     <span ng-if="hospital.address4 != null">{{ hospital.address4 }}</span><br />
-                                                    <abbr title="Phone">P:</abbr> {{ hospital.phone }}
+                                                    <abbr title="Phone">P:</abbr> {{ hospital.phone }}&ndash;&gt;-->
+                                                    <p class="text-muted">
+                                                        <i class="fa fa-clock-o"></i>  <span ng-repeat="availability in hospital.availability"> {{ availability.from | date: 'h:mma'}} To {{ availability.to | date: 'h:mma'}}, </span>
+                                                    </p>
                                                 </address>
-                                                <p class="text-muted">
-                                                    <span ng-repeat="availability in hospital.availability">{{ availability.from | date: 'h:mma'}} To {{ availability.to | date: 'h:mma'}}, </span>
-                                                </p>
                                             </li>
                                         </ul>
                                     </td>
-                                    <td class="child">
+                                    <!--<td class="child">
                                         <ul class="list-unstyled">
                                             <li class="m-10">
                                                 <span class="strong days-timing">MON-SAT</span>
@@ -155,14 +160,14 @@
                                                 <span style="display: inline;">10:00AM-1:00PM</span>
                                             </li>
                                         </ul>
-                                    </td>
+                                    </td>-->
                                     <td class="child">
                                         <button class="btn btn-success btn-ef btn-ef-7 btn-ef-7b mb-10" style="margin-top: 110px" ng-click="showDoctorAppointmentCalendar(doctor,$index)"><i class="fa fa-calendar"></i> Book Appointment</button>
                                     </td>
                                 </tr>
                                 <tr id="doctor_calendar_{{$index}}" class="collapse doctorAppointment" ng-repeat-end>
                                     <td style="border: 0" colspan="4" ng-controller="AppointmentCtrl">
-                                        <div class="calendar" id="doctorAppointment_{{$index}}" calendar="doctorAppointment" ui-calendar="uiConfig.calendar"></div>
+                                        <div class="calendar" id="doctorAppointment_{{$index}}" calendar="doctorAppointment" ng-model="eventSources" ui-calendar="uiConfig.calendar"></div>
                                     </td>
                                 </tr>
                         </tbody>
@@ -175,7 +180,7 @@
 
         </div>
     </div>
-    <div class="row"  ng-show="searchType.selected.name == 'Lab'">
+    <div class="row"  ng-show="searchType.selected.name == 'Lab' && labsList.length > 0">
         <div class="col-md-12">
             <!-- tile -->
             <section class="tile" fullscreen="isFullscreen03">
