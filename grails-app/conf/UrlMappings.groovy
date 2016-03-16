@@ -60,11 +60,19 @@ class UrlMappings {
       action = [GET: "getMedia", POST: "saveMedia"]
     }
 
+    "/api/$namespace/registration/create"(controller: 'registration', action: 'register')
+    "/api/$namespace/registration/verify"(controller: 'registration', action: 'verify')
 
     "/api/$namespace/search/doctor"(controller: 'search', action: 'searchDoctor') {}
     "/api/$namespace/search/specialitiesAndHospitals"(controller: 'search', action: 'listSpecialitiesAndHospitals') {}
     "/api/$namespace/search/hospitals"(controller: 'search', action: 'listHospitals') {}
+    "/api/$namespace/search/hospitalNames"(controller: 'search', action: 'listHospitalsNames') {}
     "/api/$namespace/search/hospital/specialities"(controller: 'search', action: 'listHospitalSpecialities') {}
+    "/api/$namespace/search/lab/testsAndLabs"(controller: 'search', action: 'listTestAndLabsNames') {}
+    "/api/$namespace/search/lab/listLabNames"(controller: 'search', action: 'listLabsForTest') {}
+    "/api/$namespace/search/lab/listTests"(controller: 'search', action: 'listTestInLab') {}
+    "/api/$namespace/search/lab/listLabs"(controller: 'search', action: 'listLabs') {}
+
 
 
 

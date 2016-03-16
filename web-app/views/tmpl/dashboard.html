@@ -4,27 +4,27 @@
     <!-- Free from search -->
     <form role="form">
         <div class="form-group row">
-            <div class="col-xs-8 col-xs-offset-2  col-sm-offset-2  col-md-offset-2  col-lg-offset-2">
+            <div class="col-md-9">
                 <h4 class="pull-right">Look for doctors or labs in</h4>
-         </div>
-        <div class="col-xs-2 input-group">
-            <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
-            <label type="text" class="form-control">Hyderabad</label>
-        </div>
+            </div>
+            <div class="col-md-3 input-group">
+                <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                <label type="text" class="form-control">Hyderabad</label>
+            </div>
         </div>
         <div class="form-group row">
-            <div class="col-xs-10 col-xs-offset-2  col-sm-offset-2  col-md-offset-2  col-lg-offset-2 search-bar">
+            <div class="col-md-12 search-bar">
                 <input type="text" class="input-normal form-control" name="search" placeholder="Type doctor, lab or specialty name" value="">
 
             </div>
         </div>
         <div style="margin-bottom: 20px" class="row">
-            <div class="text-center col-xs-10 col-xs-offset-2  col-sm-offset-2  col-md-offset-2  col-lg-offset-2">
+            <div class="text-center">
                OR
             </div>
         </div>
         <div class="row">
-        <div class="form-group col-xs-3 col-xs-offset-2  col-sm-offset-2  col-md-offset-2  col-lg-offset-2">
+        <div class="form-group col-md-4">
             <ui-select ng-model="searchType.selected" on-select="searchTypeChanged($item)">
                 <ui-select-match placeholder="Looking for Doctor/Lab">{{$select.selected.name}}</ui-select-match>
                 <ui-select-choices repeat="searchType in searchTypes | filter: $select.search">
@@ -33,7 +33,7 @@
             </ui-select>
         </div>
         <div ng-show="searchType.selected.name == 'Doctor'">
-            <div class="form-group col-xs-3">
+            <div class="form-group col-xs-4">
                 <ui-select ng-model="speciality.selected" search-enabled="true" append-to-body="true" on-select="specialityChanged($item)">
                     <ui-select-match placeholder="Specialty">{{$select.selected}}<a href ng-click="clearSelectedSpeciality($event)"><i class="fa fa-times"></i></a></ui-select-match>
                     <ui-select-choices repeat="speciality in specialities | filter: $select.search">
