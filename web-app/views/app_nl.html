@@ -1,45 +1,50 @@
-<section ng-include="'views/header_nl.html'" id="header" class="{{main.settings.navbarHeaderColor}}"></section>
+<div class="{{main.settings.navbarHeaderColor}} header-fixed appWrapper" ng-class="{'header-fixed': main.settings.headerFixed, 'header-static': !main.settings.headerFixed, 'rightbar-show': main.settings.rightbarShow, 'rightbar-hidden': !main.settings.rightbarShow}">
+  <section ng-include="'views/header_nl.html'" id="header" class="{{main.settings.navbarHeaderColor}}"></section>
+  <div style="min-height:560px" class="row">
+    <div class="col-md-9">
+      <section style="left:0px;" ui-view id="content" autoscroll="false"></section>
+    </div>
+    <div class="col-md-3">
+      <div style="position: absolute;top: 45px;height: auto; padding:20px;">
+        <section class="tile" fullscreen="isFullscreen01">
 
-<div id="controls">
-
-  <!--<aside ng-include="'views/nav.html'" id="sidebar" class="{{main.settings.sidebarColor}}" ng-class="{'aside-fixed':main.settings.asideFixed}"></aside>-->
-
-  <!--<aside ng-include="'views/rightbar.html'" id="rightbar"></aside>-->
-
-</div>
-<div class="row">
-  <div class="col-md-9">
-    <section style="left:0px;" ui-view id="content" autoscroll="false"></section>
-  </div>
-  <div class="col-md-3">
-    <div style="position: absolute;top: 45px;height: auto; padding:20px;">
-      <section class="tile" fullscreen="isFullscreen01">
-
-        <!-- tile header -->
-        <div class="tile-header dvd dvd-btm bg-slategray">
-          Features
-        </div>
-        <div class="tile-body">
-          <ul style="list-style: none">
-            <li><a href="#">Book an appointment</a></li>
-            <li><a href="#">Upload health records</a></li>
-            <li><a href="#">View appointments</a></li>
-          </ul>
-        </div>
-        <div class="tile-header dvd dvd-btm bg-slategray">
-          Subscription Benefits
-        </div>
-        <div class="tile-body">
-          <ul style="list-style: none">
-            <li><a href="#">Free health checkup</a></li>
-            <li><a href="#">Discounted prices</a></li>
-            <li><a href="#">Insurance discounts</a></li>
-            <li><a href="#">Customized health packages</a></li>
-            <li><a href="#">Personalized service</a></li>
-          </ul>
-        </div>
-      <br/>
-
+          <!-- tile header -->
+          <div class="tile-header dvd dvd-btm bg-slategray">
+            Features
+          </div>
+          <div class="tile-body">
+            <ul style="list-style: none">
+              <li><a href="#">Book an appointment</a></li>
+              <li><a href="#">Upload health records</a></li>
+              <li><a href="#">View appointments</a></li>
+            </ul>
+          </div>
+          <div class="tile-header dvd dvd-btm bg-slategray">
+            Subscription Benefits
+          </div>
+          <div class="tile-body">
+            <ul style="list-style: none">
+              <li><a href="#">Free health checkup</a></li>
+              <li><a href="#">Discounted prices</a></li>
+              <li><a href="#">Insurance discounts</a></li>
+              <li><a href="#">Customized health packages</a></li>
+              <li><a href="#">Personalized service</a></li>
+            </ul>
+          </div>
+        <br/>
+      </section>
+      </div>
     </div>
   </div>
+  <section style=" position:absolute; z-index:997; left:0;right:0;bottom:0;height:50px" id="footer"> 
+    <footer> 
+      <div style="padding-bottom: 20px" class="pull-right"> 
+        <a style="padding-right:50px" class="text-white text-uppercase" href="#">Contact Us 
+        </a>
+            <a style="padding-right:50px" class="text-white text-uppercase" href="#">Privacy Policy</a> 
+            <a style="padding-right:20px" class="text-white text-uppercase" href="#">Terms Of Service</a> 
+
+        </div> 
+    </footer> 
+  </section>
 </div>
