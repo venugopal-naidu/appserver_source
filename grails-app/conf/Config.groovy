@@ -149,10 +149,8 @@ grails {
              "mail.smtp.host"           : "smtp.gmail.com",
              "mail.smtp.user"           : "vellkare.dev@gmail.com",
              "mail.smtp.password"       : "vellkare"]
-    disabled = true
-
+    disabled = false
   }
-
 }
 grails.mail.default.from = "vellkare.dev@gmail.com"
 
