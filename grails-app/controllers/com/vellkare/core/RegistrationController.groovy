@@ -48,8 +48,15 @@ class RegistrationController {
     )
   }
 
-  def verifyUid(String uid) {
-    def existingRegistration = Registration.findByUuid(uid)
+  def verifyUid(VerifyRegisterCommand cmd) {
+    if (!cmd.validate()) {
+      response.setStatus(HttpStatus.SC_BAD_REQUEST)
+      respond new ValidationErrorResponse(cmd.errors)
+      log.debug "cmd errors : " + cmd.errors
+      return
+    }
+
+    def existingRegistration = Registration.findByUuid(cmd.uid)
     if (existingRegistration) {
       respond(isValidUid: true, isUserRegistered: existingRegistration.member ? true : false)
     } else {
@@ -58,7 +65,7 @@ class RegistrationController {
     return
   }
 
-  def confirmRegistration(ConfirmRegistration cmd) {
+  def confirmRegistration(ConfirmRegistrationCommand  cmd) {
     if (!cmd.validate()) {
       response.setStatus(HttpStatus.SC_BAD_REQUEST)
       respond new ValidationErrorResponse(cmd.errors)
@@ -66,19 +73,19 @@ class RegistrationController {
       return
     }
 
-    Registration registration = Registration.findByUuid(cmd.uuid);
+    Registration registration = Registration.findByUuid(cmd.uid);
     if(!registration || !registration.verificationCode.equals(cmd.otp)){
       if(registration){
         registration.invalidUuidVerification()
       }
       response.setStatus(HttpStatus.SC_BAD_REQUEST)
-      respond new ValidationErrorResponse([new FieldErrorApiModel('uuid', 'uuid.invalid', [])])
+      respond new ValidationErrorResponse([new FieldErrorApiModel('uid', 'uid.invalid', [])])
       return
     }
 
     if(registration.member){
       response.setStatus(HttpStatus.SC_BAD_REQUEST)
-      respond new ValidationErrorResponse([new FieldErrorApiModel('uuid', 'member.already.registered', [])])
+      respond new ValidationErrorResponse([new FieldErrorApiModel('uid', 'member.already.registered', [])])
       return
     }
 
@@ -96,18 +103,23 @@ class RegistrationController {
 
 }
 
-class ConfirmRegistration {
-  String uuid
+class ConfirmRegistrationCommand  {
+  String uid
   String otp
   String password
 
   static constraints = {
-    uuid nullable: false
+    uid nullable: false
     otp nullable: false
     password nullable: false , minSize: 6
   }
 }
-
+class VerifyRegisterCommand {
+  String uid
+  static constraints = {
+    uid nullable: false
+  }
+}
 class RegisterCommand {
   String email
   String firstName
