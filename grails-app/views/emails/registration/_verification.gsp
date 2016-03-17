@@ -85,7 +85,7 @@ Time: 6:05 AM
                                     </tr>
                                     <!-- Spacing -->
                                     <tr>
-                                        <td width="100%" height="10" style="border-collapse: collapse">OTP GOES HERE.........</td>
+                                        <td width="100%" height="10" style="border-collapse: collapse">${registration.verificationCode}</td>
                                     </tr>
 
                                     <!-- Spacing -->
@@ -101,7 +101,7 @@ Time: 6:05 AM
                                                         <w:anchorlock/>
                                                         <center>
                                                     <![endif]-->
-                                                <a href="/index.html#/core/confirmOTP?uid=.........."
+                                                <a href="${grailsApplication.config.grails.serverURL}/index.html#/core/confirmOTP?uid=${registration.uuid}"
                                                    style="background-color:#2980B9;border-radius:5px;color:#ffffff;display:inline-block;font-family:sans-serif;font-size:13px;font-weight:bold;line-height:40px;text-align:center;text-decoration:none;width:220px;-webkit-text-size-adjust:none;">Confirm your OTP</a>
                                                 <!--[if mso]>
                                                 </center>

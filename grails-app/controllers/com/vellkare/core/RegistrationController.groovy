@@ -34,7 +34,8 @@ class RegistrationController {
       return
     }
 
-    Registration registration =  registrationService.registerMember(cmd.firstName, cmd.lastName, cmd.email, cmd.phoneNumber)
+    Registration registration =  registrationService.registerMember(cmd.firstName, cmd.lastName, cmd.email,
+      cmd.phoneNumber, cmd.tncChecked)
     String successMessage = "User Registered Successfully. Please verify your phone number and email by entering OTP number."
     boolean emailVerificationEnabled = grailsApplication.config.registration.verification.email
     boolean phoneNumberVerificationEnabled = grailsApplication.config.registration.verification.phone

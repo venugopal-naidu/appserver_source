@@ -338,3 +338,4 @@ registration{
 }
 
 images.doctors.path='/images/doctor/'
+images.labs.path='/images/lab/'

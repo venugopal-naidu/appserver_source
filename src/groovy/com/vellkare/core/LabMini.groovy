@@ -19,5 +19,6 @@ class LabMini {
   String phone
   String fax
   String email
+  String labImageUrl
   Boolean velkareVerified = false
 }

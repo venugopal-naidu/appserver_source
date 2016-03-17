@@ -10,5 +10,5 @@ class HospitalAvailabilityMini {
   String address2
   String address3
   String address4
-  List<AvailabilityMini> availability = new ArrayList<>()
+  Map<String, List<AvailabilityMini> > availability = new LinkedHashMap<>()
 }

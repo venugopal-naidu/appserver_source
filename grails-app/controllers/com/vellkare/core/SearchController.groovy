@@ -19,11 +19,11 @@ class SearchController {
     if (!location) {
       location = 'Hyderabad'
     }
-    def specialities = Speciality.findAll().collect { it.name?.toLowerCase()?.capitalize() }
+    def specialties = Speciality.findAll().collect { it.name?.toLowerCase()?.capitalize() }
       .grep().unique().sort()
     def hospitalNames = Hospital.findAllWhere(city: location).collect { it.name?.toLowerCase()?.capitalize() }
       .grep().unique().sort()
-    respond (specialties: specialities, hospitals: hospitalNames)
+    respond (specialties: specialties, hospitals: hospitalNames)
   }
 
   def listHospitals(SearchCommand cmd){
@@ -73,12 +73,14 @@ class SearchController {
           mini.address2 = dh.hospital.address2
           mini.address3 = dh.hospital.address3
           mini.address4 = dh.hospital.address4
-          mini.availability << new AvailabilityMini(from: dh.serviceHoursFrom, to: dh.serviceHoursTo)
+          ["MONDAY", 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY','SATURDAY','SUNDAY'].each {
+            mini.availability.put ( it,[new AvailabilityMini(from: dh.serviceHoursFrom, to: dh.serviceHoursTo)] )
+          }
           mini
         }
       }
       if(doctor.specialities){
-        d.specialities = doctor.specialities.collect { it.speciality.name.toLowerCase().capitalize() }
+        d.specialties = doctor.specialities.collect { it.speciality.name.toLowerCase().capitalize() }
       }
       def photoUrl = grailsApplication.config.images.doctors.path?:"/images/doctor/"
       photoUrl= "${photoUrl}${doctor.id}.jpeg"
@@ -94,6 +96,9 @@ class SearchController {
         def val = lab."${name}"
         d."${name}" = val
       }
+      def photoUrl = grailsApplication.config.images.labs.path?:"/images/lab/"
+      photoUrl= "${photoUrl}${lab.id}.jpeg"
+      d.labImageUrl = photoUrl
       return d
     }
     return null
@@ -101,7 +106,7 @@ class SearchController {
 
   def listHospitalSpecialities(SearchCommand cmd){
     cmd.location = cmd.location?:'Hyderabad'
-    def specialities = Hospital.createCriteria().list{
+    def specialties = Hospital.createCriteria().list{
       if(cmd.hospital) {
         ilike('name', "%${cmd.hospital}%")
       }
@@ -112,7 +117,7 @@ class SearchController {
       it.specialists?.tokenize(',')*.toLowerCase()*.trim()*.capitalize()
     }.flatten().grep().unique().sort()
 
-    respond (location: cmd.location, hospital: cmd.hospital, specialities: specialities)
+    respond (location: cmd.location, hospital: cmd.hospital, specialties: specialties)
   }
 
   def searchDoctor(SearchCommand cmd) {
