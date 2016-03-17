@@ -91,7 +91,7 @@ environments {
     grails.serverURL = "http://localhost:8080/vellkare"
   }
   production {
-    grails.serverURL = "http://192.168.0.125:8080/vellkare"
+    grails.serverURL = "http://velkare.com/vellkare"
     grails.logging.jul.usebridge = false
     // TODO: grails.serverURL = "http://www.changeme.com"
   }
