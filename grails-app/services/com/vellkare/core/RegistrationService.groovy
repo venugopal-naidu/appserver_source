@@ -10,6 +10,7 @@ class RegistrationService {
 
   def mailService
   def grailsApplication
+  def contentService
 
 
   @Transactional
@@ -29,11 +30,12 @@ class RegistrationService {
     if (grailsApplication.config.registration.verification.email) {
       mailService.sendMail {
         to registration.email
-        from grailsApplication.config.grailsApplication.config.registration.verification.from
-        subject message(code: 'email.registration.verification', args: [])
+        from grailsApplication.config.registration.verification.from
+        subject 'verification email'
         def bodyArgs = [view: '/emails/registration/verification',
                         model: [registration: registration, verificationLink: verificationLink]]
-        body(bodyArgs)
+        def mailHtml = contentService.applyTemplate(bodyArgs.view, bodyArgs.model)
+        html(mailHtml)
       }
       registration.sentEmailVerification()
     }
