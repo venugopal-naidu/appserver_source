@@ -13,3 +13,8 @@ body {
     text-decoration: underline;
     color:#ffffff;
 }
+
+#footer a:visited{
+    text-decoration: underline;
+    color:#ffffff;
+}
