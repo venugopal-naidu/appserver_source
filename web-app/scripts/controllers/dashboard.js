@@ -76,7 +76,7 @@ app
       var url = ajax_url_prefix + 'search/lab/listLabs';
       var dataToSend = { "location": 'Hyderabad', "testName": $scope.test.selected ,"labName": $scope.lab.selected };
       $http.post(url,dataToSend).success(function(data){
-        $scope.labsList = data.doctors;
+        $scope.labsList = data.labs;
       });
     };
     $scope.clearLabsResult = function(){
@@ -183,8 +183,22 @@ app
       $('#doctor_calendar_'+index).collapse('toggle');
       // Render calendar view for this screen size
       $('#doctorAppointment_'+index).fullCalendar('render');
+      $window.localStorage.selectedAppointment = 'Doctor';
       // Save doctor data to local storage
       $window.localStorage.selectedDoctor = doctor.id;
+    };
+
+
+    $scope.showLabAppointmentCalendar = function(lab,index){
+      // Hide all other opened calendars
+      $('.labAppointment.collapse').collapse('hide');
+      // Show current calendar
+      $('#lab_calendar_'+index).collapse('toggle');
+      // Render calendar view for this screen size
+      $('#labAppointment_'+index).fullCalendar('render');
+      // Save doctor data to local storage
+      $window.localStorage.selectedAppointment = 'Lab';
+      $window.localStorage.selectedLab = lab.id;
     };
 
 
