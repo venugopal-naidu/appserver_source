@@ -31,6 +31,8 @@ app
 
     $scope.searchStarted = false;
 
+
+
     /* Handle drop down changes */
     $scope.searchTypeChanged = function(item){
 
@@ -57,9 +59,9 @@ app
 
     $scope.findDoctor = function(){
       $scope.searchStarted = true;
-      var url = 'http://183.82.103.141:8080/vellkare/api/v0/search/doctor';
+      var url = ajax_url_prefix + 'search/doctor';
       var dataToSend = { "location": 'Hyderabad', "speciality": $scope.speciality.selected ,"hospital": $scope.hospital.selected };
-      $http.get(url,dataToSend).success(function(data){
+      $http.post(url,dataToSend).success(function(data){
         $scope.doctorsList = data.doctors;
       });
     };
@@ -71,9 +73,9 @@ app
     };
 
     $scope.findLab = function(){
-      var url = 'http://183.82.103.141:8080/vellkare/api/v0/search/doctor';
-      var dataToSend = { "location": 'Hyderabad', "speciality": $scope.speciality.selected ,"hospital": $scope.hospital.selected };
-      $http.get(url,dataToSend).success(function(data){
+      var url = ajax_url_prefix + 'search/lab/listLabs';
+      var dataToSend = { "location": 'Hyderabad', "testName": $scope.test.selected ,"labName": $scope.lab.selected };
+      $http.post(url,dataToSend).success(function(data){
         $scope.labsList = data.doctors;
       });
     };
@@ -97,7 +99,7 @@ app
 
     $scope.getSpecialitiesAndHospitals = function(){
       var location = 'Hyderabad';
-      var url = 'http://183.82.103.141:8080/vellkare/api/v0/search/specialitiesAndHospitals?location='+location;
+      var url = ajax_url_prefix + 'search/specialitiesAndHospitals?location='+location;
        $http.get(url).success(function(data){
          $scope.specialities = data.specialties;
          $scope.hospitals = data.hospitals;
@@ -105,8 +107,7 @@ app
     };
 
     $scope.getSpecialities = function(hospital){
-      var location = 'Hyderabad';
-      var url = 'http://183.82.103.141:8080/vellkare/api/v0/search/hospital/specialities?location='+location+'&hospital='+hospital;
+      var url = ajax_url_prefix + 'search/hospital/specialities?location='+location+'&hospital='+hospital;
       $http.get(url).success(function(data){
         $scope.specialities = data.specialities;
       });
@@ -114,7 +115,7 @@ app
 
     $scope.getHospitals = function(speciality){
       var location = 'Hyderabad';
-      var url = 'http://183.82.103.141:8080/vellkare/api/v0/search/hospitalNames?location='+location+'&speciality='+speciality;
+      var url = ajax_url_prefix + 'search/hospitalNames?location='+location+'&speciality='+speciality;
       $http.get(url).success(function(data){
         $scope.hospitals = data.hospitals;
       });
@@ -123,7 +124,7 @@ app
 
     $scope.getTestsAndLabs = function(){
       var location = 'Hyderabad';
-      var url = 'http://183.82.103.141:8080/vellkare/api/v0/search/lab/testsAndLabs?location='+location;
+      var url = ajax_url_prefix + 'search/lab/testsAndLabs?location='+location;
       $http.get(url).success(function(data){
         $scope.tests = data.tests;
         $scope.labs = data.labs;
@@ -132,7 +133,7 @@ app
 
     $scope.getTests = function(labName){
       var location = 'Hyderabad';
-      var url = 'http://183.82.103.141:8080/vellkare/api/v0/search/lab/listTests?location='+location+'&labName='+labName;
+      var url = ajax_url_prefix + 'search/lab/listTests?location='+location+'&labName='+labName;
       $http.get(url).success(function(data){
         $scope.tests = data.tests;
       });
@@ -140,7 +141,7 @@ app
 
     $scope.getLabs = function(testName){
       var location = 'Hyderabad';
-      var url = 'http://183.82.103.141:8080/vellkare/api/v0/search/lab/listLabNames?location='+location+'&testName='+testName;
+      var url = ajax_url_prefix + 'search/lab/listLabNames?location='+location+'&testName='+testName;
       $http.get(url).success(function(data){
         $scope.labs = data.labs;
       });
