@@ -11,7 +11,7 @@ app
   .controller('AppointmentCtrl', function ($scope,$compile,uiCalendarConfig, $state,$window) {
 
     $scope.bookAppointment = function( date, jsEvent, view ){
-      $window.localStorage.doctorAppointmentDate = date;
+      $window.localStorage.appointmentDate = date;
       $window.localStorage.setItem('isAppointmentSelected', true);
       // If not authenticated user redirect to login page
       $state.go('core.login');
@@ -22,6 +22,9 @@ app
     $scope.uiConfig = {
       calendar:{
         defaultView: 'agendaWeek',
+        minTime: "09:00:00",
+        maxTime: "20:00:00",
+        slotLabelInterval: "00:30:00",
         allDaySlot: false,
         height: 350,
         editable: true,
@@ -35,23 +38,10 @@ app
       }
     };
 
-
-  //  Confirm Appointment
-
-    $scope.selectedDoctor = {
-      name: 'Dr. Satyanath R V',
-      degree : 'M.D., Skin & STD',
-      specialities : 'Homeopath , General Physician',
-      hospitals: [
-        {
-          name: 'Revive Multi-Specialty Clinics & Fertility Centre',
-          address : '795 Folsom Ave, Suite 600, San Francisco, CA 94107',
-          phone : '(123) 456-7890'
-        }
-      ]
-    };
   })
   .controller('ConfirmAppointmentCtrl', function ($scope,$compile,uiCalendarConfig, $state,$window) {
+
+    $scope.selectedAppointment = $window.localStorage.selectedAppointment;
     $scope.selectedDoctor = {
       name: 'Dr. Satyanath R V',
       degree : 'M.D.',
@@ -64,10 +54,15 @@ app
         }
       ]
     };
+
+    $scope.selectedLab = {
+      name: 'VIJAYA DIAGNOSTIC CENTER'
+    };
     $scope.confirmAppointment = function() {
       $window.localStorage.removeItem('isAppointmentSelected');
-      $window.localStorage.removeItem('doctorAppointmentDate');
+      $window.localStorage.removeItem('appointmentDate');
       $window.localStorage.removeItem('selectedDoctor');
+      $window.localStorage.removeItem('selectedLab');
 
       $state.go('app.calendar');
 

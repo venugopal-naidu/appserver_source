@@ -1,6 +1,6 @@
 <div class="page">
 
-  <div class="container w-xxl p-15 bg-white mt-20">
+  <div class="container w-xxl p-15 bg-white mt-20" ng-if="selectedAppointment == 'Doctor'">
     <table class="table table-custom" id="doctorsSearchList">
       <tbody>
       <tr class="child">
@@ -61,6 +61,60 @@
       <div class="col-sm-12">
 				<a href="" ng-click="confirmAppointment()" class="btn btn-greensea pull-right">Confirm Appointment</a>
 			</div>
+    </div>
+
+  </div>
+
+  <div class="container w-xxl p-15 bg-white mt-20" ng-if="selectedAppointment == 'Lab'">
+    <table class="table table-custom" id="labSearchList">
+      <tbody>
+      <tr class="child">
+        <td class="child">
+          <div class="dotor-profile-pic">
+            <div class="thumb thumb-xl">
+              <img class="img-thumbnail" ng-src="images/diagnostic_center.jpg" alt="">
+            </div>
+          </div>
+        </td>
+        <td class="child">
+          <ul class="list-unstyled">
+            <li class="m-10">
+              <span class="strong days-timing">MON-SAT</span>
+              <br>
+              <span class="hours-timing">10:00AM-1:00PM</span>
+              ,&nbsp;
+              <span class="hours-timing">5:00PM-10:00PM</span>
+            </li>
+            <li  class="m-10">
+              <span style="display: inline;">SUN</span>
+              <br tyle="display: inline;">
+              <span style="display: inline;">10:00AM-1:00PM</span>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td class="child" colspan="2">
+          <ul style="display: inline-block;list-style-type: none;margin: 0;padding: 0;">
+            <li>
+              <h2 class="custom-font text-cyan m-0">{{ selectedLab.name }}</h2>
+            </li>
+          </ul>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <form name="form" class="form-validation mt-20" novalidate>
+      <div class="form-group">
+        <input type="text" name="appointmentFor" class="form-control underline-input" placeholder="Please enter reason to visit" ng-model="appointmentFor">
+      </div>
+    </form>
+
+    <div class="row text-center">
+      <div class="col-sm-12">
+        <a href="" ng-click="confirmAppointment()" class="btn btn-greensea pull-right">Confirm Appointment</a>
+      </div>
     </div>
 
   </div>

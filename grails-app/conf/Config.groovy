@@ -132,7 +132,7 @@ log4j.main = {
     }
   }
 
-  debug 'org.hibernate.SQL'
+//  debug 'org.hibernate.SQL'
 
 }
 
@@ -149,10 +149,8 @@ grails {
              "mail.smtp.host"           : "smtp.gmail.com",
              "mail.smtp.user"           : "vellkare.dev@gmail.com",
              "mail.smtp.password"       : "vellkare"]
-    disabled = true
-
+    disabled = false
   }
-
 }
 grails.mail.default.from = "vellkare.dev@gmail.com"
 
@@ -333,7 +331,10 @@ registration{
   verification {
     phone = false
     email = false
-    from = "vellkare@gmail.com"
+    from = "vellkare.dev@gmail.com"
     verifyController = "/registration/verify"
+    otpSize=10
   }
 }
+
+images.doctors.path='/images/doctor/'

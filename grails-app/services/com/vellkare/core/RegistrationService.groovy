@@ -1,6 +1,7 @@
 package com.vellkare.core
 
 import grails.transaction.Transactional
+import org.apache.commons.math3.random.RandomDataGenerator
 
 @Transactional
 class RegistrationService {
@@ -9,11 +10,13 @@ class RegistrationService {
 
   def mailService
   def grailsApplication
+  def contentService
 
 
   @Transactional
-  def registerMember(String firstName, String lastName, String email, String phoneNumber) {
-    def registration = new Registration(firstName:firstName, lastName:lastName, email: email, phoneNumber: phoneNumber)
+  def registerMember(String firstName, String lastName, String email, String phoneNumber, Boolean tncChecked) {
+    def registration = new Registration(firstName:firstName, lastName:lastName, email: email,
+      phoneNumber: phoneNumber,tncChecked:tncChecked)
     registration.save(flush: true, failOnError: true)
     generateOTP(registration)
     sendVerificationEmail(registration)
@@ -28,11 +31,12 @@ class RegistrationService {
     if (grailsApplication.config.registration.verification.email) {
       mailService.sendMail {
         to registration.email
-        from grailsApplication.config.grailsApplication.config.registration.verification.from
-        subject message(code: 'email.registration.verification', args: [])
+        from grailsApplication.config.registration.verification.from
+        subject 'verification email'
         def bodyArgs = [view: '/emails/registration/verification',
                         model: [registration: registration, verificationLink: verificationLink]]
-        body(bodyArgs)
+        def mailHtml = contentService.applyTemplate(bodyArgs.view, bodyArgs.model)
+        html(mailHtml)
       }
       registration.sentEmailVerification()
     }
@@ -44,7 +48,9 @@ class RegistrationService {
   }
 
   private void generateOTP(Registration registration){
-    registration.verificationCode="ABCDXYZ"
+    def otpSize = grailsApplication.config.grailsApplication.config.registration.verification.otpSize?:8
+    RandomDataGenerator rdg = new RandomDataGenerator()
+    registration.verificationCode = rdg.nextSecureHexString(otpSize)
   }
 
   @Transactional

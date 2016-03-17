@@ -61,7 +61,7 @@ class UrlMappings {
     }
 
     "/api/$namespace/registration/create"(controller: 'registration', action: 'register')
-    "/api/$namespace/registration/verify"(controller: 'registration', action: 'verify')
+    "/api/$namespace/registration/verifyUid"(controller: 'registration', action: 'verifyUid')
 
     "/api/$namespace/search/doctor"(controller: 'search', action: 'searchDoctor') {}
     "/api/$namespace/search/specialitiesAndHospitals"(controller: 'search', action: 'listSpecialitiesAndHospitals') {}
@@ -88,7 +88,7 @@ class UrlMappings {
     "/api/swagger"(controller: 'apiDoc', action: 'swagger') {}
     "/api/swagger-api"(controller: 'apiDoc', action: 'swaggerApi') {}
 
-    "/"(view: "/index")
+    "/"(resource: "/index.html")
 
     "/$controller/$action?/$id?(.$format)?" {
       constraints {
