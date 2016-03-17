@@ -22,6 +22,11 @@ class RegistrationController {
       return
     }
 
+    if(!cmd.tncChecked){
+      response.setStatus(HttpStatus.SC_BAD_REQUEST)
+      respond new ValidationErrorResponse([new FieldErrorApiModel('tncChecked', 'tncChecked.notAccepted', [])])
+      return
+    }
     def existingRegistration = Registration.findByEmail(cmd.email)
     if (existingRegistration) {
       response.setStatus(HttpStatus.SC_BAD_REQUEST)
@@ -57,6 +62,7 @@ class RegisterCommand {
   String firstName
   String lastName
   String phoneNumber
+  Boolean tncChecked
 
   static constraints = {
     email email: true, nullable: false

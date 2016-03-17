@@ -1,6 +1,7 @@
 package com.vellkare.core
 
 class Registration {
+  Boolean tncChecked = false
   String email
   String firstName
   String lastName

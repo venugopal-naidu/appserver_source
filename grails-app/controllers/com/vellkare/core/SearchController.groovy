@@ -29,12 +29,12 @@ class SearchController {
   def listHospitals(SearchCommand cmd){
     cmd.location = cmd.location?:'Hyderabad'
     def hospitals =  Hospital.createCriteria().list{
-      if(cmd.speciality) {
-        ilike('specialists', "%${cmd.speciality}%")
+      if(cmd.specialty) {
+        ilike('specialists', "%${cmd.specialty}%")
       }
       eq('city', cmd.location)
     }
-    respond (location: cmd.location, specialty: cmd.speciality, hospitals: hospitals)
+    respond (location: cmd.location, specialty: cmd.specialty, hospitals: hospitals)
   }
 
 
@@ -44,12 +44,12 @@ class SearchController {
       projections{
         property 'name'
       }
-      if(cmd.speciality) {
-        ilike('specialists', "%${cmd.speciality}%")
+      if(cmd.specialty) {
+        ilike('specialists', "%${cmd.specialty}%")
       }
       eq('city', cmd.location)
     }*.toLowerCase()*.capitalize().sort().unique()
-    respond (location: cmd.location, specialty: cmd.speciality, hospitals: hospitals)
+    respond (location: cmd.location, specialty: cmd.specialty, hospitals: hospitals)
   }
 
   def transformObject (def fromType , def toType, def fromObj){
@@ -129,14 +129,14 @@ class SearchController {
       if(cmd.location) {
         ilike('hospital.city', "%${cmd.location}%")
       }
-      if(cmd.speciality) {
-        ilike('hospital.specialists', "%${cmd.speciality}%")
+      if(cmd.specialty) {
+        ilike('hospital.specialists', "%${cmd.specialty}%")
       }
     }.collect{ doctor->
       transformObject(doctor.class, DoctorHospitalMini, doctor)
     }
 
-    respond (location: cmd.location, hospital: cmd.hospital, speciality: cmd.speciality,
+    respond (location: cmd.location, hospital: cmd.hospital, specialty: cmd.specialty,
     doctors:doctors)
   }
 
@@ -211,7 +211,7 @@ class SearchCommand {
   String state
   Gender gender
   String doctorName
-  String speciality
+  String specialty
   String hospital
   String location
   String testName

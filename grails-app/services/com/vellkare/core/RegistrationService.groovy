@@ -14,8 +14,9 @@ class RegistrationService {
 
 
   @Transactional
-  def registerMember(String firstName, String lastName, String email, String phoneNumber) {
-    def registration = new Registration(firstName:firstName, lastName:lastName, email: email, phoneNumber: phoneNumber)
+  def registerMember(String firstName, String lastName, String email, String phoneNumber, Boolean tncChecked) {
+    def registration = new Registration(firstName:firstName, lastName:lastName, email: email,
+      phoneNumber: phoneNumber,tncChecked:tncChecked)
     registration.save(flush: true, failOnError: true)
     generateOTP(registration)
     sendVerificationEmail(registration)
