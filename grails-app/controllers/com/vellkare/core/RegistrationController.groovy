@@ -1,5 +1,6 @@
 package com.vellkare.core
 
+import com.vellkare.api.FieldErrorApiModel
 import com.vellkare.api.ValidationErrorResponse
 import com.vellkare.social.SocialConnection
 import org.apache.http.HttpStatus
@@ -21,15 +22,34 @@ class RegistrationController {
       return
     }
 
+    def existingRegistration = Registration.findByEmail(cmd.email)
+    if (existingRegistration) {
+      response.setStatus(HttpStatus.SC_BAD_REQUEST)
+      respond new ValidationErrorResponse([new FieldErrorApiModel('email', 'email.registered', [])])
+      return
+    }
+
     Registration registration =  registrationService.registerMember(cmd.firstName, cmd.lastName, cmd.email, cmd.phoneNumber)
     String successMessage = "User Registered Successfully. Please verify your phone number and email by entering OTP number."
     boolean emailVerificationEnabled = grailsApplication.config.registration.verification.email
     boolean phoneNumberVerificationEnabled = grailsApplication.config.registration.verification.phone
     respond(registration: "success", message: successMessage,
       emailVerificationEnabled: emailVerificationEnabled, phoneNumberVerificationEnabled: phoneNumberVerificationEnabled,
-      phoneNumber: cmd.phoneNumber, email: cmd.email, firstName: cmd.firstName, lastName: cmd.lastName)
-
+      phoneNumber: cmd.phoneNumber, email: cmd.email, firstName: cmd.firstName, lastName: cmd.lastName,
+      uid:registration.uuid
+    )
   }
+
+  def verifyUid(String uid){
+    def existingRegistration = Registration.findByUuid(uid)
+    if (existingRegistration ){
+      respond( isValidUid:true, isUserRegistered:existingRegistration.member?true:false )
+    }else{
+      respond( isValidUid:false, isUserRegistered:false )
+    }
+    return
+  }
+
 }
 
 class RegisterCommand {
@@ -39,18 +59,7 @@ class RegisterCommand {
   String phoneNumber
 
   static constraints = {
-    email email: true, nullable: false, validator: { val, cmd, errors ->
-      Object[] args = new Object[1]
-      args[0] = val
-      if (val && !errors) {
-        def registration = Registration.findByEmail(val)
-        if (registration) {
-          errors.rejectValue("email", "user.email.exists", args, null)
-        } else if (SocialConnection.findByEmail(val)) {
-          errors.rejectValue("email", "user.email.exists", args, null)
-        }
-      }
-    }
+    email email: true, nullable: false
     phoneNumber nullable: false, minSize: 10
     lastName nullable: true
     firstName nullable: false, minSize: 3

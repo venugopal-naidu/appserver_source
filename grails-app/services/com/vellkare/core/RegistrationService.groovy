@@ -1,6 +1,7 @@
 package com.vellkare.core
 
 import grails.transaction.Transactional
+import org.apache.commons.math3.random.RandomDataGenerator
 
 @Transactional
 class RegistrationService {
@@ -44,7 +45,9 @@ class RegistrationService {
   }
 
   private void generateOTP(Registration registration){
-    registration.verificationCode="ABCDXYZ"
+    def otpSize = grailsApplication.config.grailsApplication.config.registration.verification.otpSize?:8
+    RandomDataGenerator rdg = new RandomDataGenerator()
+    registration.verificationCode = rdg.nextSecureHexString(otpSize)
   }
 
   @Transactional

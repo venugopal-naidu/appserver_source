@@ -132,7 +132,7 @@ log4j.main = {
     }
   }
 
-  debug 'org.hibernate.SQL'
+//  debug 'org.hibernate.SQL'
 
 }
 
@@ -333,7 +333,10 @@ registration{
   verification {
     phone = false
     email = false
-    from = "vellkare@gmail.com"
+    from = "vellkare.dev@gmail.com"
     verifyController = "/registration/verify"
+    otpSize=10
   }
 }
+
+images.doctors.path='/images/doctor/'

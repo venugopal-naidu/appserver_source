@@ -13,6 +13,7 @@ class SearchController {
 
   def memberService
   def securityService
+  def grailsApplication
 
   def listSpecialitiesAndHospitals(String location) {
     if (!location) {
@@ -36,6 +37,7 @@ class SearchController {
     respond (location: cmd.location, specialty: cmd.speciality, hospitals: hospitals)
   }
 
+
   def listHospitalsNames(SearchCommand cmd){
     cmd.location = cmd.location?:'Hyderabad'
     def hospitals =  Hospital.createCriteria().list{
@@ -46,7 +48,7 @@ class SearchController {
         ilike('specialists', "%${cmd.speciality}%")
       }
       eq('city', cmd.location)
-    }*.toLowerCase()*.capitalize().sort()
+    }*.toLowerCase()*.capitalize().sort().unique()
     respond (location: cmd.location, specialty: cmd.speciality, hospitals: hospitals)
   }
 
@@ -78,6 +80,9 @@ class SearchController {
       if(doctor.specialities){
         d.specialities = doctor.specialities.collect { it.speciality.name.toLowerCase().capitalize() }
       }
+      def photoUrl = grailsApplication.config.images.doctors.path?:"/images/doctor/"
+      photoUrl= "${photoUrl}${doctor.id}.jpeg"
+      d.photoUrl=photoUrl
       return d
     }
     if(fromObj instanceof Lab && toType == LabMini) {
@@ -181,11 +186,15 @@ class SearchController {
   def listLabs(SearchCommand cmd){
     def labs = LabPackageTest.createCriteria().list{
       createAlias('test', 't')
+      createAlias('lab', 'b')
       projections {
         distinct 'lab'
       }
       if(cmd.testName)
         ilike('t.name', cmd.testName)
+      if(cmd.labName)
+        ilike('l.name', cmd.labName)
+
     }.collect { transformObject(Lab, LabMini, it)}
     respond( testName :cmd.testName, labs: labs )
   }

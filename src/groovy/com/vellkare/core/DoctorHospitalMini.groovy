@@ -23,6 +23,7 @@ class DoctorHospitalMini {
   int experience = 0
   String awards
   String language
+  String photoUrl
   Set<HospitalAvailabilityMini> hospitals
   Set <String> specialities
 
