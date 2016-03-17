@@ -62,6 +62,7 @@ class UrlMappings {
 
     "/api/$namespace/registration/create"(controller: 'registration', action: 'register')
     "/api/$namespace/registration/verifyUid"(controller: 'registration', action: 'verifyUid')
+    "/api/$namespace/registration/confirm"(controller: 'registration', action: 'confirmRegistration')
 
     "/api/$namespace/search/doctor"(controller: 'search', action: 'searchDoctor') {}
     "/api/$namespace/search/specialitiesAndHospitals"(controller: 'search', action: 'listSpecialitiesAndHospitals') {}

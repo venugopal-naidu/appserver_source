@@ -24,6 +24,7 @@ class Registration {
   Member member
 
   int verificationAttempts = 0
+  Date lastFailedVerificationAttemptDate
 
 
   def memberService
@@ -36,6 +37,7 @@ class Registration {
     lastEmailVerificationSentDate nullable: true
     lastPhoneVerificationSentDate nullable: true
     emailVerifiedDate nullable: true
+    lastFailedVerificationAttemptDate nullable: true
     phoneNumberVerifiedDate nullable: true
     member nullable: true
     verificationCode nullable: true
@@ -47,10 +49,34 @@ class Registration {
     uuid = memberService.generateUUID()
   }
 
+  def verificationSuccessful(boolean emailVerification, boolean phoneVerification){
+
+    if(lastEmailVerificationSentDate){
+      emailVerifiedDate = new Date()
+    }
+    if(phoneVerification){
+      phoneNumberVerifiedDate = new Date()
+    }
+    verificationStatus = RegistrationStatus.VERIFIED
+
+  }
+
   def sentEmailVerification(){
     lastEmailVerificationSentDate = new Date()
     emailVerificationSentCount++
     verificationStatus = RegistrationStatus.VERIFICATION_DETAILS_SENT
+  }
+
+  def sentPhoneVerification(){
+    lastPhoneVerificationSentDate = new Date()
+    phoneVerificationSentCount++
+    verificationStatus = RegistrationStatus.VERIFICATION_DETAILS_SENT
+  }
+
+  def invalidUuidVerification(){
+    verificationAttempts++
+    lastFailedVerificationAttemptDate = new Date()
+
   }
 
 }

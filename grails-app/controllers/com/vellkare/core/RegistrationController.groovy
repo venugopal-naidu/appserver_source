@@ -2,8 +2,8 @@ package com.vellkare.core
 
 import com.vellkare.api.FieldErrorApiModel
 import com.vellkare.api.ValidationErrorResponse
-import com.vellkare.social.SocialConnection
 import org.apache.http.HttpStatus
+import org.springframework.security.oauth2.common.OAuth2AccessToken
 
 class RegistrationController {
 
@@ -12,6 +12,8 @@ class RegistrationController {
 
   def registrationService
   def grailsApplication
+  def memberService
+  def securityService
 
 
   def register(RegisterCommand cmd) {
@@ -22,7 +24,7 @@ class RegistrationController {
       return
     }
 
-    if(!cmd.tncChecked){
+    if (!cmd.tncChecked) {
       response.setStatus(HttpStatus.SC_BAD_REQUEST)
       respond new ValidationErrorResponse([new FieldErrorApiModel('tncChecked', 'tncChecked.notAccepted', [])])
       return
@@ -34,7 +36,7 @@ class RegistrationController {
       return
     }
 
-    Registration registration =  registrationService.registerMember(cmd.firstName, cmd.lastName, cmd.email,
+    Registration registration = registrationService.registerMember(cmd.firstName, cmd.lastName, cmd.email,
       cmd.phoneNumber, cmd.tncChecked)
     String successMessage = "User Registered Successfully. Please verify your phone number and email by entering OTP number."
     boolean emailVerificationEnabled = grailsApplication.config.registration.verification.email
@@ -42,20 +44,68 @@ class RegistrationController {
     respond(registration: "success", message: successMessage,
       emailVerificationEnabled: emailVerificationEnabled, phoneNumberVerificationEnabled: phoneNumberVerificationEnabled,
       phoneNumber: cmd.phoneNumber, email: cmd.email, firstName: cmd.firstName, lastName: cmd.lastName,
-      uid:registration.uuid
+      uid: registration.uuid
     )
   }
 
-  def verifyUid(String uid){
+  def verifyUid(String uid) {
     def existingRegistration = Registration.findByUuid(uid)
-    if (existingRegistration ){
-      respond( isValidUid:true, isUserRegistered:existingRegistration.member?true:false )
-    }else{
-      respond( isValidUid:false, isUserRegistered:false )
+    if (existingRegistration) {
+      respond(isValidUid: true, isUserRegistered: existingRegistration.member ? true : false)
+    } else {
+      respond(isValidUid: false, isUserRegistered: false)
     }
     return
   }
 
+  def confirmRegistration(ConfirmRegistration cmd) {
+    if (!cmd.validate()) {
+      response.setStatus(HttpStatus.SC_BAD_REQUEST)
+      respond new ValidationErrorResponse(cmd.errors)
+      log.debug "cmd errors : " + cmd.errors
+      return
+    }
+
+    Registration registration = Registration.findByUuid(cmd.uuid);
+    if(!registration || !registration.verificationCode.equals(cmd.otp)){
+      if(registration){
+        registration.invalidUuidVerification()
+      }
+      response.setStatus(HttpStatus.SC_BAD_REQUEST)
+      respond new ValidationErrorResponse([new FieldErrorApiModel('uuid', 'uuid.invalid', [])])
+      return
+    }
+
+    if(registration.member){
+      response.setStatus(HttpStatus.SC_BAD_REQUEST)
+      respond new ValidationErrorResponse([new FieldErrorApiModel('uuid', 'member.already.registered', [])])
+      return
+    }
+
+    Member m = memberService.createMember(registration, cmd.password)
+    registration.verificationSuccessful(true,true) // setting both verification as true as the otp is save in both the cases
+    m.addToRoles(MemberRole.create(m, Role.findByAuthority(Role.Authority.ROLE_USER)))
+
+    OAuth2AccessToken token = securityService.getToken(grailsApplication.config.grails.client.config.clientId,
+      "password", m.login.username, cmd.password)
+    def tokenApiModel = new TokenApiModel(token)
+    def memberApiModel = memberService.findByUsername(m.login.username) as MemberApiModel
+    respond new NewMemberApiModel(token: tokenApiModel, member: memberApiModel)
+
+  }
+
+}
+
+class ConfirmRegistration {
+  String uuid
+  String otp
+  String password
+
+  static constraints = {
+    uuid nullable: false
+    otp nullable: false
+    password nullable: false , minSize: 6
+  }
 }
 
 class RegisterCommand {

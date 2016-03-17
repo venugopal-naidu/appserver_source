@@ -1,5 +1,7 @@
 package com.vellkare.core
 
+import grails.transaction.Transactional
+
 class MemberService {
 
   static transactional = false
@@ -28,7 +30,17 @@ class MemberService {
     }
   }
 
+  @Transactional
+  def createMember(Registration registration, String password) {
+    Login login = new Login(username: registration.email, password: password, enabled: true)
+    login.save(failOnError: true, flush: true)
+    Member m = new Member(login: login, firstName: registration.firstName, lastName: registration.lastName,
+      email: registration.email, primaryPhone: registration.phoneNumber)
+    m.registration= registration
+    m.save(failOnError: true, flush: true)
+  }
 
+  @Transactional
   def updateMember(Member member, MemberCommand cmd) {
     member.firstName = cmd.firstName
     member.lastName = cmd.lastName
@@ -38,6 +50,7 @@ class MemberService {
     member.save(failOnError: true, flush: true)
   }
 
+  @Transactional
   def updateMember(Member member, MemberProfileCommand cmd) {
     member.firstName = cmd.firstName
     member.lastName = cmd.lastName
