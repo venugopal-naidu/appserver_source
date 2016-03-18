@@ -10,6 +10,7 @@
 app.controller('SignupCtrl', function ($scope, $state, $http, $window, $location) {
     $scope.emailError = null;
     $scope.formErrors = null;
+
     $scope.signUp = function() {
       $scope.emailError = null;
       var dataToSend = {
@@ -37,12 +38,16 @@ app.controller('SignupCtrl', function ($scope, $state, $http, $window, $location
               }
             });
           }
-        })
+        });
     };
   })
-  .controller('ConfirmOTPCtrl', function ($scope,$compile,uiCalendarConfig, $state, $window, $stateParams) {
-
+  .controller('ConfirmOTPCtrl', function ($scope,$http, $compile, uiCalendarConfig, $state, $window, $stateParams) {
+    $scope.otp;
+    $scope.password;
+    $scope.passwordInputType = 'password';
+    $scope.showSetPassword = false;
     $scope.uid = $stateParams.hasOwnProperty('uid') ? $stateParams['uid'] : null;
+
     $scope.isAppointmentSelected = false;
     $scope.selectedDoctor = null;
     $scope.doctorAppointmentDate = null;
@@ -58,29 +63,53 @@ app.controller('SignupCtrl', function ($scope, $state, $http, $window, $location
     if($window.localStorage.selectedDoctor != null){
       $scope.selectedDoctor = $window.localStorage.selectedDoctor;
     }
+    $scope.showHidePassword = function(){
+      if ($scope.passwordInputType == 'password')
+        $scope.passwordInputType = 'text';
+      else
+        $scope.passwordInputType = 'password';
+    };
 
     $scope.confirmOTP = function() {
-
-      if($scope.isAppointmentSelected){
-        $state.go('app.custom.confirmAppointment');
-      }else {
-        $state.go('app.dashboard');
-      }
-
-      /* var dataToSend = {
-       "clientId":"vellkare-client",
-       "username":$scope.username,
-       "password":$scope.password
-       };
-       $http.post('http://183.82.103.141:8080/vellkare/api/v0/auth/login',dataToSend).success(function(data, status){
-       $window.localStorage['jwtToken'] = token;
-       if($scope.isAppointmentSelected){
-       $state.go('app.custom.confirmAppointment');
-       }else {
-       $state.go('app.dashboard');
-       }
-       }).error(function (data){
-       alert("something went wrong");
-       });*/
+      var dataToSend = {
+        "clientId":"vellkare-client",
+        "uid":$scope.uid,
+        "otp":$scope.otp,
+        "password":$scope.password
+      };
+      var url = ajax_url_prefix + 'registration/confirm';
+      $http.post(url,dataToSend).then(
+        function(response){
+          //$window.localStorage['jwtToken'] = response.data.token;
+          if($scope.isAppointmentSelected){
+            $state.go('app.custom.confirmAppointment');
+          }else {
+            $state.go('app.dashboard');
+          }
+        },function (data){
+          alert("something went wrong");
+        });
     };
+    $scope.getVerifyUid = function(){
+      var url = ajax_url_prefix + 'registration/verifyUid?uid='+$scope.uid;
+      $http.get(url).then(function(response){
+        $scope.isValidUid = response.data.isValidUid;
+        $scope.isUserRegistered = response.data.isUserRegistered;
+        if($scope.isValidUid){
+          if(!$scope.isUserRegistered){
+            $scope.showSetPassword = true;
+          }else {
+            $state.go('core.login');
+          }
+        }else {
+          $scope.showSetPassword = false;
+        }
+      },function(data){
+        $scope.showSetPassword = false;
+      });
+    };
+
+    if($scope.uid != null){
+      $scope.getVerifyUid();
+    }
   });

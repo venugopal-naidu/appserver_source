@@ -1,8 +1,6 @@
-<div class="page page-core page-login">
+<div class="page page-core page-login" ng-show="showSetPassword">
 
   <div class="container w-420 p-15 bg-white mt-40 text-center">
-
-
     <h2 class="text-light text-greensea">Set Password</h2>
     <p class="help-block text-left">
       We sent an OTP to the specified phone number and email address. Please enter it below to set your password.
@@ -14,7 +12,12 @@
       </div>
 
       <div class="form-group">
-        <input type="password" name="password" placeholder="Password" class="form-control underline-input" ng-model="password" required>
+        <input type="{{passwordInputType}}" name="password" placeholder="Password" class="form-control underline-input" ng-model="password" ng-minlength="6" required>
+      </div>
+      <div class="form-group text-left">
+        <label class="checkbox checkbox-custom checkbox-custom-alt inline-block">
+          <input type="checkbox" ng-model="tncChecked" ng-click="showHidePassword()"><i></i> Show password
+        </label>
       </div>
       <div class="row">
         <div class="col-sm-12">
