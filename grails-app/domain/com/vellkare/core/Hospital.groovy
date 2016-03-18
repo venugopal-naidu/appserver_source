@@ -38,4 +38,16 @@ class Hospital {
     specialists nullable: true
     velkareVerified nullable: true
   }
+
+  def printableAddress(){
+    def sb = new StringBuilder()
+    if(address1)sb.append(address1)
+    if(address2) sb.append("\n").append(address2)
+    if(address3) sb.append("\n").append(address3)
+    if(address4) sb.append("\n").append(address4)
+    if(city) sb.append("\n").append(city)
+    if(state)sb.append("\n").append(state)
+    if(postalCode)sb.append("\n").append(postalCode)
+    if(country)sb.append("\n").append(country)
+  }
 }

@@ -145,7 +145,7 @@ class SearchController {
     doctors:doctors)
   }
 
-  def listTestAndLabsNames(){
+  def listTestAndLabsNames(SearchCommand cmd){
     def tests = LabPackageTest.createCriteria().list{ createAlias('test', 't')
       projections {
         distinct 't.name'
@@ -157,7 +157,7 @@ class SearchController {
         distinct 'l.name'
       }
     }*.toLowerCase()*.capitalize().sort()
-    respond (tests: tests, labs:labs)
+    respond (location:cmd.location, tests: tests, labs:labs)
   }
 
   def listLabsForTest(SearchCommand cmd){
@@ -168,10 +168,10 @@ class SearchController {
         property 'l.name'
       }
       if(cmd.testName)
-        ilike('t.name', cmd.testName)
+        ilike('t.name', "%${cmd.testName}%")
     }.unique()*.toLowerCase()*.capitalize()
 
-    respond( testName :cmd.testName, labs: labs )
+    respond( testName :cmd.testName, location:cmd.location, labs: labs )
   }
 
   def listTestInLab(SearchCommand cmd){
@@ -182,26 +182,26 @@ class SearchController {
         property 't.name'
       }
       if(cmd.labName)
-        ilike('l.name', cmd.labName)
+        ilike('l.name', "%${cmd.labName}%")
     }.unique()*.toLowerCase()*.capitalize().sort()
 
-    respond( labName :cmd.labName, tests: tests )
+    respond( labName :cmd.labName, location:cmd.location, tests: tests )
 
   }
   def listLabs(SearchCommand cmd){
     def labs = LabPackageTest.createCriteria().list{
       createAlias('test', 't')
-      createAlias('lab', 'b')
+      createAlias('lab', 'l')
       projections {
         distinct 'lab'
       }
       if(cmd.testName)
-        ilike('t.name', cmd.testName)
+        ilike('t.name', "%${cmd.testName}%")
       if(cmd.labName)
-        ilike('l.name', cmd.labName)
+        ilike('l.name', "%${cmd.labName}%")
 
     }.collect { transformObject(Lab, LabMini, it)}
-    respond( testName :cmd.testName, labs: labs )
+    respond( testName :cmd.testName, labName:cmd.labName, location:cmd.location, labs: labs )
   }
 
 

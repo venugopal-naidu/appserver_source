@@ -319,23 +319,22 @@ logging.controller.enabled = true
 
 grails.client.config.clientId = 'vellkare-client'
 
-grails {
-  email {
-    rule {
-      welcomeEmail: true
-    }
+app {
+  emails {
+    welcome: true
+    otpVerification: true
+    newAppointment: true
+    appointmentCanceled: true
+    approvedAppointment: true
+
+  }
+  sms{
+    welcome: false
+    otpVerification: false
   }
 }
 
-registration{
-  verification {
-    phone = false
-    email = false
-    from = "vellkare.dev@gmail.com"
-    verifyController = "/registration/verify"
-    otpSize=10
-  }
-}
+verification.otp.size=10
 
 images.doctors.path='/images/doctor/'
 images.labs.path='/images/lab/'

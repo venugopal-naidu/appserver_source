@@ -97,6 +97,7 @@ class RegistrationController {
       "password", m.login.username, cmd.password)
     def tokenApiModel = new TokenApiModel(token)
     def memberApiModel = memberService.findByUsername(m.login.username) as MemberApiModel
+
     respond new NewMemberApiModel(token: tokenApiModel, member: memberApiModel)
 
   }

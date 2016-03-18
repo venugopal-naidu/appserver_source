@@ -13,7 +13,7 @@
           <!-- tile header -->
           <div class="tile-header dvd dvd-btm" ng-class="rowElement.appointmentType =='APPOINTMENT_DOCTOR' ? 'bg-dutch' : 'bg-greensea' ">
             <h1 class="custom-font"><strong>{{ rowElement.title }}</strong></h1>
-            <span class="custom-font pull-right" ng-if="rowElement.status=='APPOINTMENT_STATUS_PENDING'">Pending</span>
+            <span class="custom-font pull-right" ng-if="rowElement.status=='APPOINTMENT_STATUS_PENDING'"><b></b>Pending</span>b></span>
             <span class="custom-font pull-right" ng-if="rowElement.status=='APPOINTMENT_STATUS_CONFIRMED'">Confirmed</span>
 
           </div>
@@ -24,9 +24,8 @@
             <p>{{ rowElement.toTime }}</p>
             <p>{{ rowElement.specialInstructions }}</p>
             <div style="margin:0px" class="row">
-              <span class="pull-right" ng-if="rowElement.status=='APPOINTMENT_STATUS_CONFIRMED'"><a href="#" ng-click="cancelAppointment()">Cancel</a></span>
-              <span class="pull-right" ng-if="rowElement.status!='APPOINTMENT_STATUS_CONFIRMED'">&nbsp;</span>
-            </div>
+              <span class="pull-right"><a href="#" ng-click="cancelAppointment()">Cancel</a></span>
+             </div>
           </div>
           <!-- /tile footer -->
         </section>
@@ -47,7 +46,7 @@
           <!-- tile header -->
           <div class="tile-header dvd dvd-btm" ng-class="rowElement.appointmentType =='APPOINTMENT_DOCTOR' ? 'bg-dutch' : 'bg-greensea' ">
             <h1 class="custom-font"><strong>{{ rowElement.title }}</strong></h1>
-            <span class="custom-font pull-right" ng-if="rowElement.status=='APPOINTMENT_STATUS_NOSHOW'"><i>No Show</i></span>
+            <span class="custom-font pull-right" ng-if="rowElement.status=='APPOINTMENT_STATUS_NOSHOW'"><b>No Show</b></span>
           </div>
           <!-- /tile header -->
           <!-- tile body -->

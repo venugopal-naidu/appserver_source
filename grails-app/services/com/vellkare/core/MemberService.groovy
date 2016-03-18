@@ -5,6 +5,9 @@ import grails.transaction.Transactional
 class MemberService {
 
   static transactional = false
+  def grailsApplication
+  def mailService
+  def contentService
 
   def generateUUID() {
     UUID.randomUUID().toString()
@@ -38,6 +41,16 @@ class MemberService {
       email: registration.email, primaryPhone: registration.phoneNumber)
     m.registration= registration
     m.save(failOnError: true, flush: true)
+
+    if (grailsApplication.config.app?.emails?.welcome && m.email) {
+      mailService.sendMail {
+        to m.email
+        subject "Welcome Member!"
+        def bodyArgs = [view: '/emails/member/welcome', model: [member: m]]
+        def mailHtml = contentService.applyTemplate(bodyArgs.view, bodyArgs.model)
+        html(mailHtml)
+      }
+    }
   }
 
   @Transactional
