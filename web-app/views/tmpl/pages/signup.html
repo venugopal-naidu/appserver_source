@@ -14,16 +14,19 @@
         </div>
       </div>
       <div class="form-group">
-        <input type="text" name="phone" class="form-control underline-input" placeholder="Phone Number*" ng-model="phone" required>
+        <input type="number" name="phone" class="form-control underline-input" placeholder="Phone Number*" ng-model="phoneNumber" ng-minlength="10" required>
       </div>
       <div class="form-group">
-        <input type="email" name="email" class="form-control underline-input" placeholder="Email*" ng-model="email" required>
+        <input type="email" name="email" class="form-control underline-input" placeholder="Email*" ng-model="email" ng-pattern="/^[a-zA-Z0-9\-_]+(\.[a-zA-Z0-9\-_]+)*@[a-z0-9]+(\-[a-z0-9]+)*(\.[a-z0-9]+(\-[a-z0-9]+)*)*\.[a-z]{2,4}$/" required>
+        <p class="help-block text-left">
+          <span ng-show="emailError != null" class="text-danger">{{ emailError }}</span>
+        </p>
       </div>
-     <!-- <div class="form-group text-left">
-         <label class="checkbox checkbox-custom checkbox-custom-sm inline-block">
-          <input type="checkbox" ng-model="user.accept" required><i></i> I agree to the <a href="javascript:;">Terms of Service</a> & <a href="javascript:;">Privacy Policy</a>
+      <div class="form-group text-left">
+         <label class="checkbox checkbox-custom checkbox-custom-alt inline-block">
+          <input type="checkbox" ng-model="tncChecked" required><i></i> I agree to the <a href="javascript:;">Terms and Conditions</a>
         </label>
-      </div>-->
+      </div>
       <div class="row">
         <div class="col-sm-8 ">
           <a class="pull-left" ui-sref="core.login">Already have an account? Login here</a>
@@ -34,7 +37,6 @@
       </div>
 
     </form>
-
   </div>
 
 </div>
