@@ -111,7 +111,7 @@
                                     <td class="child">
                                         <div class="dotor-profile-pic">
                                             <div class="thumb thumb-xl">
-                                                <img class="img-thumbnail" ng-src="images/doctor_profile_pic.png" alt="">
+                                                <img class="img-thumbnail" ng-src="{{ doctor.photoUrl }}" alt="">
                                             </div>
                                         </div>
                                     </td>
@@ -134,13 +134,13 @@
                                                 <address>
                                                     <strong><i class="fa fa-hospital-o"></i> {{ hospital.name }}</strong><br>
                                                     <span ng-if="hospital.address1 != null"><i class="fa fa-map-marker"></i> {{ hospital.address1 }}</span>
-                                                    <!--<span ng-if="hospital.address2 != null">{{ hospital.address2 }}</span>
-                                                    <span ng-if="hospital.address3 != null">{{ hospital.address3 }}</span>
+                                                    <span ng-if="hospital.address2 != null">, {{ hospital.address2 }}</span>
+                                                    <!--<span ng-if="hospital.address3 != null">{{ hospital.address3 }}</span>
                                                     <span ng-if="hospital.address4 != null">{{ hospital.address4 }}</span><br />
                                                     <abbr title="Phone">P:</abbr> {{ hospital.phone }}&ndash;&gt;-->
-                                                    <p class="text-muted">
+                                                    <!--<p class="text-muted">
                                                         <i class="fa fa-clock-o"></i>  <span ng-repeat="availability in hospital.availability"> {{ availability.from | date: 'h:mma'}} To {{ availability.to | date: 'h:mma'}}, </span>
-                                                    </p>
+                                                    </p>-->
                                                 </address>
                                             </li>
                                         </ul>
@@ -198,7 +198,7 @@
                             <td class="child">
                                 <div class="dotor-profile-pic">
                                     <div class="thumb thumb-xl">
-                                        <img class="img-thumbnail" ng-src="images/diagnostic_center.jpg" alt="">
+                                        <img class="img-thumbnail" ng-src="{{ lab.labImageUrl }}" alt="">
                                     </div>
                                 </div>
                             </td>

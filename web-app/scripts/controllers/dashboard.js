@@ -101,7 +101,7 @@ app
 
     $scope.getspecialtiesAndHospitals = function(){
       var location = 'Hyderabad';
-      var url = ajax_url_prefix + 'search/specialitiesAndHospitals?location='+location;
+      var url = ajax_url_prefix + 'search/specialtiesAndHospitals?location='+location;
        $http.get(url).success(function(data){
          $scope.specialties = data.specialties;
          $scope.hospitals = data.hospitals;
@@ -110,7 +110,7 @@ app
 
     $scope.getspecialties = function(hospital){
       var location = 'Hyderabad';
-      var url = ajax_url_prefix + 'search/hospital/specialities?location='+location+'&hospital='+hospital;
+      var url = ajax_url_prefix + 'search/hospital/specialties?location='+location+'&hospital='+hospital;
       $http.get(url).success(function(data){
         $scope.specialties = data.specialties;
       });
