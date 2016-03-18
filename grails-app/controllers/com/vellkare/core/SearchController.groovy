@@ -19,11 +19,11 @@ class SearchController {
     if (!location) {
       location = 'Hyderabad'
     }
-    def specialities = Speciality.findAll().collect { it.name?.toLowerCase()?.capitalize() }
+    def specialties = Speciality.findAll().collect { it.name?.toLowerCase()?.capitalize() }
       .grep().unique().sort()
     def hospitalNames = Hospital.findAllWhere(city: location).collect { it.name?.toLowerCase()?.capitalize() }
       .grep().unique().sort()
-    respond (specialties: specialities, hospitals: hospitalNames)
+    respond (specialties: specialties, hospitals: hospitalNames)
   }
 
   def listHospitals(SearchCommand cmd){
@@ -73,12 +73,14 @@ class SearchController {
           mini.address2 = dh.hospital.address2
           mini.address3 = dh.hospital.address3
           mini.address4 = dh.hospital.address4
-          mini.availability << new AvailabilityMini(from: dh.serviceHoursFrom, to: dh.serviceHoursTo)
+          ["MONDAY", 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY','SATURDAY','SUNDAY'].each {
+            mini.availability.put ( it,[new AvailabilityMini(from: dh.serviceHoursFrom, to: dh.serviceHoursTo)] )
+          }
           mini
         }
       }
       if(doctor.specialities){
-        d.specialities = doctor.specialities.collect { it.speciality.name.toLowerCase().capitalize() }
+        d.specialties = doctor.specialities.collect { it.speciality.name.toLowerCase().capitalize() }
       }
       def photoUrl = grailsApplication.config.images.doctors.path?:"/images/doctor/"
       photoUrl= "${photoUrl}${doctor.id}.jpeg"
@@ -94,6 +96,9 @@ class SearchController {
         def val = lab."${name}"
         d."${name}" = val
       }
+      def photoUrl = grailsApplication.config.images.labs.path?:"/images/lab/"
+      photoUrl= "${photoUrl}${lab.id}.jpeg"
+      d.labImageUrl = photoUrl
       return d
     }
     return null
@@ -101,7 +106,7 @@ class SearchController {
 
   def listHospitalSpecialities(SearchCommand cmd){
     cmd.location = cmd.location?:'Hyderabad'
-    def specialities = Hospital.createCriteria().list{
+    def specialties = Hospital.createCriteria().list{
       if(cmd.hospital) {
         ilike('name', "%${cmd.hospital}%")
       }
@@ -112,7 +117,7 @@ class SearchController {
       it.specialists?.tokenize(',')*.toLowerCase()*.trim()*.capitalize()
     }.flatten().grep().unique().sort()
 
-    respond (location: cmd.location, hospital: cmd.hospital, specialities: specialities)
+    respond (location: cmd.location, hospital: cmd.hospital, specialties: specialties)
   }
 
   def searchDoctor(SearchCommand cmd) {
@@ -140,7 +145,7 @@ class SearchController {
     doctors:doctors)
   }
 
-  def listTestAndLabsNames(){
+  def listTestAndLabsNames(SearchCommand cmd){
     def tests = LabPackageTest.createCriteria().list{ createAlias('test', 't')
       projections {
         distinct 't.name'
@@ -152,7 +157,7 @@ class SearchController {
         distinct 'l.name'
       }
     }*.toLowerCase()*.capitalize().sort()
-    respond (tests: tests, labs:labs)
+    respond (location:cmd.location, tests: tests, labs:labs)
   }
 
   def listLabsForTest(SearchCommand cmd){
@@ -166,7 +171,7 @@ class SearchController {
         ilike('t.name', cmd.testName)
     }.unique()*.toLowerCase()*.capitalize()
 
-    respond( testName :cmd.testName, labs: labs )
+    respond( testName :cmd.testName, location:cmd.location, labs: labs )
   }
 
   def listTestInLab(SearchCommand cmd){
@@ -180,13 +185,13 @@ class SearchController {
         ilike('l.name', cmd.labName)
     }.unique()*.toLowerCase()*.capitalize().sort()
 
-    respond( labName :cmd.labName, tests: tests )
+    respond( labName :cmd.labName, location:cmd.location, tests: tests )
 
   }
   def listLabs(SearchCommand cmd){
     def labs = LabPackageTest.createCriteria().list{
       createAlias('test', 't')
-      createAlias('lab', 'b')
+      createAlias('lab', 'l')
       projections {
         distinct 'lab'
       }
@@ -196,7 +201,7 @@ class SearchController {
         ilike('l.name', cmd.labName)
 
     }.collect { transformObject(Lab, LabMini, it)}
-    respond( testName :cmd.testName, labs: labs )
+    respond( testName :cmd.testName, labName:cmd.labName, location:cmd.location, labs: labs )
   }
 
 

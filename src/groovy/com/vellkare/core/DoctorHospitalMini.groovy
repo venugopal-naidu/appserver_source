@@ -25,6 +25,6 @@ class DoctorHospitalMini {
   String language
   String photoUrl
   Set<HospitalAvailabilityMini> hospitals
-  Set <String> specialities
+  Set <String> specialties
 
 }

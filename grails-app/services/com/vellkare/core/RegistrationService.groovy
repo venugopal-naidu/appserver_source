@@ -28,10 +28,9 @@ class RegistrationService {
   def sendVerificationEmail(Registration registration){
     def cfg = grailsApplication.config
     String verificationLink = "${cfg.grails.serverURL}${cfg.registration.verification.verifyController}?uuid=${registration.uuid}"
-    if (grailsApplication.config.registration.verification.email) {
+    if (grailsApplication.config.app.emails.otpVerification) {
       mailService.sendMail {
         to registration.email
-        from grailsApplication.config.registration.verification.from
         subject 'verification email'
         def bodyArgs = [view: '/emails/registration/verification',
                         model: [registration: registration, verificationLink: verificationLink]]
@@ -48,7 +47,7 @@ class RegistrationService {
   }
 
   private void generateOTP(Registration registration){
-    def otpSize = grailsApplication.config.grailsApplication.config.registration.verification.otpSize?:8
+    def otpSize = grailsApplication.config.verification.otp.size?:8
     RandomDataGenerator rdg = new RandomDataGenerator()
     registration.verificationCode = rdg.nextSecureHexString(otpSize)
   }

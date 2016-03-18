@@ -62,12 +62,13 @@ class UrlMappings {
 
     "/api/$namespace/registration/create"(controller: 'registration', action: 'register')
     "/api/$namespace/registration/verifyUid"(controller: 'registration', action: 'verifyUid')
+    "/api/$namespace/registration/confirm"(controller: 'registration', action: 'confirmRegistration')
 
     "/api/$namespace/search/doctor"(controller: 'search', action: 'searchDoctor') {}
-    "/api/$namespace/search/specialitiesAndHospitals"(controller: 'search', action: 'listSpecialitiesAndHospitals') {}
+    "/api/$namespace/search/specialtiesAndHospitals"(controller: 'search', action: 'listSpecialitiesAndHospitals') {}
     "/api/$namespace/search/hospitals"(controller: 'search', action: 'listHospitals') {}
     "/api/$namespace/search/hospitalNames"(controller: 'search', action: 'listHospitalsNames') {}
-    "/api/$namespace/search/hospital/specialities"(controller: 'search', action: 'listHospitalSpecialities') {}
+    "/api/$namespace/search/hospital/specialties"(controller: 'search', action: 'listHospitalSpecialities') {}
     "/api/$namespace/search/lab/testsAndLabs"(controller: 'search', action: 'listTestAndLabsNames') {}
     "/api/$namespace/search/lab/listLabNames"(controller: 'search', action: 'listLabsForTest') {}
     "/api/$namespace/search/lab/listTests"(controller: 'search', action: 'listTestInLab') {}
