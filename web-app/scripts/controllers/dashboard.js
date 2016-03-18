@@ -13,8 +13,8 @@ app
     /* Declare and Init scope variables */
     $scope.doctorsList = [];
     $scope.labsList = [];
-    $scope.specialities = [];
-    $scope.speciality = {};
+    $scope.specialties = [];
+    $scope.specialty = {};
     $scope.hospitals = [];
     $scope.hospital = {};
     $scope.tests = [];
@@ -38,12 +38,12 @@ app
 
     };
 
-    $scope.specialityChanged = function(speciality){
-      $scope.getHospitals(speciality);
+    $scope.specialtyChanged = function(specialty){
+      $scope.getHospitals(specialty);
     };
 
     $scope.hospitalChanged = function(hospital){
-      $scope.getSpecialities(hospital);
+      $scope.getspecialties(hospital);
     };
 
     $scope.testChanged = function(testName){
@@ -60,15 +60,16 @@ app
     $scope.findDoctor = function(){
       $scope.searchStarted = true;
       var url = ajax_url_prefix + 'search/doctor';
-      var dataToSend = { "location": 'Hyderabad', "speciality": $scope.speciality.selected ,"hospital": $scope.hospital.selected };
+      var dataToSend = { "location": 'Hyderabad', "specialty": $scope.specialty.selected ,"hospital": $scope.hospital.selected };
       $http.post(url,dataToSend).success(function(data){
         $scope.doctorsList = data.doctors;
       });
     };
 
     $scope.clearDoctorsResult = function(){
+      $scope.getspecialtiesAndHospitals();
       $scope.doctorsList = [];
-      $scope.speciality.selected = null;
+      $scope.specialty.selected = null;
       $scope.hospital.selected = null;
     };
 
@@ -80,6 +81,7 @@ app
       });
     };
     $scope.clearLabsResult = function(){
+      $scope.getTestsAndLabs();
       $scope.labsList = [];
       $scope.test.selected = null;
       $scope.lab.selected = null;
@@ -97,25 +99,26 @@ app
 
     /* Snippets for all ajax calls */
 
-    $scope.getSpecialitiesAndHospitals = function(){
+    $scope.getspecialtiesAndHospitals = function(){
       var location = 'Hyderabad';
       var url = ajax_url_prefix + 'search/specialitiesAndHospitals?location='+location;
        $http.get(url).success(function(data){
-         $scope.specialities = data.specialties;
+         $scope.specialties = data.specialties;
          $scope.hospitals = data.hospitals;
        });
     };
 
-    $scope.getSpecialities = function(hospital){
+    $scope.getspecialties = function(hospital){
+      var location = 'Hyderabad';
       var url = ajax_url_prefix + 'search/hospital/specialities?location='+location+'&hospital='+hospital;
       $http.get(url).success(function(data){
-        $scope.specialities = data.specialities;
+        $scope.specialties = data.specialties;
       });
     };
 
-    $scope.getHospitals = function(speciality){
+    $scope.getHospitals = function(specialty){
       var location = 'Hyderabad';
-      var url = ajax_url_prefix + 'search/hospitalNames?location='+location+'&speciality='+speciality;
+      var url = ajax_url_prefix + 'search/hospitalNames?location='+location+'&specialty='+specialty;
       $http.get(url).success(function(data){
         $scope.hospitals = data.hospitals;
       });
@@ -150,8 +153,8 @@ app
 
     /* Handle clear selected options for all drop downs */
 
-    $scope.clearSelectedSpeciality = function($event) {
-      $scope.speciality.selected = null;
+    $scope.clearSelectedspecialty = function($event) {
+      $scope.specialty.selected = null;
       $event.preventDefault();
       $event.stopPropagation();
     };
@@ -204,7 +207,7 @@ app
 
     /* On load calls */
     $scope.getTestsAndLabs();
-    $scope.getSpecialitiesAndHospitals();
+    $scope.getspecialtiesAndHospitals();
 
 
 
