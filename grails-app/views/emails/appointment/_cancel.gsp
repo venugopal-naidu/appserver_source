@@ -1,0 +1,1 @@
+You appointment with Doctor on the scheduled for the date is cancelled !!

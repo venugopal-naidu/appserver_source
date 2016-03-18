@@ -9,7 +9,6 @@ class SearchController {
 
   static namespace = 'v0'
   static responseFormats = ['json', 'xml']
-  static allowedMethods = [categories: 'GET', list: 'POST']
 
   def memberService
   def securityService

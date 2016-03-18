@@ -321,16 +321,16 @@ grails.client.config.clientId = 'vellkare-client'
 
 app {
   emails {
-    welcome: true
-    otpVerification: true
-    newAppointment: true
-    appointmentCanceled: true
-    approvedAppointment: true
+    welcome = true
+    otpVerification = true
+    newAppointment = true
+    cancelAppointment = true
+    confirmAppointment = true
 
   }
   sms{
-    welcome: false
-    otpVerification: false
+    welcome = false
+    otpVerification = false
   }
 }
 
