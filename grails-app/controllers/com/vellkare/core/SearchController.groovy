@@ -168,7 +168,7 @@ class SearchController {
         property 'l.name'
       }
       if(cmd.testName)
-        ilike('t.name', cmd.testName)
+        ilike('t.name', "%${cmd.testName}%")
     }.unique()*.toLowerCase()*.capitalize()
 
     respond( testName :cmd.testName, location:cmd.location, labs: labs )
@@ -182,7 +182,7 @@ class SearchController {
         property 't.name'
       }
       if(cmd.labName)
-        ilike('l.name', cmd.labName)
+        ilike('l.name', "%${cmd.labName}%")
     }.unique()*.toLowerCase()*.capitalize().sort()
 
     respond( labName :cmd.labName, location:cmd.location, tests: tests )
@@ -196,9 +196,9 @@ class SearchController {
         distinct 'lab'
       }
       if(cmd.testName)
-        ilike('t.name', cmd.testName)
+        ilike('t.name', "%${cmd.testName}%")
       if(cmd.labName)
-        ilike('l.name', cmd.labName)
+        ilike('l.name', "%${cmd.labName}%")
 
     }.collect { transformObject(Lab, LabMini, it)}
     respond( testName :cmd.testName, labName:cmd.labName, location:cmd.location, labs: labs )
