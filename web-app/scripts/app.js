@@ -173,12 +173,7 @@ var app = angular
           }]
         }
       })
-      //calendar
-      .state('app.calendar', {
-        url: '/calendar',
-        controller: 'CalendarCtrl',
-        templateUrl: 'views/tmpl/calendar.html'
-      })
+
       //Custom
       .state('app.custom', {
         url: '/custom',
@@ -188,7 +183,7 @@ var app = angular
       .state('app.custom.myrecords', {
         url: '/myrecords',
         controller: 'MyHealthRecordsCtrl',
-        templateUrl: 'views/tmpl/custom/myrecords.html',
+        templateUrl: 'views/tmpl/custom/myRecords.html',
         resolve: {
           plugins: ['$ocLazyLoad', function($ocLazyLoad) {
             return $ocLazyLoad.load([
@@ -203,6 +198,12 @@ var app = angular
         controller: 'ConfirmAppointmentCtrl',
         templateUrl: 'views/tmpl/custom/confirmAppointment.html'
       })
+      //My appointments
+        .state('app.custom.myAppointments', {
+            url: '/myAppointments',
+            controller: 'MyAppointmentsCtrl',
+            templateUrl: 'views/tmpl/custom/myAppointments.html'
+        })
       //Confirm OTP
       .state('core.confirmOTP', {
         url: '/confirmOTP',
