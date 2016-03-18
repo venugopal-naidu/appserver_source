@@ -206,7 +206,7 @@ var app = angular
         })
       //Confirm OTP
       .state('core.confirmOTP', {
-        url: '/confirmOTP',
+        url: '/confirmOTP/:uid',
         controller: 'ConfirmOTPCtrl',
         templateUrl: 'views/tmpl/pages/confirmOTP.html'
       })
