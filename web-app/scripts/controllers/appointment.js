@@ -45,7 +45,7 @@ app
     $scope.selectedDoctor = {
       name: 'Dr. Satyanath R V',
       degree : 'M.D.',
-      specialities : 'Dermatology, General Medicine',
+      specialties : 'Dermatology, General Medicine',
       hospitals: [
         {
           name: 'Continental Hospitals',

@@ -15,6 +15,12 @@ class UrlMappings {
     "/api/$namespace/users/signup"(controller: 'user') {
       action = [POST: "create"]
     }
+
+    "/api/$namespace/users/signupCSR"(controller: 'user') {
+      action = [POST: "createCSR"]
+    }
+
+
     "/api/$namespace/users/$id"(controller: 'user') {
       constraints {
         id(matches: /[0-9]*/)
@@ -74,7 +80,10 @@ class UrlMappings {
     "/api/$namespace/search/lab/listTests"(controller: 'search', action: 'listTestInLab') {}
     "/api/$namespace/search/lab/listLabs"(controller: 'search', action: 'listLabs') {}
 
-
+    "/api/$namespace/appointment/create"(controller: 'appointment', action: 'makeAnAppointment') {}
+    "/api/$namespace/appointment/cancel/$appointmentId"(controller: 'appointment', action: 'cancelAppointment') {}
+    "/api/$namespace/appointment/confirm/$appointmentId"(controller: 'appointment', action: 'confirmAppointment') {}
+    "/api/$namespace/appointment/list"(controller: 'appointment', action: 'listAppointments') {}
 
 
     "/api/$namespace/doctor/$action"(controller: 'doctor') {}
