@@ -10,6 +10,8 @@
 app
   .controller('DashboardCtrl', function($scope,$http,$mdBottomSheet,$window){
 
+    $scope.$parent.setUser();
+
     /* Declare and Init scope variables */
     $scope.doctorsList = [];
     $scope.labsList = [];
