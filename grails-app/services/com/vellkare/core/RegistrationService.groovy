@@ -30,7 +30,7 @@ class RegistrationService {
     String verificationLink = "${cfg.grails.serverURL}${cfg.registration.verification.verifyController}?uuid=${registration.uuid}"
     if (grailsApplication.config.app.emails.otpVerification) {
       mailService.sendMail {
-        to registration.email
+        to  cfg.grails?.email?.mock?.toAddress?:registration.email
         subject 'verification email'
         def bodyArgs = [view: '/emails/registration/verification',
                         model: [registration: registration, verificationLink: verificationLink]]

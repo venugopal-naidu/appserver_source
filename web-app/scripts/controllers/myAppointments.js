@@ -2,11 +2,22 @@
  * Created by VijayaMachavolu on 11/03/16.
  */
 app
-    .controller('MyAppointmentsCtrl', function ($scope, $uibModal) {
+    .controller('MyAppointmentsCtrl', function ($scope, $uibModal, $window, $http) {
     $scope.upcomingAppointments;
     $scope.pastAppointments;
+    $scope.accessToken = $window.localStorage.accessToken;
+    $scope.tokenType = $window.localStorage.tokenType;
+    $scope.getMyAppointments = function(){
+      var url = ajax_url_prefix + 'appointment/list';
+      $http.get(url,{
+        headers: {'Authorization': $scope.tokenType + ' '+ $scope.accessToken}
+      }).then(function(response){
+        $scope.upcomingAppointments = response.data.upcoming;
+        $scope.pastAppointments = response.data.past;
+      });
+    };
 
-    $scope.upcomingAppointments = [
+    /*$scope.upcomingAppointments = [
         {row:[
             {
             id: 23,
@@ -72,7 +83,7 @@ app
                 recordsUploaded: false
             }
         ]}
-    ];
+    ];*/
   /*      row: {appointments:
             [{
                 id: 21,
@@ -139,6 +150,7 @@ app
             });
         };
 
+      $scope.getMyAppointments();
     })
     .controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, modalInput) {
         $scope.recordType= {};
