@@ -41,6 +41,8 @@ class MemberService {
       email: registration.email, primaryPhone: registration.phoneNumber)
     m.registration= registration
     m.save(failOnError: true, flush: true)
+    registration.verificationSuccessful(true,true) // setting both verification as true as the otp is save in both the cases
+    m.addToRoles(MemberRole.create(m, Role.findByAuthority(Role.Authority.ROLE_USER)))
 
     if (grailsApplication.config.app?.emails?.welcome && m.email) {
       mailService.sendMail {
@@ -51,6 +53,7 @@ class MemberService {
         html(mailHtml)
       }
     }
+
     return m
   }
 
