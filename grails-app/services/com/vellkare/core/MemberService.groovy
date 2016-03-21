@@ -51,6 +51,7 @@ class MemberService {
         html(mailHtml)
       }
     }
+    return m
   }
 
   @Transactional
