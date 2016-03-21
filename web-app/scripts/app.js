@@ -102,7 +102,7 @@ var app = angular
 
   .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
-    $urlRouterProvider.otherwise('/app/dashboard');
+    $urlRouterProvider.otherwise('/app_nl/home');
 
     $stateProvider
 

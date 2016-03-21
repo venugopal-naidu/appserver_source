@@ -9,7 +9,8 @@
  */
 app
   .controller('MainCtrl', function ($scope, $http, $translate, $window, $state) {
-
+    $scope.isUserLoggedIn = $window.localStorage.isUserLoggedIn;
+    $scope.user = null;
     $scope.main = {
       title: 'Velkare',
       settings: {
@@ -22,15 +23,6 @@ app
         rightbarShow: false
       }
     };
-
-    $scope.user = {
-      firstName : $window.localStorage.firstName,
-      lastName : $window.localStorage.lastName,
-      email: $window.localStorage.email,
-      primaryPhone: $window.localStorage.primaryPhone,
-      userId : $window.localStorage.userId
-    };
-
     var url_get ='http://183.82.103.141:8080/vellkare/api/v0/users/7';
     $http.jsonp(url_get).success(function(data){
       $scope.data=data;
@@ -54,7 +46,7 @@ app
     $scope.currentLanguage = $translate.proposedLanguage() || $translate.use();
 
     $scope.lgout = function(){
-      $state.go('core.login');
+      $window.localStorage.isUserLoggedIn =  false;
       // Clear access Token from Local storage
       $window.localStorage.accessToken = null;
       $window.localStorage.expiresIn = null;
@@ -67,5 +59,24 @@ app
       $window.localStorage.email = null;
       $window.localStorage.primaryPhone = null;
       $window.localStorage.userId = null;
+
+      $state.go('core.login');
+    };
+
+    $scope.setUser = function(){
+      $scope.user = {
+        firstName : $window.localStorage.firstName,
+        lastName : $window.localStorage.lastName,
+        email: $window.localStorage.email,
+        primaryPhone: $window.localStorage.primaryPhone,
+        userId : $window.localStorage.userId
+      };
+    };
+    $scope.getUser = function(){
+      return $scope.user;
+    };
+
+    if($scope.isUserLoggedIn){
+      $scope.setUser();
     }
   });

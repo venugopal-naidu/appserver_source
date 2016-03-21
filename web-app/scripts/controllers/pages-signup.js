@@ -80,7 +80,7 @@ app.controller('SignupCtrl', function ($scope, $state, $http, $window, $location
       var url = ajax_url_prefix + 'registration/confirm';
       $http.post(url,dataToSend).then(
         function(response){
-
+          $window.localStorage.isUserLoggedIn =  true;
           // Store access Token into Local storage
           $window.localStorage.accessToken = response.data.token['access_token'];
           $window.localStorage.expiresIn = response.data.token['expires_in'];
