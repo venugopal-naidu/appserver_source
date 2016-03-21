@@ -8,10 +8,16 @@
     <form name="form" class="form-validation mt-20" novalidate>
       <div class="form-group">
         <input type="text" name="username" class="form-control underline-input" placeholder="User Name" ng-model="username" required>
+        <p class="help-block text-left">
+          <span ng-show="userNameError != null" class="text-danger">{{ userNameError }}</span>
+        </p>
       </div>
 
       <div class="form-group">
         <input type="password" name="password" placeholder="Password" class="form-control underline-input" ng-model="password" required>
+        <p class="help-block text-left">
+          <span ng-show="passwordError != null" class="text-danger">{{ passwordError }}</span>
+        </p>
       </div>
 
 

@@ -64,7 +64,7 @@ app
       $window.localStorage.removeItem('selectedDoctor');
       $window.localStorage.removeItem('selectedLab');
 
-      $state.go('app.calendar');
+      $state.go('app.custom.myAppointments');
 
       /* var dataToSend = {
        "clientId":"vellkare-client",

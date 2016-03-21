@@ -8,8 +8,9 @@
  * Controller of the minovateApp
  */
 app
-  .controller('MainCtrl', function ($scope, $http, $translate) {
-
+  .controller('MainCtrl', function ($scope, $http, $translate, $window, $state) {
+    $scope.isUserLoggedIn = $window.localStorage.isUserLoggedIn;
+    $scope.user = null;
     $scope.main = {
       title: 'Velkare',
       settings: {
@@ -20,14 +21,13 @@ app
         headerFixed: true,
         asideFixed: true,
         rightbarShow: false
-      },
-        name: 'Vijaya M',
+      }
     };
-      var url_get ='http://183.82.103.141:8080/vellkare/api/v0/users/7';
-      $http.jsonp(url_get).success(function(data){
-          $scope.data=data;
-          //angular.element('.tile.refreshing').removeClass('refreshing');
-      });
+    var url_get ='http://183.82.103.141:8080/vellkare/api/v0/users/7';
+    $http.jsonp(url_get).success(function(data){
+      $scope.data=data;
+      //angular.element('.tile.refreshing').removeClass('refreshing');
+    });
 
     $scope.ajaxFaker = function(){
       $scope.data=[];
@@ -44,4 +44,39 @@ app
       $scope.currentLanguage = langKey;
     };
     $scope.currentLanguage = $translate.proposedLanguage() || $translate.use();
+
+    $scope.lgout = function(){
+      $window.localStorage.isUserLoggedIn =  false;
+      // Clear access Token from Local storage
+      $window.localStorage.accessToken = null;
+      $window.localStorage.expiresIn = null;
+      $window.localStorage.refreshToken = null;
+      $window.localStorage.tokenType = null;
+      $window.localStorage.scope = null;
+      // Clear user info from Local storage
+      $window.localStorage.firstName = null;
+      $window.localStorage.lastName = null;
+      $window.localStorage.email = null;
+      $window.localStorage.primaryPhone = null;
+      $window.localStorage.userId = null;
+
+      $state.go('core.login');
+    };
+
+    $scope.setUser = function(){
+      $scope.user = {
+        firstName : $window.localStorage.firstName,
+        lastName : $window.localStorage.lastName,
+        email: $window.localStorage.email,
+        primaryPhone: $window.localStorage.primaryPhone,
+        userId : $window.localStorage.userId
+      };
+    };
+    $scope.getUser = function(){
+      return $scope.user;
+    };
+
+    if($scope.isUserLoggedIn){
+      $scope.setUser();
+    }
   });
