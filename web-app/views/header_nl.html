@@ -10,7 +10,7 @@
   <!-- Branding end -->
 
   <!-- Right-side navigation -->
-  <ul class="nav-right pull-right list-inline" ng-if="userId == null">
+  <ul class="nav-right pull-right list-inline" ng-if="user.userId == 'null' || user.userId == ''">
     <li class="dropdown nav-profile" uib-dropdown>
       <a class="btn pull-left" ui-sref="core.signup"><b>SIGN UP</b></a>
       </li>
@@ -22,23 +22,23 @@
   <!-- Right-side navigation end -->
 
   <!-- Right-side navigation -->
-  <ul class="nav-right pull-right list-inline" ng-if="userId != null">
+  <ul class="nav-right pull-right list-inline" ng-if="user.userId != 'null'">
 
     <li class="dropdown nav-profile" uib-dropdown>
 
       <a href class="dropdown-toggle" uib-dropdown-toggle>
         <!--<img src="images/profile-photo.jpg" alt="" class="img-circle size-30x30">-->
-        <span>{{ main.name }} <fa name="angle-down"></fa></span>
+        <span>{{ user.firstName }} {{ user.lastName }} <fa name="angle-down"></fa></span>
       </a>
 
       <ul class="dropdown-menu animated littleFadeInRight" role="menu">
         <li>
-          <a href="#">
+          <a ui-sref="app.dashboard">
             <fa name="user"></fa>Dashboard
           </a>
         </li>
         <li>
-          <a href="#">
+          <a href="#" ng-click="lgout()">
             <fa name="sign-out"></fa>Logout
           </a>
         </li>
