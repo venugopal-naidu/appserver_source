@@ -23,6 +23,7 @@ app
     $scope.test = {};
     $scope.labs = [];
     $scope.lab = {};
+    $scope.appUrl = appUrl;
 
     $scope.searchTypes = [
       {id: 1, name: 'Doctor'},
