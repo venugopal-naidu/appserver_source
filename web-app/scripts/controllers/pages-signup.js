@@ -80,7 +80,20 @@ app.controller('SignupCtrl', function ($scope, $state, $http, $window, $location
       var url = ajax_url_prefix + 'registration/confirm';
       $http.post(url,dataToSend).then(
         function(response){
-          //$window.localStorage['jwtToken'] = response.data.token;
+
+          // Store access Token into Local storage
+          $window.localStorage.accessToken = response.data.token['access_token'];
+          $window.localStorage.expiresIn = response.data.token['expires_in'];
+          $window.localStorage.refreshToken = response.data.token['refresh_token'];
+          $window.localStorage.tokenType = response.data.token['token_type'];
+          $window.localStorage.scope = response.data.token['scope'];
+          // Store user info into Local storage
+          $window.localStorage.firstName = response.data.member['firstName'];
+          $window.localStorage.lastName = response.data.member['lastName'];
+          $window.localStorage.email = response.data.member['email'];
+          $window.localStorage.primaryPhone = response.data.member['primaryPhone'];
+          $window.localStorage.userId = response.data.member['id'];
+
           if($scope.isAppointmentSelected){
             $state.go('app.custom.confirmAppointment');
           }else {

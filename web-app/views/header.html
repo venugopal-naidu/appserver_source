@@ -22,7 +22,7 @@
 
       <a href class="dropdown-toggle" uib-dropdown-toggle>
         <!--<img src="images/profile-photo.jpg" alt="" class="img-circle size-30x30">-->
-        <span>{{ main.name }} <fa name="angle-down"></fa></span>
+        <span>{{ user.firstName }} {{ user.lastName }}<fa name="angle-down"></fa></span>
       </a>
 
       <ul class="dropdown-menu animated littleFadeInRight" role="menu">
@@ -32,7 +32,7 @@
           </a>
         </li>
         <li>
-          <a href="#">
+          <a href="#" ng-click="lgout()">
             <fa name="sign-out"></fa>Logout
           </a>
         </li>
