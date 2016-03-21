@@ -338,3 +338,5 @@ verification.otp.size=10
 
 images.doctors.path='/images/doctor/'
 images.labs.path='/images/lab/'
+
+grails.config.locations = ["file:/opt/tomcat/conf/velkare-config.groovy"]
