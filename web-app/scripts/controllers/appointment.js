@@ -17,7 +17,7 @@ app
       if($window.localStorage.isUserLoggedIn == 'true'){
         $state.go('app.custom.confirmAppointment');
       }else {
-        $state.go('core.login');
+        $state.go('site.login');
       }
 
     };
