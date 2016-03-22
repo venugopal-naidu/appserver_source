@@ -10,6 +10,8 @@
 app
   .controller('DashboardCtrl', function($scope,$http,$mdBottomSheet,$window){
 
+    $scope.$parent.setUser();
+
     /* Declare and Init scope variables */
     $scope.doctorsList = [];
     $scope.labsList = [];
@@ -21,6 +23,7 @@ app
     $scope.test = {};
     $scope.labs = [];
     $scope.lab = {};
+    $scope.appUrl = appUrl;
 
     $scope.searchTypes = [
       {id: 1, name: 'Doctor'},
@@ -189,6 +192,7 @@ app
       $window.localStorage.selectedAppointment = 'Doctor';
       // Save doctor data to local storage
       $window.localStorage.selectedDoctor = doctor.id;
+      $window.localStorage.selectedHospital = doctor.hospitals[0].id;
     };
 
 

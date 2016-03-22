@@ -13,8 +13,13 @@ app
     $scope.bookAppointment = function( date, jsEvent, view ){
       $window.localStorage.appointmentDate = date;
       $window.localStorage.setItem('isAppointmentSelected', true);
-      // If not authenticated user redirect to login page
-      $state.go('core.login');
+      // If not authenticated, redirect to login page
+      if($window.localStorage.isUserLoggedIn == 'true'){
+        $state.go('app.custom.confirmAppointment');
+      }else {
+        $state.go('core.login');
+      }
+
     };
     $scope.eventSources = [];
 
@@ -39,7 +44,7 @@ app
     };
 
   })
-  .controller('ConfirmAppointmentCtrl', function ($scope,$compile,uiCalendarConfig, $state,$window) {
+  .controller('ConfirmAppointmentCtrl', function ($scope, $compile, uiCalendarConfig, $state, $window, $http) {
 
     $scope.selectedAppointment = $window.localStorage.selectedAppointment;
     $scope.selectedDoctor = {
@@ -59,30 +64,30 @@ app
       name: 'VIJAYA DIAGNOSTIC CENTER'
     };
     $scope.confirmAppointment = function() {
-      $window.localStorage.removeItem('isAppointmentSelected');
-      $window.localStorage.removeItem('appointmentDate');
-      $window.localStorage.removeItem('selectedDoctor');
-      $window.localStorage.removeItem('selectedLab');
+      $scope.accessToken = $window.localStorage.accessToken;
+      $scope.tokenType = $window.localStorage.tokenType;
+      var url = ajax_url_prefix + 'appointment/create';
+      var dataToSend = {
+        "fromTime":"2016-04-30T10:10:10",
+        "toTime":"2016-04-30T12:10:10",
+        "doctorId": $window.localStorage.selectedDoctor,
+        "hospitalId": $window.localStorage.selectedHospital,
+        "notes": $scope.doctorNotes
+      };
+      $http.post(url,dataToSend,{
+        headers: {'Authorization': $scope.tokenType + ' '+ $scope.accessToken}
+      }).then(function(response){
 
-      $state.go('app.custom.myAppointments');
+        $window.localStorage.removeItem('isAppointmentSelected');
+        $window.localStorage.removeItem('appointmentDate');
+        $window.localStorage.removeItem('selectedDoctor');
+        $window.localStorage.removeItem('selectedLab');
+        $window.localStorage.removeItem('selectedDoctor');
+        $window.localStorage.removeItem('selectedHospital');
 
-      /* var dataToSend = {
-       "clientId":"vellkare-client",
-       "username":$scope.username,
-       "password":$scope.password
-       };
-       $http.post('http://183.82.103.141:8080/vellkare/api/v0/auth/login',dataToSend).success(function(data, status){
-       $window.localStorage['jwtToken'] = token;
-       if($scope.isAppointmentSelected){
-       $state.go('app.custom.confirmAppointment');
-       }else {
-       $state.go('app.dashboard');
-       }
-       }).error(function (data){
-       alert("something went wrong");
-       });*/
+        $state.go('app.custom.myAppointments');
+      },function (data){
+        alert("something went wrong");
+      });
     };
-
-
-
   });
