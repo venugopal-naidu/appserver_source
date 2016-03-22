@@ -192,6 +192,7 @@ app
       $window.localStorage.selectedAppointment = 'Doctor';
       // Save doctor data to local storage
       $window.localStorage.selectedDoctor = doctor.id;
+      $window.localStorage.selectedHospital = doctor.hospitals[0].id;
     };
 
 
