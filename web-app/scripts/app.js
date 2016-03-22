@@ -117,37 +117,37 @@ var app = angular
             templateUrl: 'views/app_nl.html'
         })
       //app core pages (errors, login,signup)
-      .state('core', {
+      .state('site', {
         abstract: true,
-        url: '/core',
+        url: '/site',
         template: '<div ui-view></div>'
       })
       //login
-      .state('core.login', {
+      .state('site.login', {
         url: '/login',
         controller: 'LoginCtrl',
         templateUrl: 'views/site/login.html'
       })
       //signup
-      .state('core.signup', {
+      .state('site.signup', {
         url: '/signup',
         controller: 'SignupCtrl',
         templateUrl: 'views/site/signup.html'
       })
       //Confirm OTP
-        .state('core.confirmOTP', {
+        .state('site.confirmOTP', {
             url: '/confirmOTP/:uid',
             controller: 'ConfirmOTPCtrl',
             templateUrl: 'views/site/confirmOTP.html'
         })
       //forgot password
-      .state('core.forgotpass', {
+      .state('site.forgotpass', {
         url: '/forgotpass',
         controller: 'ForgotPasswordCtrl',
         templateUrl: 'views/site/forgotpass.html'
       })
       //page 404
-      .state('core.page404', {
+      .state('site.page404', {
         url: '/page404',
         templateUrl: 'views/site/page404.html'
       })
@@ -188,24 +188,20 @@ var app = angular
         })
         //Confirm Appointment
         .state('app.appointment.confirmAppointment', {
-            url: '/appointment/confirm-appointment',
+            url: '/confirm-appointment',
             controller: 'ConfirmAppointmentCtrl',
             templateUrl: 'views/appointment/confirmAppointment.html'
         })
 
 
       //Record related pages
-        .state('app.record', {
+        .state('record', {
             url: '/record',
             template: '<div ui-view></div>'
         })
         //Logged in user pages
-        .state('app.user', {
-            url: '/user',
-            template: '<div ui-view></div>'
-        })
         //Dashboard
-        .state('app.user.dashboard', {
+        .state('app.dashboard', {
             url: '/dashboard',
             controller: 'DashboardCtrl',
             templateUrl: 'views/user/dashboard.html',
@@ -219,13 +215,13 @@ var app = angular
             }
         })
         //My appointments
-        .state('app.user.myAppointments', {
+        .state('app.myAppointments', {
             url: '/myAppointments',
             controller: 'MyAppointmentsCtrl',
             templateUrl: 'views/user/myAppointments.html'
         })
       //My Records page
-      .state('app.user.myRecords', {
+      .state('app.myRecords', {
         url: '/myRecords',
         controller: 'MyHealthRecordsCtrl',
         templateUrl: 'views/user/myRecords.html',

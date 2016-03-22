@@ -52,7 +52,7 @@ app
         $window.localStorage.userId = response.data.member['id'];
 
         if($scope.isAppointmentSelected){
-          $state.go('app.custom.confirmAppointment');
+          $state.go('app.appointment.confirmAppointment');
         }else {
           $state.go('app.dashboard');
         }

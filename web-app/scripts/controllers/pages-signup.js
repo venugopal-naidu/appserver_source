@@ -26,7 +26,7 @@ app.controller('SignupCtrl', function ($scope, $state, $http, $window, $location
         function(response){
           if(response.data != null){
             if(response.data['registration'] == 'success' && response.data['uid'] != null){
-              $state.go('core.confirmOTP', { uid: response.data['uid'] });
+              $state.go('site.confirmOTP', { uid: response.data['uid'] });
             }
           }
         },function (response){
@@ -97,7 +97,7 @@ app.controller('SignupCtrl', function ($scope, $state, $http, $window, $location
           if($scope.isAppointmentSelected){
             $state.go('app.appointment.confirmAppointment');
           }else {
-            $state.go('app.user.dashboard');
+            $state.go('app.dashboard');
           }
         },function (data){
           alert("something went wrong");
@@ -112,7 +112,7 @@ app.controller('SignupCtrl', function ($scope, $state, $http, $window, $location
           if(!$scope.isUserRegistered){
             $scope.showSetPassword = true;
           }else {
-            $state.go('core.login');
+            $state.go('site.login');
           }
         }else {
           $scope.showSetPassword = false;

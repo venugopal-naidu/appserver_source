@@ -38,7 +38,7 @@ app
       $window.localStorage.primaryPhone = null;
       $window.localStorage.userId = null;
 
-      $state.go('core.login');
+      $state.go('site.login');
     };
 
     $scope.setUser = function(){
