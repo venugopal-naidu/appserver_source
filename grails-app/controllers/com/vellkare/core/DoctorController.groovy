@@ -1,5 +1,6 @@
 package com.vellkare.core
 
+import com.vellkare.util.BeanUtil
 import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 import grails.transaction.Transactional
@@ -42,7 +43,7 @@ class DoctorController {
   }
   def show(Long id) {
     def doctorInstance = Doctor.get(id)
-    respond doctorInstance
+    respond BeanUtil.transformObject(doctorInstance.class, DoctorHospitalMini ,doctorInstance)
   }
   def edit(Long id) {
     def personInstance = Doctor.get(id)

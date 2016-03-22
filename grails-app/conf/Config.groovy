@@ -344,3 +344,6 @@ images.labs.path='/images/lab/'
 grails.config.locations = ["file:/opt/tomcat/conf/velkare-config.groovy"]
 
 grails.email.mock.toAddress="vellkare.dev@gmail.com"
+
+grails.plugin.console.enabled=true
+

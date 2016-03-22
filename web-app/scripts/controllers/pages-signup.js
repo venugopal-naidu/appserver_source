@@ -95,9 +95,9 @@ app.controller('SignupCtrl', function ($scope, $state, $http, $window, $location
           $window.localStorage.userId = response.data.member['id'];
 
           if($scope.isAppointmentSelected){
-            $state.go('app.custom.confirmAppointment');
+            $state.go('app.appointment.confirmAppointment');
           }else {
-            $state.go('app.dashboard');
+            $state.go('app.user.dashboard');
           }
         },function (data){
           alert("something went wrong");

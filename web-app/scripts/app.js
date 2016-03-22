@@ -109,7 +109,7 @@ var app = angular
       .state('app', {
         abstract: true,
         url: '/app',
-        templateUrl: 'views/tmpl/app.html'
+        templateUrl: 'views/app.html'
       })
         .state('app_nl', {
             abstract: true,
@@ -126,30 +126,36 @@ var app = angular
       .state('core.login', {
         url: '/login',
         controller: 'LoginCtrl',
-        templateUrl: 'views/tmpl/pages/login.html'
+        templateUrl: 'views/site/login.html'
       })
       //signup
       .state('core.signup', {
         url: '/signup',
         controller: 'SignupCtrl',
-        templateUrl: 'views/tmpl/pages/signup.html'
+        templateUrl: 'views/site/signup.html'
       })
+      //Confirm OTP
+        .state('core.confirmOTP', {
+            url: '/confirmOTP/:uid',
+            controller: 'ConfirmOTPCtrl',
+            templateUrl: 'views/site/confirmOTP.html'
+        })
       //forgot password
       .state('core.forgotpass', {
         url: '/forgotpass',
         controller: 'ForgotPasswordCtrl',
-        templateUrl: 'views/tmpl/pages/forgotpass.html'
+        templateUrl: 'views/site/forgotpass.html'
       })
       //page 404
       .state('core.page404', {
         url: '/page404',
-        templateUrl: 'views/tmpl/pages/page404.html'
+        templateUrl: 'views/site/page404.html'
       })
       //homepage
         .state('app_nl.home', {
             url: '/home',
             controller: 'DashboardCtrl',
-            templateUrl: 'views/tmpl/dashboard.html',
+            templateUrl: 'views/site/home.html',
             resolve: {
                 plugins: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load([
@@ -159,31 +165,70 @@ var app = angular
                 }]
             }
         })
-      //dashboard
-      .state('app.dashboard', {
-        url: '/dashboard',
-        controller: 'DashboardCtrl',
-        templateUrl: 'views/tmpl/dashboard.html',
-        resolve: {
-          plugins: ['$ocLazyLoad', function($ocLazyLoad) {
-            return $ocLazyLoad.load([
-              'scripts/vendor/datatables/datatables.bootstrap.min.css',
-              'scripts/vendor/datatables/datatables.bootstrap.min.css'
-            ]);
-          }]
-        }
-      })
 
-      //Custom
-      .state('app.custom', {
-        url: '/custom',
+
+      //Appointment related pages
+      .state('app.appointment', {
+        url: '/appointment',
         template: '<div ui-view></div>'
       })
+      //Book an appointment
+        .state('app.appointment.bookAnAppointment', {
+            url: '/bookAnAppointment',
+            controller: 'DashboardCtrl',
+            templateUrl: 'views/appointment/bookAnAppointment.html',
+            resolve: {
+                plugins: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        'scripts/vendor/datatables/datatables.bootstrap.min.css',
+                        'scripts/vendor/datatables/datatables.bootstrap.min.css'
+                    ]);
+                }]
+            }
+        })
+        //Confirm Appointment
+        .state('app.appointment.confirmAppointment', {
+            url: '/appointment/confirm-appointment',
+            controller: 'ConfirmAppointmentCtrl',
+            templateUrl: 'views/appointment/confirmAppointment.html'
+        })
+
+
+      //Record related pages
+        .state('app.record', {
+            url: '/record',
+            template: '<div ui-view></div>'
+        })
+        //Logged in user pages
+        .state('app.user', {
+            url: '/user',
+            template: '<div ui-view></div>'
+        })
+        //Dashboard
+        .state('app.user.dashboard', {
+            url: '/dashboard',
+            controller: 'DashboardCtrl',
+            templateUrl: 'views/user/dashboard.html',
+            resolve: {
+                plugins: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        'scripts/vendor/datatables/datatables.bootstrap.min.css',
+                        'scripts/vendor/datatables/datatables.bootstrap.min.css'
+                    ]);
+                }]
+            }
+        })
+        //My appointments
+        .state('app.user.myAppointments', {
+            url: '/myAppointments',
+            controller: 'MyAppointmentsCtrl',
+            templateUrl: 'views/user/myAppointments.html'
+        })
       //My Records page
-      .state('app.custom.myrecords', {
-        url: '/myrecords',
+      .state('app.user.myRecords', {
+        url: '/myRecords',
         controller: 'MyHealthRecordsCtrl',
-        templateUrl: 'views/tmpl/custom/myRecords.html',
+        templateUrl: 'views/user/myRecords.html',
         resolve: {
           plugins: ['$ocLazyLoad', function($ocLazyLoad) {
             return $ocLazyLoad.load([
@@ -192,24 +237,8 @@ var app = angular
           }]
         }
       })
-      //Confirm Appointment
-      .state('app.custom.confirmAppointment', {
-        url: '/confirm-appointment',
-        controller: 'ConfirmAppointmentCtrl',
-        templateUrl: 'views/tmpl/custom/confirmAppointment.html'
-      })
-      //My appointments
-        .state('app.custom.myAppointments', {
-            url: '/myAppointments',
-            controller: 'MyAppointmentsCtrl',
-            templateUrl: 'views/tmpl/custom/myAppointments.html'
-        })
-      //Confirm OTP
-      .state('core.confirmOTP', {
-        url: '/confirmOTP/:uid',
-        controller: 'ConfirmOTPCtrl',
-        templateUrl: 'views/tmpl/pages/confirmOTP.html'
-      })
+
+
     /*    //mail
      .state('app.mail', {
      abstract: true,
