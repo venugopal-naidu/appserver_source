@@ -52,9 +52,9 @@ app
         $window.localStorage.userId = response.data.member['id'];
 
         if($scope.isAppointmentSelected){
-          $state.go('app.appointment.confirmAppointment',null,{ reload: true });
+          $state.go('app.custom.confirmAppointment');
         }else {
-          $state.go('app.user.dashboard',{},{ reload: true, notify:true });
+          $state.go('app.dashboard');
         }
       },function (response){
         if(response['status'] == 400){

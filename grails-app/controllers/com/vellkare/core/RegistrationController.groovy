@@ -90,8 +90,6 @@ class RegistrationController {
     }
 
     Member m = memberService.createMember(registration, cmd.password)
-    registration.verificationSuccessful(true,true) // setting both verification as true as the otp is save in both the cases
-    m.addToRoles(MemberRole.create(m, Role.findByAuthority(Role.Authority.ROLE_USER)))
 
     OAuth2AccessToken token = securityService.getToken(grailsApplication.config.grails.client.config.clientId,
       "password", m.login.username, cmd.password)

@@ -86,7 +86,7 @@ class UrlMappings {
     "/api/$namespace/appointment/list"(controller: 'appointment', action: 'listAppointments') {}
 
 
-    "/api/$namespace/doctor/$action"(controller: 'doctor') {}
+    "/api/$namespace/doctor/show/$id"(controller: 'doctor', action: 'show') {}
 
 
 
