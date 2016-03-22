@@ -16,14 +16,15 @@ app
     $scope.doctorsList = [];
     $scope.labsList = [];
     $scope.specialties = [];
-    $scope.specialty = {};
+    $scope.specialty = { selected: '' };
     $scope.hospitals = [];
-    $scope.hospital = {};
+    $scope.hospital = {selected: ''};
     $scope.tests = [];
     $scope.test = {};
     $scope.labs = [];
     $scope.lab = {};
     $scope.appUrl = appUrl;
+    $scope.noDoctorsFound = false;
 
     $scope.searchTypes = [
       {id: 1, name: 'Doctor'},
@@ -64,8 +65,16 @@ app
       $scope.searchStarted = true;
       var url = ajax_url_prefix + 'search/doctor';
       var dataToSend = { "location": 'Hyderabad', "specialty": $scope.specialty.selected ,"hospital": $scope.hospital.selected };
-      $http.post(url,dataToSend).success(function(data){
-        $scope.doctorsList = data.doctors;
+      $http.post(url,dataToSend).then(function(response){
+        if(response.data.doctors != null && response.data.doctors.length > 0){
+          $scope.doctorsList = response.data.doctors;
+          $scope.noDoctorsFound = false;
+        }else {
+          $scope.noDoctorsFound = true;
+        }
+
+      },function(response){
+        $scope.noDoctorsFound = true;
       });
     };
 
@@ -182,30 +191,40 @@ app
 
     /* Toggle and render calendar view */
 
-    $scope.showDoctorAppointmentCalendar = function(doctor,index){
-      // Hide all other opened calendars
-      $('.doctorAppointment.collapse').collapse('hide');
-      // Show current calendar
-      $('#doctor_calendar_'+index).collapse('toggle');
-      // Render calendar view for this screen size
-      $('#doctorAppointment_'+index).fullCalendar('render');
-      $window.localStorage.selectedAppointment = 'Doctor';
-      // Save doctor data to local storage
-      $window.localStorage.selectedDoctor = doctor.id;
-      $window.localStorage.selectedHospital = doctor.hospitals[0].id;
+    $scope.showDoctorAppointmentCalendar = function(doctor,index,hospitalId){
+      if(hospitalId != null && doctor.id != null){
+        // Hide all other opened calendars
+        $('.doctorAppointment.collapse').collapse('hide');
+        // Show current calendar
+        $('#doctor_calendar_'+index).collapse('toggle');
+        // Render calendar view for this screen size
+        $('#doctorAppointment_'+index).fullCalendar('render');
+        $window.localStorage.selectedAppointment = 'Doctor';
+        // Save doctor data to local storage
+        $window.localStorage.selectedDoctor = doctor.id;
+        $window.localStorage.selectedHospital = hospitalId;
+      }else {
+        alert('Please select a hospital');
+      }
+
     };
 
 
     $scope.showLabAppointmentCalendar = function(lab,index){
-      // Hide all other opened calendars
-      $('.labAppointment.collapse').collapse('hide');
-      // Show current calendar
-      $('#lab_calendar_'+index).collapse('toggle');
-      // Render calendar view for this screen size
-      $('#labAppointment_'+index).fullCalendar('render');
-      // Save doctor data to local storage
-      $window.localStorage.selectedAppointment = 'Lab';
-      $window.localStorage.selectedLab = lab.id;
+      if(lab != null && lab.id != null){
+        // Hide all other opened calendars
+        $('.labAppointment.collapse').collapse('hide');
+        // Show current calendar
+        $('#lab_calendar_'+index).collapse('toggle');
+        // Render calendar view for this screen size
+        $('#labAppointment_'+index).fullCalendar('render');
+        // Save doctor data to local storage
+        $window.localStorage.selectedAppointment = 'Lab';
+        $window.localStorage.selectedLab = lab.id;
+      }else {
+        alert('Please select a Lab');
+      }
+
     };
 
 
