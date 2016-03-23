@@ -18,3 +18,15 @@ body {
     text-decoration: underline;
     color:#ffffff;
 }
+
+.pr10 {
+    padding-right:10px;
+}
+
+.nm {
+    margin:0px;
+}
+
+.np {
+    padding:0px;
+}
