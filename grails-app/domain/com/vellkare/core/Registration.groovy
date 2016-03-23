@@ -26,9 +26,8 @@ class Registration {
   int verificationAttempts = 0
   Date lastFailedVerificationAttemptDate
 
-
   def memberService
-  static belongsTo = [member: Member]
+
 
   static constraints = {
     email unique:true , nullable: false

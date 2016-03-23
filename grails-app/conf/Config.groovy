@@ -11,7 +11,6 @@
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
 // }
 
-grails.app.context="/"
 
 grails.project.groupId = "com.vellkare" // change this to alter the default package name and Maven publishing destination
 
@@ -90,7 +89,7 @@ grails.hibernate.osiv.readonly = false
 environments {
   development {
     grails.logging.jul.usebridge = true
-    grails.serverURL = "http://localhost:8080/"
+    grails.serverURL = "http://localhost:8080/vellkare"
   }
   production {
     grails.serverURL = "http://velkare.com/"
