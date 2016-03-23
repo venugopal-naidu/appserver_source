@@ -39,8 +39,8 @@ class MemberService {
     login.save(failOnError: true, flush: true)
     Member m = new Member(login: login, firstName: registration.firstName, lastName: registration.lastName,
       email: registration.email, primaryPhone: registration.phoneNumber)
-    m.registration= registration
     m.save(failOnError: true, flush: true)
+    registration.member = m
     registration.verificationSuccessful(true,true) // setting both verification as true as the otp is save in both the cases
     m.addToRoles(MemberRole.create(m, Role.findByAuthority(Role.Authority.ROLE_USER)))
 

@@ -1,0 +1,430 @@
+
+CREATE TABLE address
+(
+    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    version BIGINT NOT NULL,
+    address_line1 VARCHAR(255),
+    address_line2 VARCHAR(255),
+    address_line3 VARCHAR(255),
+    address_line4 VARCHAR(255),
+    city VARCHAR(255),
+    country VARCHAR(255),
+    postal_code VARCHAR(255),
+    state VARCHAR(255)
+);
+CREATE TABLE location
+(
+    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    version BIGINT NOT NULL
+);
+CREATE TABLE registration
+(
+    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    version BIGINT NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    email_verification_sent_count INT NOT NULL,
+    email_verified BIT NOT NULL,
+    email_verified_date DATETIME,
+    first_name VARCHAR(255) NOT NULL,
+    last_email_verification_sent_date DATETIME,
+    last_name VARCHAR(255),
+    last_phone_verification_sent_date DATETIME,
+    phone_number VARCHAR(255) NOT NULL,
+    phone_number_verified BIT NOT NULL,
+    phone_number_verified_date DATETIME,
+    phone_verification_sent_count INT NOT NULL,
+    registration_date DATETIME NOT NULL,
+    uuid VARCHAR(255),
+    verification_attempts INT NOT NULL,
+    verification_code VARCHAR(255),
+    verification_code_expiery_date DATETIME,
+    verification_status VARCHAR(255) NOT NULL,
+    tnc_checked BIT NOT NULL,
+    last_failed_verification_attempt_date DATETIME,
+    member_id BIGINT UNSIGNED DEFAULT NULL,
+    FOREIGN KEY (member_id) REFERENCES member(ID)
+);
+
+CREATE TABLE login
+(
+    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    version BIGINT NOT NULL,
+    account_expired BIT NOT NULL,
+    account_locked BIT NOT NULL,
+    enabled BIT NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    password_expired BIT NOT NULL,
+    username VARCHAR(255) NOT NULL
+);
+CREATE TABLE role
+(
+    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    version BIGINT NOT NULL,
+    authority VARCHAR(255) NOT NULL,
+    date_created DATETIME NOT NULL,
+    is_active BIT NOT NULL,
+    last_updated DATETIME NOT NULL
+);
+CREATE TABLE member
+(
+    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    version BIGINT NOT NULL,
+    account_status VARCHAR(255) NOT NULL,
+    current_address_id BIGINT UNSIGNED,
+    date_created DATETIME NOT NULL,
+    description VARCHAR(255),
+    email VARCHAR(255),
+    fax VARCHAR(255),
+    first_name VARCHAR(255) NOT NULL,
+    gender VARCHAR(255),
+    last_name VARCHAR(255),
+    last_updated DATETIME NOT NULL,
+    login_id BIGINT UNSIGNED NOT NULL,
+    member_type VARCHAR(255) NOT NULL,
+    permanent_address_id BIGINT UNSIGNED,
+    primary_phone VARCHAR(255),
+    secondary_phone VARCHAR(255),
+    title VARCHAR(255),
+    uuid VARCHAR(255),
+    FOREIGN KEY (permanent_address_id) REFERENCES address (id),
+    FOREIGN KEY (current_address_id) REFERENCES address (id),
+    FOREIGN KEY (login_id) REFERENCES login (id)
+);
+CREATE TABLE doctor
+(
+    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    NAME VARCHAR(165),
+    GENDER VARCHAR(165),
+    WEBSITE VARCHAR(240),
+    PHONE VARCHAR(50),
+    FAX VARCHAR(240),
+    EMAIL VARCHAR(50),
+    DEGREE1 VARCHAR(240),
+    UNIV1 VARCHAR(240),
+    DEGREE2 VARCHAR(210),
+    UNIV2 VARCHAR(210),
+    DEGREE3 VARCHAR(240),
+    UNIV3 VARCHAR(240),
+    DEGREE4 VARCHAR(240),
+    UNIV4 VARCHAR(240),
+    DEGREE5 VARCHAR(240),
+    UNIV5 VARCHAR(240),
+    EXPERIENCE VARCHAR(240),
+    AWARDS VARCHAR(240),
+    LANGUAGE VARCHAR(240),
+    VELKARE_VERIFIED TINYINT DEFAULT 0,
+    CREATED_BY VARCHAR(240),
+    CREATION_DATE DATETIME,
+    LAST_UPDATED_BY VARCHAR(240),
+    LAST_UPDATE_DATE DATETIME,
+    version BIGINT NOT NULL,
+    description VARCHAR(255)
+);
+CREATE TABLE hospital
+(
+    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    HOSPITAL_GEOCODE VARCHAR(240),
+    NAME VARCHAR(240) NOT NULL,
+    ADDRESS1 VARCHAR(450),
+    ADDRESS2 VARCHAR(450),
+    ADDRESS3 VARCHAR(450),
+    ADDRESS4 VARCHAR(450),
+    CITY VARCHAR(450),
+    DISTRICT VARCHAR(450),
+    STATE VARCHAR(450),
+    COUNTRY VARCHAR(360),
+    POSTAL_CODE VARCHAR(10),
+    WEBSITE VARCHAR(360),
+    PHONE VARCHAR(50),
+    FAX VARCHAR(450),
+    EMAIL VARCHAR(50),
+    SPECIALISTS VARCHAR(360),
+    VELKARE_VERIFIED TINYINT DEFAULT 0,
+    CREATED_BY DECIMAL(12,0),
+    CREATION_DATE DATETIME,
+    LAST_UPDATED_BY DECIMAL(12,0),
+    LAST_UPDATE_DATE DATETIME,
+    version BIGINT NOT NULL,
+    hos_geocode VARCHAR(255) NOT NULL
+);
+CREATE TABLE lab
+(
+    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    NAME VARCHAR(300),
+    ADDRESS1 VARCHAR(900),
+    ADDRESS2 VARCHAR(900),
+    ADDRESS3 VARCHAR(900),
+    ADDRESS4 VARCHAR(900),
+    CITY VARCHAR(900),
+    DISTRICT VARCHAR(900),
+    STATE VARCHAR(900),
+    COUNTRY VARCHAR(900),
+    POSTAL_CODE VARCHAR(10),
+    WEBSITE VARCHAR(900),
+    PHONE VARCHAR(50),
+    FAX VARCHAR(900),
+    EMAIL VARCHAR(50),
+    CREATED_BY DECIMAL(12,0),
+    CREATION_DATE DATETIME,
+    LAST_UPDATED_BY DECIMAL(12,0),
+    LAST_UPDATE_DATE DATETIME,
+    version BIGINT NOT NULL,
+    velkare_verified BIT NOT NULL
+);
+
+
+CREATE TABLE appointment
+(
+    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    version BIGINT NOT NULL,
+    booking_date DATETIME NOT NULL,
+    cancel_reason VARCHAR(255),
+    cancelled_by_user_id BIGINT UNSIGNED,
+    cancelled_date DATETIME,
+    confirmed_by_user_id BIGINT UNSIGNED,
+    confirmed_date DATETIME,
+    from_time DATETIME NOT NULL,
+    doctor_id BIGINT UNSIGNED,
+    hospital_id BIGINT UNSIGNED,
+    lab_id BIGINT UNSIGNED,
+    member_id BIGINT UNSIGNED NOT NULL,
+    notes VARCHAR(255),
+    send_reminder_email BIT NOT NULL,
+    status VARCHAR(255) NOT NULL,
+    to_time DATETIME NOT NULL,
+    type VARCHAR(255) NOT NULL,
+    FOREIGN KEY (member_id) REFERENCES member (id),
+    FOREIGN KEY (doctor_id) REFERENCES doctor (id),
+    FOREIGN KEY (lab_id) REFERENCES lab(id),
+    FOREIGN KEY (hospital_id) REFERENCES hospital(id)
+);
+
+CREATE TABLE doctor_hospital
+(
+    SERVICE_PROVIDER_ID INT PRIMARY KEY NOT NULL,
+    DOCTOR_ID BIGINT UNSIGNED NOT NULL,
+    HOSPITAL_ID BIGINT UNSIGNED NOT NULL,
+    SERVICE_HOURS_FROM TIME,
+    SERVICE_HOURS_TO TIME,
+    VELKARE_VERIFIED TINYINT DEFAULT 0,
+    CREATED_BY DECIMAL(12,0),
+    CREATION_DATE DATETIME,
+    LAST_UPDATED_BY DECIMAL(12,0),
+    LAST_UPDATE_DATE DATETIME,
+    version BIGINT NOT NULL,
+    FOREIGN KEY (DOCTOR_ID) REFERENCES doctor (ID),
+    FOREIGN KEY (HOSPITAL_ID) REFERENCES hospital (ID)
+);
+
+CREATE TABLE speciality
+(
+    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    NAME VARCHAR(100),
+    VELKARE_VERIFIED TINYINT DEFAULT 0,
+    CREATED_BY DECIMAL(12,0),
+    CREATION_DATE DATETIME,
+    LAST_UPDATED_BY DECIMAL(12,0),
+    LAST_UPDATE_DATE DATETIME,
+    version BIGINT NOT NULL
+);
+
+CREATE TABLE doctor_speciality
+(
+    DOCTOR_ID BIGINT UNSIGNED NOT NULL,
+    SPECIALITY_ID BIGINT UNSIGNED NOT NULL,
+    VELKARE_VERIFIED TINYINT DEFAULT 0,
+    CREATED_BY DECIMAL(12,0),
+    CREATION_DATE DATETIME,
+    LAST_UPDATED_BY DECIMAL(12,0),
+    LAST_UPDATE_DATE DATETIME,
+    version BIGINT NOT NULL,
+    FOREIGN KEY (DOCTOR_ID) REFERENCES doctor (ID),
+    FOREIGN KEY (SPECIALITY_ID) REFERENCES speciality (ID)
+);
+
+CREATE TABLE package
+(
+    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    NAME VARCHAR(300),
+    COST DECIMAL(12,0),
+    CREATED_BY DECIMAL(12,0),
+    CREATION_DATE DATETIME,
+    LAST_UPDATED_BY DECIMAL(12,0),
+    LAST_UPDATE_DATE DATETIME,
+    version BIGINT NOT NULL
+);
+CREATE TABLE packages
+(
+    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    version BIGINT NOT NULL,
+    cost VARCHAR(255) NOT NULL,
+    created_by VARCHAR(255) NOT NULL,
+    creation_date VARCHAR(255) NOT NULL,
+    last_update_date VARCHAR(255) NOT NULL,
+    last_updated_by VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL
+);
+CREATE TABLE test
+(
+    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    NAME VARCHAR(300),
+    COST DECIMAL(12,2),
+    CREATED_BY DECIMAL(12,0),
+    CREATION_DATE DATETIME,
+    LAST_UPDATED_BY DECIMAL(12,0),
+    LAST_UPDATE_DATE DATETIME,
+    version BIGINT DEFAULT 0 NOT NULL
+);
+
+CREATE TABLE lab_package_test
+(
+    LAB_ID BIGINT UNSIGNED,
+    PACKAGE_ID BIGINT UNSIGNED,
+    TEST_ID BIGINT UNSIGNED,
+    LAB_PACKAGE_COST DECIMAL(12,2),
+    VELKARE_PACKAGE_COST DECIMAL(12,2),
+    CREATED_BY DECIMAL(12,0),
+    CREATION_DATE DATETIME,
+    LAST_UPDATED_BY DECIMAL(12,0),
+    LAST_UPDATE_DATE DATETIME,
+    version BIGINT NOT NULL,
+    FOREIGN KEY (LAB_ID) REFERENCES lab (ID),
+    FOREIGN KEY (PACKAGE_ID) REFERENCES package (ID),
+    FOREIGN KEY (TEST_ID) REFERENCES test (ID)
+);
+
+
+CREATE TABLE media
+(
+    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    version BIGINT NOT NULL,
+    extension VARCHAR(255),
+    file_name VARCHAR(255),
+    location VARCHAR(255) NOT NULL,
+    media_type VARCHAR(255) NOT NULL,
+    picture_types VARCHAR(255) NOT NULL,
+    public_media BIT NOT NULL
+);
+
+CREATE TABLE member_role
+(
+    role_id BIGINT UNSIGNED NOT NULL,
+    member_id BIGINT UNSIGNED NOT NULL,
+    PRIMARY KEY (role_id, member_id),
+    FOREIGN KEY (role_id) REFERENCES role (id),
+    FOREIGN KEY (member_id) REFERENCES member (id)
+);
+CREATE TABLE oauth_access_token
+(
+    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    authentication LONGBLOB NOT NULL,
+    authentication_json VARCHAR(4096),
+    authentication_key VARCHAR(255) NOT NULL,
+    client_id VARCHAR(255) NOT NULL,
+    expiration DATETIME,
+    refresh_token VARCHAR(255),
+    token_type VARCHAR(255) NOT NULL,
+    username VARCHAR(255),
+    value VARCHAR(255) NOT NULL
+);
+CREATE TABLE oauth_access_token_scope
+(
+    oauth_access_token_id BIGINT UNSIGNED NOT NULL,
+    scope_string VARCHAR(255),
+    FOREIGN KEY (oauth_access_token_id) REFERENCES oauth_access_token (id)
+);
+CREATE TABLE oauth_authorization_code
+(
+    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    authentication LONGBLOB NOT NULL,
+    code VARCHAR(255) NOT NULL
+);
+CREATE TABLE oauth_client
+(
+    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    version BIGINT NOT NULL,
+    access_token_validity_seconds INT,
+    client_id VARCHAR(255) NOT NULL,
+    client_secret VARCHAR(255),
+    namespace VARCHAR(255),
+    refresh_token_validity_seconds INT
+);
+CREATE TABLE oauth_client_additional_information
+(
+    additional_information BIGINT,
+    additional_information_idx VARCHAR(255),
+    additional_information_elt VARCHAR(255) NOT NULL
+);
+CREATE TABLE oauth_client_authorities
+(
+    oauth_client_id BIGINT UNSIGNED,
+    authorities_string VARCHAR(255),
+    FOREIGN KEY (oauth_client_id) REFERENCES oauth_client (id)
+);
+CREATE TABLE oauth_client_authorized_grant_types
+(
+    oauth_client_id BIGINT UNSIGNED,
+    authorized_grant_types_string VARCHAR(255),
+    FOREIGN KEY (oauth_client_id) REFERENCES oauth_client (id)
+);
+CREATE TABLE oauth_client_redirect_uris
+(
+    oauth_client_id BIGINT UNSIGNED,
+    redirect_uris_string VARCHAR(255),
+    FOREIGN KEY (oauth_client_id) REFERENCES oauth_client (id)
+);
+CREATE TABLE oauth_client_resource_ids
+(
+    oauth_client_id BIGINT UNSIGNED,
+    resource_ids_string VARCHAR(255),
+    FOREIGN KEY (oauth_client_id) REFERENCES oauth_client (id)
+);
+CREATE TABLE oauth_client_scopes
+(
+    oauth_client_id BIGINT UNSIGNED,
+    scopes_string VARCHAR(255),
+    FOREIGN KEY (oauth_client_id) REFERENCES oauth_client (id)
+);
+CREATE TABLE oauth_refresh_token
+(
+    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    authentication LONGBLOB NOT NULL,
+    value VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE pending_email_confirmation
+(
+    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    version BIGINT NOT NULL,
+    confirmation_event VARCHAR(80),
+    confirmation_token VARCHAR(80) NOT NULL,
+    email_address VARCHAR(80) NOT NULL,
+    timestamp DATETIME NOT NULL,
+    user_token VARCHAR(500)
+);
+CREATE TABLE social_connection
+(
+    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    version BIGINT NOT NULL,
+    access_token VARCHAR(512) NOT NULL,
+    deleted BIT NOT NULL,
+    display_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255),
+    expire_time BIGINT,
+    image_url VARCHAR(255),
+    login_id BIGINT UNSIGNED NOT NULL,
+    profile_url VARCHAR(255),
+    provider_id VARCHAR(255) NOT NULL,
+    provider_user_id VARCHAR(255) NOT NULL,
+    rank BIGINT,
+    refresh_token VARCHAR(255),
+    secret VARCHAR(255),
+    uid BIGINT NOT NULL,
+    FOREIGN KEY (login_id) REFERENCES login (id)
+);
+CREATE TABLE subscription_plan
+(
+    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    version BIGINT NOT NULL
+);
+
