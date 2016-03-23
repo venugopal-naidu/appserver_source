@@ -7,21 +7,22 @@
   <!-- page content -->
   <div class="pagecontent">
     <div class="row" ng-repeat="upcomingAppointment in upcomingAppointments">
-      <div class="col-md-4" ng-repeat="rowElement in upcomingAppointment.row">
+      <div class="col-md-4" ng-repeat="rowElement in upcomingAppointment">
         <!-- appointment tile -->
         <section class="tile" fullscreen="isFullscreen01">
           <!-- tile header -->
-          <div class="tile-header dvd dvd-btm" ng-class="rowElement.appointmentType =='APPOINTMENT_DOCTOR' ? 'bg-dutch' : 'bg-greensea' ">
-            <h1 class="custom-font"><strong>{{ rowElement.title }}</strong></h1>
-            <span class="custom-font pull-right" ng-if="rowElement.status=='APPOINTMENT_STATUS_PENDING'"><b></b>Pending</span>b></span>
-            <span class="custom-font pull-right" ng-if="rowElement.status=='APPOINTMENT_STATUS_CONFIRMED'">Confirmed</span>
+          <div class="tile-header dvd dvd-btm" ng-class="rowElement.appointmentType =='DOCTOR_APPOINTMENT' ? 'bg-dutch' : 'bg-greensea' ">
+            <h1 class="custom-font"><strong>{{ rowElement.appointmentType =='DOCTOR_APPOINTMENT' ? rowElement.doctorDetails : rowElement.labDetails }}</strong></h1>
+            <span class="custom-font pull-right" ng-if="rowElement.status=='New'"><b>Pending</b></span>
+            <span class="custom-font pull-right" ng-if="rowElement.status!='New'"><b>Confirmed</b></span>
 
           </div>
           <!-- /tile header -->
           <!-- tile body -->
           <div style="background-color: #eeeeee" class="tile-body">
-            <p>{{ rowElement.fromTime }}</p> to
-            <p>{{ rowElement.toTime }}</p>
+            <p>{{ rowElement.hospitalDetails }}</p>
+            <p>On {{ rowElement.appointmentDate }}</p>
+            <p>From {{ rowElement.fromTime }} to {{ rowElement.toTime }}</p>
             <p>{{ rowElement.specialInstructions }}</p>
             <div style="margin:0px" class="row">
               <span class="pull-right"><a href="#" ng-click="cancelAppointment()">Cancel</a></span>
@@ -40,19 +41,20 @@
   <!-- /page header -->
   <div class="pagecontent">
     <div class="row" ng-repeat="pastAppointment in pastAppointments">
-      <div class="col-md-4" ng-repeat="rowElement in pastAppointment.row">
+      <div class="col-md-4" ng-repeat="rowElement in pastAppointment">
         <!-- appointment tile -->
         <section class="tile" fullscreen="isFullscreen01">
           <!-- tile header -->
-          <div class="tile-header dvd dvd-btm" ng-class="rowElement.appointmentType =='APPOINTMENT_DOCTOR' ? 'bg-dutch' : 'bg-greensea' ">
-            <h1 class="custom-font"><strong>{{ rowElement.title }}</strong></h1>
+          <div class="tile-header dvd dvd-btm" ng-class="rowElement.appointmentType =='DOCTOR_APPOINTMENT' ? 'bg-dutch' : 'bg-greensea' ">
+            <h1 class="custom-font"><strong>{{ rowElement.appointmentType =='DOCTOR_APPOINTMENT' ? rowElement.doctorDetails : rowElement.labDetails }}</strong></h1>
             <span class="custom-font pull-right" ng-if="rowElement.status=='APPOINTMENT_STATUS_NOSHOW'"><b>No Show</b></span>
           </div>
           <!-- /tile header -->
           <!-- tile body -->
           <div style="background-color: #eeeeee" class="tile-body">
-            <p>{{ rowElement.fromTime }}</p> to
-            <p>{{ rowElement.toTime }}</p>
+            <p>{{ rowElement.hospitalDetails }}</p>
+            <p>On {{ rowElement.appointmentDate }}</p>
+            <p>From {{ rowElement.fromTime }} to {{ rowElement.toTime }}</p>
             <p>{{ rowElement.specialInstructions }}</p>
             <div style="margin:0px" class="row">
               <span class="pull-right" ng-if="rowElement.status=='APPOINTMENT_STATUS_DONE' && rowElement.recordsUploaded == false"><a href="#" ng-click="openUploadRecordModal(lg)"><i class="fa fa-upload"></i></a></span>
@@ -66,61 +68,3 @@
     </div>
    </div>
 </div>
-
-<!-- Upload health record modal-->
-<script type="text/ng-template" id="uploadHealthRecordModal">
-  <form class="form-horizontal form-validation" name="uploadRecordForm" novalidate>
-    <div class="modal-header">
-      <h3 class="modal-title custom-font">Upload Health Record</h3>
-    </div>
-    <div class="modal-body">
-      <div class="form-group">
-        <label for="recordName" class="col-sm-3 control-label">Record Name*</label>
-        <div class="col-sm-9">
-          <input type="email" class="form-control" id="recordName" ng-modal="recordName" placeholder="Record name to identify" required>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-sm-3 control-label">Record Type</label>
-        <div class="col-sm-9">
-          <ui-select ng-model="recordType.selected"  ng-disabled="disabled" class="w-md mb-10">
-            <ui-select-match placeholder="Select record type">{{$select.selected}} <a href ng-click="clearRecordType($event)"><i class="fa fa-times"></i></a></ui-select-match>
-            <ui-select-choices repeat="recordType in recordTypes | filter: $select.search">
-              <span ng-bind-html="recordType | highlight: $select.search"></span>
-            </ui-select-choices>
-          </ui-select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-sm-3 control-label">Issued date</label>
-        <div class="col-sm-9">
-          <div class="input-group w-md">
-            <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" required/>
-                    <span class="input-group-btn">
-                      <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                    </span>
-          </div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-sm-3 control-label">Record</label>
-        <div class="col-sm-9">
-          <input ui-jq="filestyle" type="file" class="filestyle" ui-options="{
-                    buttonText: 'Select record',
-                    iconName: 'fa fa-inbox'
-                  }">
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-sm-3 control-label" for="message">Description: </label>
-        <div class="col-sm-9">
-          <textarea class="form-control" rows="3" name="message" id="message" placeholder="Write something about record..." ng-model="user.message"></textarea>
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-success btn-ef btn-ef-3 btn-ef-3c" ng-click="uploadHealthRecord()" ng-disabled='uploadRecordForm.$invalid'><i class="fa fa-upload"></i> Upload</button>
-      <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" ng-click="cancel()"><i class="fa fa-arrow-left"></i> Cancel</button>
-    </div>
-  </form>
-</script>
