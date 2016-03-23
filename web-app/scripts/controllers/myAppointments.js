@@ -151,20 +151,4 @@ app
         };
 
       $scope.getMyAppointments();
-    })
-    .controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, modalInput) {
-        $scope.recordType= {};
-        $scope.recordTypes = ['Consultation notes', 'Hospital admission records', 'Test results', 'X-rays'];
-
-        $scope.clearRecordType = function($event) {
-            $scope.recordType.selected = undefined;
-            $event.preventDefault();
-            $event.stopPropagation();
-        };
-
-        function uploadRecord() {
-            vm.records.push({ name: 'Record 1', type: 'Otto', issuedDate: '12-10-2016', comments: 'my comments'});
-        }
-
-
     });
