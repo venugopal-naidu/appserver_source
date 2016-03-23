@@ -154,6 +154,50 @@ class SearchController {
     respond( testName :cmd.testName, labName:cmd.labName, location:cmd.location, labs: labs )
   }
 
+  def doctorHospitalDetails(SearchCommand cmd){
+    if(cmd.doctorId && cmd.hospitalId) {
+      DoctorHospital docHos = DoctorHospital.createCriteria().get {
+        createAlias('hospital', 'hospital')
+        createAlias('doctor', 'doctor')
+        eq('hospital.id', cmd.hospitalId)
+        eq('doctor.id', cmd.doctorId)
+      }
+      if(docHos) {
+        def doc = docHos.doctor
+        def hos = docHos.hospital
+        def data = [:]
+        def doctorDetails = [id: doc.id, name: doc.name, degree1: doc.degree1, degree2: doc.degree2,
+        degree3: doc.degree3, specialties : doc?.specialities?.collect{it.speciality.name.toLowerCase().capitalize()}?:[],
+        gender: doc.gender.name(), imageURL:(grailsApplication.config.images.doctors.path?:"/images/doctor/")+doc.id+".jpeg"
+        ]
+
+        def hospitalDetails = [id: hos.id, name: hos.name, address1: hos.address1, address2: hos.address2,
+                               address3:hos.address3]
+        data.doctor = doctorDetails
+        data.hospital = hospitalDetails
+        respond (data)
+        return
+      }
+    }
+    respond([:])
+  }
+
+  def labDetails(SearchCommand cmd){
+    if(cmd.labId) {
+      Lab lab = Lab.get(cmd.labId)
+      if(lab){
+        def data = [ lab: [ id: lab.id, name: lab.name, address1: lab.address1, address2: lab.address2,
+          address3:lab.address3, imageURL:(grailsApplication.config.images.labs.path?:"/images/lab/")+lab.id+".jpeg"
+         ]
+        ]
+        respond (data)
+        return
+      }
+    }
+    respond([:])
+    return 
+  }
+
 
 }
 
@@ -171,4 +215,7 @@ class SearchCommand {
   String location
   String testName
   String labName
+  Long doctorId
+  Long hospitalId
+  Long labId
 }
