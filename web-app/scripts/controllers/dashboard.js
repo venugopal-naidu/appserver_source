@@ -62,12 +62,14 @@ app
     /* Find and clear search result */
 
     $scope.findDoctor = function(){
-    $scope.doctorsList = [{"awards":"","degree1":"MBBS","degree2":"MD (INTERNAL MEDICINE)","degree3":"ABIM","degree4":"","degree5":"","description":null,"experience":26,"gender":null,"hospitals":[{"address1":"JUBILEE HILLS","address2":"JUBILEE HILLS","address3":"","address4":"","availability":{"MONDAY":[{"from":"09:00:00","to":"21:00:00"}],"TUESDAY":[{"from":"09:00:00","to":"21:00:00"}],"WEDNESDAY":[{"from":"09:00:00","to":"21:00:00"}],"THURSDAY":[{"from":"09:00:00","to":"21:00:00"}],"FRIDAY":[{"from":"09:00:00","to":"21:00:00"}],"SATURDAY":[{"from":"09:00:00","to":"21:00:00"}],"SUNDAY":[{"from":"09:00:00","to":"21:00:00"}]},"id":652,"name":"APOLLO HEALTH CITY"}],
+  /*
+   TEST DATA
+   $scope.doctorsList = [{"awards":"","degree1":"MBBS","degree2":"MD (INTERNAL MEDICINE)","degree3":"ABIM","degree4":"","degree5":"","description":null,"experience":26,"gender":null,"hospitals":[{"address1":"JUBILEE HILLS","address2":"JUBILEE HILLS","address3":"","address4":"","availability":{"MONDAY":[{"from":"09:00:00","to":"21:00:00"}],"TUESDAY":[{"from":"09:00:00","to":"21:00:00"}],"WEDNESDAY":[{"from":"09:00:00","to":"21:00:00"}],"THURSDAY":[{"from":"09:00:00","to":"21:00:00"}],"FRIDAY":[{"from":"09:00:00","to":"21:00:00"}],"SATURDAY":[{"from":"09:00:00","to":"21:00:00"}],"SUNDAY":[{"from":"09:00:00","to":"21:00:00"}]},"id":652,"name":"APOLLO HEALTH CITY"}],
             "id":50,"language":"ENGLISH,HINDI,TELUGU","name":"DR.INDIRA RAMASAHAYAM REDDY","photoUrl":"/images/doctor/50.jpeg","specialties":["Internal medicine"],"univ1":"","univ2":"","univ3":"","univ4":"","univ5":"","velkareVerified":false}];
-
+*/
       $scope.searchStarted = true;
         $scope.noDoctorsFound = false;
-   /*   var url = ajax_url_prefix + 'search/doctor';
+      var url = ajax_url_prefix + 'search/doctor';
       var dataToSend = { "location": 'Hyderabad', "specialty": $scope.specialty.selected ,"hospital": $scope.hospital.selected };
       $http.post(url,dataToSend).then(function(response){
         if(response.data.doctors != null && response.data.doctors.length > 0){
@@ -80,7 +82,6 @@ app
       },function(response){
         $scope.noDoctorsFound = true;
       });
-        */
     };
 
     $scope.clearDoctorsResult = function(){
@@ -196,6 +197,7 @@ app
 
       $scope.daysDisplayed=["2016-03-25", "2016-03-26", "2016-03-27"];
       $scope.timeSlots = ["09", "10", "11", "12", "01", "02", "03", "04", "05", "06", "07", "08"];
+      $scope.displayCalendarIndex = -1;
     /* Toggle and render calendar view */
 
     $scope.showDoctorAppointmentCalendar = function(doctor,index,hospitalId){
@@ -211,8 +213,7 @@ BEGIN CALENDAR CHANGES
 
         END CALENDAR CHANGES
         */
-
-          doctor.displayCalendar = true;
+          $scope.displayCalendarIndex = index;
 
         $window.localStorage.selectedAppointment = 'Doctor';
         // Save doctor data to local storage
