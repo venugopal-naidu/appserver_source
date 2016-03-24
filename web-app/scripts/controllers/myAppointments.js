@@ -2,7 +2,7 @@
  * Created by VijayaMachavolu on 11/03/16.
  */
 app
-    .controller('MyAppointmentsCtrl', function ($scope, $uibModal, $window, $http) {
+    .controller('MyAppointmentsCtrl', function ($scope, $uibModal, $window, $http, $state) {
     $scope.upcomingAppointments;
     $scope.pastAppointments;
     $scope.accessToken = $window.localStorage.accessToken;
@@ -63,16 +63,30 @@ app
                 $scope.pastAppointments.push(newRowPast);
             }
             newRowPast.push(past[i]);
-        }})};
+        }
+      },function (response){
+          if(response['status'] == 401){
+              $scope.formErrors = response.data['error'];
+              if(response.data['error'] == 'invalid_token'){
+                  $state.go('site.login');
+              }
+          }
+      })};
 
         $scope.cancelAppointment = function(appointmentId) {
             var url = ajax_url_prefix + 'appointment/cancel/'+appointmentId;
             $http.get(url,{
                 headers: {'Authorization': $scope.tokenType + ' '+ $scope.accessToken}
             }).then(function(response){
-                // We need to do a bit of re-arranging to make it into rows
-                var upcoming = response.data.upcoming;
-        });
+
+        },function (response){
+                if(response['status'] == 401){
+                    $scope.formErrors = response.data['error'];
+                    if(response.data['error'] == 'invalid_token'){
+                        $state.go('site.login');
+                    }
+                }
+            });
         };
 
         // TODO: Info is repeated. Need to centralize
