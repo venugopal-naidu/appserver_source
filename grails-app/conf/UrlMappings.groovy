@@ -88,6 +88,13 @@ class UrlMappings {
     "/api/$namespace/appointment/list"(controller: 'appointment', action: 'listAppointments') {}
 
 
+    "/api/$namespace/record/recordTypes"(controller: 'media', action: 'listMedicalRecordTypes') {}
+    "/api/$namespace/record/listRecords"(controller: 'media', action: 'listMedicalRecords') {}
+    "/api/$namespace/record/upload"(controller: 'media', action: 'saveMedicalRecord') {}
+    "/api/$namespace/record/delete/$id"(controller: 'media', action: 'deleteMedicalRecord') {}
+    name downloaRecord:
+      "/api/$namespace/record/download/$id"(controller: 'media', action: 'downloadMedicalRecord') {}
+
     "/api/$namespace/doctor/show/$id"(controller: 'doctor', action: 'show') {}
 
 

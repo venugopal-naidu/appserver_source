@@ -20,6 +20,10 @@ class DateUtil {
     dfDate.format(date)
   }
 
+  static Date parseDateString(String date){
+    dfDate.parse(date)
+  }
+
   static String getPrintableTimeString(Date date){
     dfTime.format(date)
   }

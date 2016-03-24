@@ -195,7 +195,7 @@ class SearchController {
       }
     }
     respond([:])
-    return 
+    return
   }
 
 
