@@ -43,8 +43,8 @@ app
                     fromTime: '10th March 2016 5pm',
                     toTime: '10th March 2016 5:30pm',
                     specialInstructions: 'Bad cold',
-                    status: 'APPOINTMENT_STATUS_DONE',
-                    recordsUploaded: false
+                    status: 'COMPLETE',
+                    hasMedicalRecords: false
                 }]
 
         // COMMENT ME TILL HERE

@@ -227,13 +227,19 @@ BEGIN CALENDAR CHANGES
     };
 
     $scope.showLabAppointmentCalendar = function(lab,index){
+
       if(lab != null && lab.id != null){
+  /*
+   BEGIN CALENDAR CHANGES
         // Hide all other opened calendars
         $('.labAppointment.collapse').collapse('hide');
         // Show current calendar
         $('#lab_calendar_'+index).collapse('toggle');
         // Render calendar view for this screen size
         $('#labAppointment_'+index).fullCalendar('render');
+         END CALENDAR CHANGES
+         */
+          $scope.displayCalendarIndex = index;
         // Save doctor data to local storage
         $window.localStorage.selectedAppointment = 'Lab';
         $window.localStorage.selectedLab = lab.id;
