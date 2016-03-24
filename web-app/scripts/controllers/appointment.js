@@ -10,6 +10,7 @@
 app
   .controller('AppointmentCtrl', function ($scope,$compile,uiCalendarConfig, $state,$window) {
 
+    /* BEGIN CALENDAR CHANGES
     $scope.bookAppointment = function( date, jsEvent, view ){
       $window.localStorage.appointmentDate = date;
       $window.localStorage.setItem('isAppointmentSelected', true);
@@ -21,6 +22,10 @@ app
       }
 
     };
+     END CALENDAR CHANGES
+    */
+
+
     $scope.eventSources = [];
 
     /* config object */

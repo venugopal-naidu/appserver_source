@@ -8,7 +8,7 @@
  * Controller of the minovateApp
  */
 app
-  .controller('DashboardCtrl', function($scope,$http,$mdBottomSheet,$window){
+  .controller('DashboardCtrl', function($scope,$http,$mdBottomSheet,$window, $state){
 
     $scope.$parent.setUser();
 
@@ -62,8 +62,12 @@ app
     /* Find and clear search result */
 
     $scope.findDoctor = function(){
+    $scope.doctorsList = [{"awards":"","degree1":"MBBS","degree2":"MD (INTERNAL MEDICINE)","degree3":"ABIM","degree4":"","degree5":"","description":null,"experience":26,"gender":null,"hospitals":[{"address1":"JUBILEE HILLS","address2":"JUBILEE HILLS","address3":"","address4":"","availability":{"MONDAY":[{"from":"09:00:00","to":"21:00:00"}],"TUESDAY":[{"from":"09:00:00","to":"21:00:00"}],"WEDNESDAY":[{"from":"09:00:00","to":"21:00:00"}],"THURSDAY":[{"from":"09:00:00","to":"21:00:00"}],"FRIDAY":[{"from":"09:00:00","to":"21:00:00"}],"SATURDAY":[{"from":"09:00:00","to":"21:00:00"}],"SUNDAY":[{"from":"09:00:00","to":"21:00:00"}]},"id":652,"name":"APOLLO HEALTH CITY"}],
+            "id":50,"language":"ENGLISH,HINDI,TELUGU","name":"DR.INDIRA RAMASAHAYAM REDDY","photoUrl":"/images/doctor/50.jpeg","specialties":["Internal medicine"],"univ1":"","univ2":"","univ3":"","univ4":"","univ5":"","velkareVerified":false}];
+
       $scope.searchStarted = true;
-      var url = ajax_url_prefix + 'search/doctor';
+        $scope.noDoctorsFound = false;
+   /*   var url = ajax_url_prefix + 'search/doctor';
       var dataToSend = { "location": 'Hyderabad', "specialty": $scope.specialty.selected ,"hospital": $scope.hospital.selected };
       $http.post(url,dataToSend).then(function(response){
         if(response.data.doctors != null && response.data.doctors.length > 0){
@@ -76,6 +80,7 @@ app
       },function(response){
         $scope.noDoctorsFound = true;
       });
+        */
     };
 
     $scope.clearDoctorsResult = function(){
@@ -189,16 +194,26 @@ app
       $event.stopPropagation();
     };
 
+      $scope.daysDisplayed=["2016-03-25", "2016-03-26", "2016-03-27"];
+      $scope.timeSlots = ["09", "10", "11", "12", "01", "02", "03", "04", "05", "06", "07", "08"];
     /* Toggle and render calendar view */
 
     $scope.showDoctorAppointmentCalendar = function(doctor,index,hospitalId){
       if(hospitalId != null && doctor.id != null){
+/*
+BEGIN CALENDAR CHANGES
         // Hide all other opened calendars
         $('.doctorAppointment.collapse').collapse('hide');
         // Show current calendar
         $('#doctor_calendar_'+index).collapse('toggle');
         // Render calendar view for this screen size
         $('#doctorAppointment_'+index).fullCalendar('render');
+
+        END CALENDAR CHANGES
+        */
+
+          doctor.displayCalendar = true;
+
         $window.localStorage.selectedAppointment = 'Doctor';
         // Save doctor data to local storage
         $window.localStorage.selectedDoctor = doctor.id;
@@ -207,8 +222,8 @@ app
         alert('Please select a hospital');
       }
 
-    };
 
+    };
 
     $scope.showLabAppointmentCalendar = function(lab,index){
       if(lab != null && lab.id != null){
@@ -227,6 +242,18 @@ app
 
     };
 
+
+      $scope.bookAppointment = function( day, timeSlot, subTimeSlot) {
+          $window.localStorage.appointmentDate = $scope.daysDisplayed[day]+'T'+timeSlot+':'+subTimeSlot+':00';
+          $window.localStorage.setItem('isAppointmentSelected', true);
+          // If not authenticated, redirect to login page
+          if($window.localStorage.isUserLoggedIn == 'true'){
+              $state.go('app.appointment.confirmAppointment');
+          }else {
+              $state.go('site.login');
+          }
+
+      };
 
     /* On load calls */
     $scope.getTestsAndLabs();
