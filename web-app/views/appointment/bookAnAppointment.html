@@ -191,10 +191,10 @@
                                             <div class="row" ng-repeat="timeSlot in timeSlots">
                                                 <div class="col-md-4 col-sm-4 col-xs-12" ng-repeat="day in daysDisplayed">
                                                     <div class="row" ng-class="$index%2 ==0 ? 'even-background' : 'odd-background'">
-                                                        <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '00')" class="btn btn-time-slot">{{ timeSlot }}:00</button></div>
-                                                        <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '15')" class="btn btn-time-slot">{{ timeSlot }}:15</button></div>
-                                                        <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '30')" class="btn btn-time-slot">{{ timeSlot }}:30</button></div>
-                                                        <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '45')" class="btn btn-time-slot">{{ timeSlot }}:45</button></div>
+                                                        <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '00', '15')" class="btn btn-time-slot">{{ timeSlot }}:00</button></div>
+                                                        <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '15', '30')" class="btn btn-time-slot">{{ timeSlot }}:15</button></div>
+                                                        <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '30', '45')" class="btn btn-time-slot">{{ timeSlot }}:30</button></div>
+                                                        <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '45', '00')" class="btn btn-time-slot">{{ timeSlot }}:45</button></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -291,10 +291,10 @@
                                     <div class="row" ng-repeat="timeSlot in timeSlots">
                                         <div class="col-md-4 col-sm-4 col-xs-12" ng-repeat="day in daysDisplayed">
                                             <div class="row" ng-class="$index%2 ==0 ? 'even-background' : 'odd-background'">
-                                                <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '00')" class="btn btn-time-slot">{{ timeSlot }}:00</button></div>
-                                                <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '15')" class="btn btn-time-slot">{{ timeSlot }}:15</button></div>
-                                                <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '30')" class="btn btn-time-slot">{{ timeSlot }}:30</button></div>
-                                                <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '45')" class="btn btn-time-slot">{{ timeSlot }}:45</button></div>
+                                                <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '00', '15')" class="btn btn-time-slot">{{ timeSlot }}:00</button></div>
+                                                <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '15', '30')" class="btn btn-time-slot">{{ timeSlot }}:15</button></div>
+                                                <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '30', '45')" class="btn btn-time-slot">{{ timeSlot }}:30</button></div>
+                                                <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '45', '00')" class="btn btn-time-slot">{{ timeSlot }}:45</button></div>
                                             </div>
                                         </div>
                                     </div>

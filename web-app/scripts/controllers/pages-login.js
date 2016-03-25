@@ -15,15 +15,19 @@ app
 
     $scope.isAppointmentSelected = false;
     $scope.selectedDoctor = null;
-    $scope.doctorAppointmentDate = null;
+    $scope.appointmentStartTime = null;
+    $scope.appointmentEndTime = null;
     // Set isAppointmentSelected
     if($window.localStorage.isAppointmentSelected != null){
       $scope.isAppointmentSelected = $window.localStorage.isAppointmentSelected;
     }
     // Set Appointment date for doctor
-    if($window.localStorage.doctorAppointmentDate != null){
-      $scope.doctorAppointmentDate = $window.localStorage.doctorAppointmentDate;
+    if($window.localStorage.appointmentStartTime != null){
+      $scope.appointmentStartTime = $window.localStorage.appointmentStartTime;
     }
+      if($window.localStorage.appointmentEndTime != null){
+          $scope.appointmentEndTime = $window.localStorage.appointmentEndTime;
+      }
     // Set doctor
     if($window.localStorage.selectedDoctor != null){
       $scope.selectedDoctor = $window.localStorage.selectedDoctor;

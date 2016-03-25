@@ -22,13 +22,11 @@ app
       }
 
     };
-     END CALENDAR CHANGES
-    */
 
 
     $scope.eventSources = [];
 
-    /* config object */
+
     $scope.uiConfig = {
       calendar:{
         defaultView: 'agendaWeek',
@@ -47,6 +45,9 @@ app
         dayClick: $scope.bookAppointment
       }
     };
+     END CALENDAR CHANGES
+     */
+
 
   })
   .controller('ConfirmAppointmentCtrl', function ($scope, $compile, uiCalendarConfig, $state, $window, $http) {
@@ -55,56 +56,38 @@ app
     $scope.invalidTokenError = null;
 
     $scope.getDoctorAndHospital = function(doctorId, hospitalId){
-      var url = ajax_url_prefix + 'doctorAndHospital?doctorId='+doctorId+'&hospitalId='+hospitalId;
+      var url = ajax_url_prefix + 'search/doctorAndHospital?doctorId='+doctorId+'&hospitalId='+hospitalId;
       $http.get(url).then(function(response){
-        /*$scope.doctor = response.data.doctor;
-        $scope.hospitalDetails = response.data.hospital;*/
+        $scope.doctor = response.data.doctor;
+        $scope.hospital = response.data.hospital;
       });
     };
 
     $scope.getLab = function(labId){
-      var url = ajax_url_prefix + 'doctorAndHospital?labId='+labId;
+      var url = ajax_url_prefix + 'search/lab?labId='+labId;
       $http.get(url).then(function(response){
-        $scope.doctor = response.data.doctor;
-        $scope.hospitalDetails = response.data.hospital;
+        $scope.lab = response.data.lab;
       });
     };
 
     $scope.selectedAppointment = $window.localStorage.selectedAppointment;
-    $scope.doctor = {
-      name: 'Dr. Satyanath R V',
-      degree1 : 'M.D.',
-      degree2 : '',
-      degree3 : '',
-      degree4 : '',
-      degree5 : '',
-      specialties : ['Dermatology', 'General Medicine']
-    };
-    $scope.hospital = {
-      name: 'GLOBAL HOSPITAL',
-      address1: 'L.B NAGAR',
-      address2: 'L.B NAGAR'
-    };
-
-    $scope.lab = {
-      name: 'VIJAYA DIAGNOSTIC CENTER',
-      address1: 'L.B NAGAR',
-      address2: 'L.B NAGAR'
-    };
 
     if($scope.selectedAppointment == 'Doctor'){
       $scope.getDoctorAndHospital($window.localStorage.selectedDoctor, $window.localStorage.selectedHospital);
     }else if($scope.selectedAppointment == 'Lab'){
       $scope.getLab($window.localStorage.selectedLab);
     }
+    $scope.fromTime = $window.localStorage.appointmentStartTime;
+    $scope.toTime = $window.localStorage.appointmentEndTime;
+
     $scope.confirmDoctorAppointment = function() {
       $scope.accessToken = $window.localStorage.accessToken;
       $scope.tokenType = $window.localStorage.tokenType;
-      $scope.fromTime = $window.localStorage.appointmentDate;
+
       var url = ajax_url_prefix + 'appointment/create';
       var dataToSend = {
-        "fromTime":$window.localStorage.appointmentDate,
-        "toTime":"2016-04-30T12:10:10",
+        "fromTime":$window.localStorage.appointmentStartTime,
+        "toTime":$window.localStorage.appointmentEndTime,
         "doctorId": $window.localStorage.selectedDoctor,
         "hospitalId": $window.localStorage.selectedHospital,
         "notes": $scope.instructions
@@ -114,8 +97,8 @@ app
       }).then(function(response){
 
         $window.localStorage.removeItem('isAppointmentSelected');
-        $window.localStorage.removeItem('appointmentDate');
-        $window.localStorage.removeItem('selectedDoctor');
+        $window.localStorage.removeItem('appointmentStartTime');
+        $window.localStorage.removeItem('appointmentEndTime');
         $window.localStorage.removeItem('selectedDoctor');
         $window.localStorage.removeItem('selectedHospital');
 
@@ -133,11 +116,11 @@ app
     $scope.confirmLabAppointment = function() {
       $scope.accessToken = $window.localStorage.accessToken;
       $scope.tokenType = $window.localStorage.tokenType;
-      $scope.fromTime = $window.localStorage.appointmentDate;
+
       var url = ajax_url_prefix + 'appointment/create';
       var dataToSend = {
-        "fromTime":$window.localStorage.appointmentDate,
-        "toTime":"2016-04-30T12:10:10",
+        "fromTime":$window.localStorage.appointmentStartTime,
+        "toTime":$window.localStorage.appointmentEndTime,
         "labId": $window.localStorage.selectedLab,
         "notes": $scope.instructions
       };
@@ -146,7 +129,8 @@ app
       }).then(function(response){
 
         $window.localStorage.removeItem('isAppointmentSelected');
-        $window.localStorage.removeItem('appointmentDate');
+        $window.localStorage.removeItem('appointmentStartTime');
+        $window.localStorage.removeItem('appointmentEndTime');
         $window.localStorage.removeItem('selectedLab');
 
         $state.go('app.myAppointments');

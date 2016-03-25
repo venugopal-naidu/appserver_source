@@ -13,7 +13,7 @@
           <!-- tile header -->
           <div class="tile-header dvd dvd-btm" ng-class="rowElement.appointmentType =='DOCTOR_APPOINTMENT' ? 'bg-dutch' : 'bg-greensea' ">
             <h1 class="custom-font"><strong>{{ rowElement.appointmentType =='DOCTOR_APPOINTMENT' ? rowElement.doctorDetails : rowElement.labDetails }}</strong></h1>
-            <span class="custom-font pull-right" ng-if="rowElement.status=='New'"><b>Pending</b></span>
+            <span class="custom-font pull-right" ng-if="rowElement.status=='NEW'"><b>Pending</b></span>
             <span class="custom-font pull-right" ng-if="rowElement.status=='CONFIRMED'"><b>Confirmed</b></span>
 
           </div>

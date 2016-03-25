@@ -31,13 +31,13 @@
                 <strong><i class="fa fa-hospital-o"></i> {{ hospital.name }}</strong><br>
                 <span ng-if="hospital.address1 != null"><i class="fa fa-map-marker"></i> {{ hospital.address1 }}</span>
                 <span ng-if="hospital.address2 != null">, {{ hospital.address2 }}</span>
-                <!--<span ng-if="hospital.address3 != null">{{ hospital.address3 }}</span>
-                <span ng-if="hospital.address4 != null">{{ hospital.address4 }}</span><br />
-                <abbr title="Phone">P:</abbr> {{ hospital.phone }}&ndash;&gt;-->
-                <!--<p class="text-muted">
-                    <i class="fa fa-clock-o"></i>  <span ng-repeat="availability in hospital.availability"> {{ availability.from | date: 'h:mma'}} To {{ availability.to | date: 'h:mma'}}, </span>
-                </p>-->
               </address>
+            </li>
+            <li>
+              From:{{ fromTime }}
+            </li>
+            <li>
+                  To: {{ toTime }}
             </li>
           </ul>
         </td>
@@ -49,12 +49,13 @@
       <div class="form-group">
         <input type="text" name="instructions" class="form-control underline-input" placeholder="Special instructions to doctor" ng-model="instructions">
       </div>
-    </form>
-    <div class="row">
-      <div class="col-sm-12">
-        <a href="" ng-click="confirmDoctorAppointment()" class="btn btn-greensea pull-right">Confirm Appointment</a>
+      <div class="row">
+        <div class="col-sm-12">
+          <a href="" ng-click="confirmDoctorAppointment()" class="btn btn-greensea pull-right">Confirm Appointment</a>
+        </div>
       </div>
-    </div>
+    </form>
+
 
   </div>
 
@@ -78,28 +79,25 @@
                 <span ng-if="lab.address2 != null">, {{ lab.address2 }}</span>
               </address>
             </li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td class="child" colspan="2">
-          <ul style="display: inline-block;list-style-type: none;margin: 0;padding: 0;">
-            <li>
-              <h2 class="custom-font text-cyan m-0">{{ selectedLab.name }}</h2>
-            </li>
+              <li>
+                  From:{{ fromTime }}
+              </li>
+              <li>
+                  To: {{ toTime }}
+              </li>
           </ul>
         </td>
       </tr>
       </tbody>
     </table>
 
-    <form name="form" class="form-validation mt-20" novalidate>
+
       <div class="form-group">
-        <input type="text" name="instructions" class="form-control underline-input" placeholder="Special instructions to Lab" ng-model="instructions">
+        <input type="text" class="form-control underline-input" placeholder="Special instructions to Lab" ng-model="instructions">
       </div>
-    </form>
+
     <div class="row">
-      <div class="col-sm-12">
+      <div class="col-sm-12">{{ instructions }}
         <a href="" ng-click="confirmLabAppointment()" class="btn btn-greensea pull-right">Confirm Appointment</a>
       </div>
     </div>

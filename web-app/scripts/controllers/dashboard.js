@@ -250,8 +250,9 @@ BEGIN CALENDAR CHANGES
     };
 
 
-      $scope.bookAppointment = function( day, timeSlot, subTimeSlot) {
-          $window.localStorage.appointmentDate = $scope.daysDisplayed[day]+'T'+timeSlot+':'+subTimeSlot+':00';
+      $scope.bookAppointment = function( day, timeSlot, startSubTimeSlot, endSubTimeSlot) {
+          $window.localStorage.appointmentStartTime = $scope.daysDisplayed[day]+'T'+timeSlot+':'+startSubTimeSlot+':00';
+          $window.localStorage.appointmentEndTime = $scope.daysDisplayed[day]+'T'+timeSlot+':'+endSubTimeSlot+':00';
           $window.localStorage.setItem('isAppointmentSelected', true);
           // If not authenticated, redirect to login page
           if($window.localStorage.isUserLoggedIn == 'true'){
