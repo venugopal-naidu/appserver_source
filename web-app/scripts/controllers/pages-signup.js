@@ -50,14 +50,19 @@ app.controller('SignupCtrl', function ($scope, $state, $http, $window, $location
 
     $scope.isAppointmentSelected = false;
     $scope.selectedDoctor = null;
-    $scope.doctorAppointmentDate = null;
+    $scope.appointmentStartTime = null;
+    $scope.appointmentEndTime = null;
     // Set isAppointmentSelected
     if($window.localStorage.isAppointmentSelected != null){
       $scope.isAppointmentSelected = $window.localStorage.isAppointmentSelected;
     }
     // Set Appointment date for doctor
-    if($window.localStorage.doctorAppointmentDate != null){
-      $scope.doctorAppointmentDate = $window.localStorage.doctorAppointmentDate;
+    if($window.localStorage.appointmentStartTime != null){
+      $scope.appointmentStartTime = $window.localStorage.appointmentStartTime;
+    }
+    // Set Appointment date for doctor
+    if($window.localStorage.appointmentEndTime != null){
+      $scope.appointmentEndTime = $window.localStorage.appointmentEndTime;
     }
     // Set doctor
     if($window.localStorage.selectedDoctor != null){
