@@ -10,6 +10,7 @@
 app
   .controller('AppointmentCtrl', function ($scope,$compile,uiCalendarConfig, $state,$window) {
 
+    /* BEGIN CALENDAR CHANGES
     $scope.bookAppointment = function( date, jsEvent, view ){
       $window.localStorage.appointmentDate = date;
       $window.localStorage.setItem('isAppointmentSelected', true);
@@ -21,6 +22,10 @@ app
       }
 
     };
+     END CALENDAR CHANGES
+    */
+
+
     $scope.eventSources = [];
 
     /* config object */
@@ -45,6 +50,7 @@ app
 
   })
   .controller('ConfirmAppointmentCtrl', function ($scope, $compile, uiCalendarConfig, $state, $window, $http) {
+    $scope.instructions = "";
     $scope.formErrors = null;
     $scope.invalidTokenError = null;
 
@@ -97,7 +103,7 @@ app
       $scope.fromTime = $window.localStorage.appointmentDate;
       var url = ajax_url_prefix + 'appointment/create';
       var dataToSend = {
-        "fromTime":"2016-04-30T10:10:10",
+        "fromTime":$window.localStorage.appointmentDate,
         "toTime":"2016-04-30T12:10:10",
         "doctorId": $window.localStorage.selectedDoctor,
         "hospitalId": $window.localStorage.selectedHospital,
@@ -130,7 +136,7 @@ app
       $scope.fromTime = $window.localStorage.appointmentDate;
       var url = ajax_url_prefix + 'appointment/create';
       var dataToSend = {
-        "fromTime":"2016-04-30T10:10:10",
+        "fromTime":$window.localStorage.appointmentDate,
         "toTime":"2016-04-30T12:10:10",
         "labId": $window.localStorage.selectedLab,
         "notes": $scope.instructions

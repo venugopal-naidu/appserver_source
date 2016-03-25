@@ -171,9 +171,34 @@
                                         <button class="btn btn-success btn-ef btn-ef-7 btn-ef-7b mb-10" style="margin-top: 110px" ng-click="showDoctorAppointmentCalendar(doctor,$index,hospitalId)"><i class="fa fa-calendar"></i> Book Appointment</button>
                                     </td>
                                 </tr>
+                                <!--
+                                BEGIN CALENDAR CHANGES
                                 <tr id="doctor_calendar_{{$index}}" class="collapse doctorAppointment" ng-repeat-end>
                                     <td style="border: 0" colspan="4" ng-controller="AppointmentCtrl">
                                         <div class="calendar" id="doctorAppointment_{{$index}}" calendar="doctorAppointment" ng-model="eventSources" ui-calendar="uiConfig.calendar"></div>
+                                    </td>
+                                </tr>
+                                END CALENDAR CHANGES
+                                -->
+                                <tr ng-show="$parent.displayCalendarIndex == $index"  ng-repeat-end>
+                                    <td colspan="3">
+                                        <div class="row bg-success custom-font big">
+                                            <div class="col-md-4 col-sm-4 col-xs-12 text-center"  ng-repeat="day in daysDisplayed">
+                                                <h4><b>{{ day }}</b></h4>
+                                            </div>
+                                        </div>
+                                        <div class="appointment-calendar">
+                                            <div class="row" ng-repeat="timeSlot in timeSlots">
+                                                <div class="col-md-4 col-sm-4 col-xs-12" ng-repeat="day in daysDisplayed">
+                                                    <div class="row" ng-class="$index%2 ==0 ? 'even-background' : 'odd-background'">
+                                                        <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '00')" class="btn btn-time-slot">{{ timeSlot }}:00</button></div>
+                                                        <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '15')" class="btn btn-time-slot">{{ timeSlot }}:15</button></div>
+                                                        <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '30')" class="btn btn-time-slot">{{ timeSlot }}:30</button></div>
+                                                        <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '45')" class="btn btn-time-slot">{{ timeSlot }}:45</button></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                         </tbody>
@@ -246,11 +271,37 @@
                                 <button class="btn btn-success btn-ef btn-ef-7 btn-ef-7b mb-10" style="margin-top: 110px" ng-click="showLabAppointmentCalendar(lab,$index)"><i class="fa fa-calendar"></i> Book Appointment</button>
                             </td>
                         </tr>
+                        <!--
+                                BEGIN CALENDAR CHANGES
                         <tr id="lab_calendar_{{$index}}" class="collapse labAppointment" ng-repeat-end>
                             <td style="border: 0" colspan="4" ng-controller="AppointmentCtrl">
                                 <div class="calendar" id="labAppointment_{{$index}}" calendar="labAppointment" ng-model="eventSources" ui-calendar="uiConfig.calendar"></div>
                             </td>
                         </tr>
+                        END CALENDAR CHANGES
+                        -->
+                        <tr ng-show="$parent.displayCalendarIndex == $index"  ng-repeat-end>
+                            <td colspan="3">
+                                <div class="row bg-success custom-font big">
+                                    <div class="col-md-4 col-sm-4 col-xs-12 text-center"  ng-repeat="day in daysDisplayed">
+                                        <h4><b>{{ day }}</b></h4>
+                                    </div>
+                                </div>
+                                <div class="appointment-calendar">
+                                    <div class="row" ng-repeat="timeSlot in timeSlots">
+                                        <div class="col-md-4 col-sm-4 col-xs-12" ng-repeat="day in daysDisplayed">
+                                            <div class="row" ng-class="$index%2 ==0 ? 'even-background' : 'odd-background'">
+                                                <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '00')" class="btn btn-time-slot">{{ timeSlot }}:00</button></div>
+                                                <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '15')" class="btn btn-time-slot">{{ timeSlot }}:15</button></div>
+                                                <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '30')" class="btn btn-time-slot">{{ timeSlot }}:30</button></div>
+                                                <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '45')" class="btn btn-time-slot">{{ timeSlot }}:45</button></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
                         <tbody>
                         </tbody>
                         </tbody>

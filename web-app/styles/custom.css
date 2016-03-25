@@ -30,3 +30,27 @@ body {
 .np {
     padding:0px;
 }
+
+.btn-time-slot {
+    /*border-radius: 5px;*/
+    /*border:solid 1px;*/
+    margin-bottom: 5px;
+    /*width:70px;*/
+    background-color: transparent;
+}
+.btn-time-slot:hover {
+    background-color: #5cb85c;
+    color: #ffffff;
+}
+
+.even-background {
+    background-color: #ffffff;
+}
+.odd-background {
+    background-color: #f1f1f1;
+}
+
+.appointment-calendar {
+    height:200px;
+    overflow: auto;
+}
