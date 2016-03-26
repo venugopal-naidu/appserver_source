@@ -73,15 +73,14 @@ app
       });
     };
 
-    $scope.downloadHealthRecord = function(recordId){
-      var fileName = "test.pdf";
+    $scope.downloadHealthRecord = function(fileName, fileContentType, downLoadFileLink){
       var a = document.createElement("a");
       document.body.appendChild(a);
       a.style = "display: none";
 
-      var url = ajax_url_prefix + 'user/my-health-records/view?recordId='+recordId;
+      var url = appUrl + downLoadFileLink;
       $http.get(url, { responseType: 'arraybuffer',headers: {'Authorization': $scope.tokenType + ' '+ $scope.accessToken} }).then(function (response) {
-        var file = new Blob([response.data], {type: 'application/pdf'});
+        var file = new Blob([response.data], {type: fileContentType});
         var fileURL = window.URL.createObjectURL(file);
         a.href = fileURL;
         a.download = fileName;

@@ -37,13 +37,13 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr ng-repeat="record in records">
-                                    <td>{{ record.name }}</td>
-                                    <td>{{ record.recordType }}</td>
-                                    <td>{{ record.recordDate }}</td>
-                                    <td>{{ record.notes }}</td>
+                                <tr ng-repeat="healthRecord in records">
+                                    <td>{{ healthRecord.name }}</td>
+                                    <td>{{ healthRecord.recordType }}</td>
+                                    <td>{{ healthRecord.recordDate }}</td>
+                                    <td>{{ healthRecord.notes }}</td>
                                     <td>
-                                        <a href ng-click="downloadHealthRecord(record.fileLink)"><i class="fa fa-paperclip"></i></a>
+                                        <a href ng-click="downloadHealthRecord(healthRecord.record.name, healthRecord.record.contentType, healthRecord.record.fileLink)"><i class="fa fa-paperclip"></i></a>
                                     </td>
                                 </tr>
                                 </tbody>
