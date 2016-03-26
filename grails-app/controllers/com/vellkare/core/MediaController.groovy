@@ -29,7 +29,7 @@ class MediaController extends RestfulController {
     def member = securityService.currentMember
     def medicalRecords = MedicalRecord.findAllWhere(member: member, deleted: false)
     respond(medicalRecords.collect { record ->
-      [id        : record.id, notes: record.notes, recordType: record.recordType.name, appointmentId: record.appointmentId,
+      [id        : record.id, name: record.name, notes: record.notes, recordType: record.recordType.name, appointmentId: record.appointmentId,
        recordDate: DateUtil.getPrintableDateTimeString(record.recordDate),
        uploadDate: DateUtil.getPrintableDateTimeString(record.uploadDate),
        record    : [name    : record.media?.fileName, contentType: record.media?.contentType, size: record.media?.size,
@@ -111,10 +111,10 @@ class MediaController extends RestfulController {
       contentType: photoFile.contentType)
     media.mediaData = new MediaData(media: media, fileData: photoFile.bytes)
 
-    MedicalRecord record = new MedicalRecord(member: member, notes: cmd.notes,
+    MedicalRecord record = new MedicalRecord(member: member, notes: cmd.notes, name: cmd.name,
       recordType: MedicalRecordType.get(cmd.recordTypeId),
       appointment: cmd.appointmentId ? Appointment.get(cmd.appointmentId) : null,
-      recordDate: cmd.recordDate ? DateUtil.parseDateString(cmd.recordDate) : null)
+      recordDate: cmd.recordDate ? DateUtil.parseDateStringUserFormat(cmd.recordDate) : null)
     record.media = media
     if (record.save(flush: true, failOnError: true)) {
       //respond new SuccessResponse("Record Uploaded successfully", [])
@@ -138,6 +138,7 @@ class HealthRecord {
   String notes
   Long appointmentId
   String recordDate
+  String name
 }
 
 

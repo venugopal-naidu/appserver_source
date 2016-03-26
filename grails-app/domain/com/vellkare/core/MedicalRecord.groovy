@@ -8,6 +8,7 @@ class MedicalRecord {
   MedicalRecordType recordType
   Appointment appointment
 
+  String name
   String notes
   Date recordDate
   Date uploadDate = new Date()
@@ -19,6 +20,7 @@ class MedicalRecord {
   static belongsTo = [member: Member]
 
   static constraints = {
+    name nullable: true
     notes nullable: true, maxSize: 5000
     appointment nullable:true
     deletedDate nullable: true
