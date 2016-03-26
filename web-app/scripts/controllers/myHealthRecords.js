@@ -94,7 +94,9 @@ app
 
     $scope.recordTypes = ['Consultation notes', 'Hospital admission records', 'Test results', 'X-rays'];
     $scope.recordType = { selected: $scope.recordTypes[0] };
+   /* BEGIN FIX ME test data */
     $scope.recordTypeId = 2;
+    /* END FIX ME test data */
     $scope.appointmentId = modalInput.appointmentId;
 
     $scope.clearRecordType = function($event) {
@@ -120,6 +122,9 @@ app
       var  dataToSend = new FormData();
       dataToSend.append( 'file', $( '#recordFile' )[0].files[0] );
       dataToSend.append('recordTypeId', $scope.recordTypeId);
+      /* BEGIN FIX ME test data */
+      dataToSend.append('recordDate', "03-26-2016");
+      /* END FIX ME test data */
 
       var forData = $('form#uploadRecordForm').serializeArray();
       $.each(forData,function(key,input){
@@ -132,7 +137,8 @@ app
       $http.post(url,dataToSend,{
         processData: false,
         transformRequest: angular.identity,
-        headers: {'Authorization': $scope.tokenType + ' '+ $scope.accessToken}
+        headers: {'Authorization': $scope.tokenType + ' '+ $scope.accessToken,
+        'Content-Type': 'undefined'}
       }).then(function(response){
         alert('Record uploaded');
         $uibModalInstance.dismiss('cancel');
