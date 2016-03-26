@@ -33,7 +33,7 @@ class MediaController extends RestfulController {
        recordDate: DateUtil.getPrintableDateTimeString(record.recordDate),
        uploadDate: DateUtil.getPrintableDateTimeString(record.uploadDate),
        record    : [name    : record.media?.fileName, contentType: record.media?.contentType, size: record.media?.size,
-                    fileLink: createLink(mapping: 'downloaRecord', params: [namespace: namespace, id: record.id])]
+                    fileLink: "record/download/${record.id}"]
       ]
     })
   }
