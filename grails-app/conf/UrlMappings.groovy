@@ -79,12 +79,21 @@ class UrlMappings {
     "/api/$namespace/search/lab/listLabNames"(controller: 'search', action: 'listLabsForTest') {}
     "/api/$namespace/search/lab/listTests"(controller: 'search', action: 'listTestInLab') {}
     "/api/$namespace/search/lab/listLabs"(controller: 'search', action: 'listLabs') {}
+    "/api/$namespace/search/doctorAndHospital"(controller: 'search', action: 'doctorHospitalDetails') {}
+    "/api/$namespace/search/lab"(controller: 'search', action: 'labDetails') {}
 
     "/api/$namespace/appointment/create"(controller: 'appointment', action: 'makeAnAppointment') {}
     "/api/$namespace/appointment/cancel/$appointmentId"(controller: 'appointment', action: 'cancelAppointment') {}
     "/api/$namespace/appointment/confirm/$appointmentId"(controller: 'appointment', action: 'confirmAppointment') {}
     "/api/$namespace/appointment/list"(controller: 'appointment', action: 'listAppointments') {}
 
+
+    "/api/$namespace/record/recordTypes"(controller: 'media', action: 'listMedicalRecordTypes') {}
+    "/api/$namespace/record/listRecords"(controller: 'media', action: 'listMedicalRecords') {}
+    "/api/$namespace/record/upload"(controller: 'media', action: 'saveMedicalRecord') {}
+    "/api/$namespace/record/delete/$id"(controller: 'media', action: 'deleteMedicalRecord') {}
+    name downloaRecord:
+      "/api/$namespace/record/download/$id"(controller: 'media', action: 'downloadMedicalRecord') {}
 
     "/api/$namespace/doctor/show/$id"(controller: 'doctor', action: 'show') {}
 

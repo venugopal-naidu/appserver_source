@@ -136,7 +136,7 @@ app
         processData: false,
         transformRequest: angular.identity,
         headers: {'Authorization': $scope.tokenType + ' '+ $scope.accessToken,
-        'Content-Type': 'undefined'}
+        'Content-Type': undefined}
       }).then(function(response){
         alert('Record uploaded');
         $uibModalInstance.dismiss('cancel');

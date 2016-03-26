@@ -104,8 +104,8 @@ class AppointmentController {
     mini.fromTime = DateUtil.getPrintableTimeString(app.fromTime)
     mini.toTime = DateUtil.getPrintableTimeString(app.toTime)
     mini.appointmentCreatedDate = DateUtil.getPrintableDateTimeString(app.bookingDate)
-    mini.status = app.status.name().toLowerCase().capitalize()
-    mini.hasMedicalRecords = false
+    mini.status = app.status.name()
+    mini.hasMedicalRecords = MedicalRecord.countByAppointment(app)>0
     mini
   }
 }

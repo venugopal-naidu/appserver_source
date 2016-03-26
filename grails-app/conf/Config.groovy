@@ -275,25 +275,11 @@ environments {
 
 vellkare {
   media {
-    profile {
-      className = 'com.vellkare.core.Member'
-      label = 'Member'
-      path = '/Media/profile/'
-      mediaTypes = ['small', 'medium']
-      small.size = [48, 48]
-      medium.size = [300, 200]
-      defaultMedia = '/Media/default/default-profile'
-      defaultExtension = "png"
-    }
-    workspace {
-      className = 'com.vellkare.core.Tenant'
-      label = 'Workspace'
-      path = '/Media/workspace/'
-      mediaTypes = ['small', 'medium']
-      small.size = [48, 48]
-      medium.size = [300, 200]
-      defaultMedia = '/Media/default/default-workspace'
-      defaultExtension = "png"
+    healthRecord {
+      maxSize = 1024*1024*10  // maximum 10 MB
+      supportedTypes = ['tif', 'tiff', 'gif', 'jpeg', 'jpg',
+                        'jif', 'jfif', 'jp2', 'jpx',  'j2k',
+                        'j2c', 'fpx',  'pcd', 'png',  'pdf']
     }
   }
 }

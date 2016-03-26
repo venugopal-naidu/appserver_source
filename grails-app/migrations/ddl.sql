@@ -428,3 +428,47 @@ CREATE TABLE subscription_plan
     version BIGINT NOT NULL
 );
 
+CREATE TABLE medical_record_type
+(
+    id BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    description VARCHAR(255),
+    enabled BIT DEFAULT b'1' NOT NULL
+);
+
+CREATE TABLE media
+(
+    id BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    file_name VARCHAR(255) NOT NULL,
+    public_media BIT DEFAULT b'0' NOT NULL,
+    content_type VARCHAR(255) NULL,
+    size INT(10) NOT NULL
+);
+
+CREATE TABLE media_data
+(
+    id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    file_data LONGBLOB NOT NULL,
+    media_id BIGINT UNSIGNED NOT NULL,
+    FOREIGN KEY (media_id) REFERENCES media (id)
+);
+
+
+CREATE TABLE medical_record
+(
+    id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    version BIGINT NOT NULL,
+    member_id BIGINT UNSIGNED NOT NULL,
+    appointment_id BIGINT UNSIGNED,
+    deleted BIT NOT NULL,
+    deleted_date DATETIME,
+    media_id BIGINT UNSIGNED,
+    notes VARCHAR(5000),
+    record_type_id BIGINT UNSIGNED NOT NULL,
+    upload_date DATETIME NOT NULL,
+    record_date DATE,
+    FOREIGN KEY (record_type_id) REFERENCES medical_record_type (id),
+    FOREIGN KEY (member_id) REFERENCES member (id),
+    FOREIGN KEY (appointment_id) REFERENCES appointment (id),
+    FOREIGN KEY (media_id) REFERENCES media (id)
+);
