@@ -122,9 +122,7 @@ app
       var  dataToSend = new FormData();
       dataToSend.append( 'file', $( '#recordFile' )[0].files[0] );
       dataToSend.append('recordTypeId', $scope.recordTypeId);
-      /* BEGIN FIX ME test data */
-      dataToSend.append('recordDate', "03-26-2016");
-      /* END FIX ME test data */
+
 
       var forData = $('form#uploadRecordForm').serializeArray();
       $.each(forData,function(key,input){
