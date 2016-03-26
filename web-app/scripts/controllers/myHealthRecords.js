@@ -78,7 +78,7 @@ app
       document.body.appendChild(a);
       a.style = "display: none";
 
-      var url = appUrl + downLoadFileLink;
+      var url = ajax_url_prefix + downLoadFileLink;
       $http.get(url, { responseType: 'arraybuffer',headers: {'Authorization': $scope.tokenType + ' '+ $scope.accessToken} }).then(function (response) {
         var file = new Blob([response.data], {type: fileContentType});
         var fileURL = window.URL.createObjectURL(file);
