@@ -12,7 +12,7 @@ app
     $scope.accessToken = $window.localStorage.accessToken;
     $scope.tokenType = $window.localStorage.tokenType;
     $scope.getMyRecords = function(){
-      var url = ajax_url_prefix + 'user/my-health-records';
+      var url = ajax_url_prefix + 'record/listRecords';
       $http.get(url,{ headers: {'Authorization': $scope.tokenType + ' '+ $scope.accessToken}}).then(function(response){
         $scope.records = response.data.records;
       },function (response){
@@ -24,12 +24,13 @@ app
         }
       });
     };
-    $scope.records = [
-      { id:1,name: 'Dr. Satyanath\'s notes', type: 'Doctor notes', issuedDate: 'October 12, 2015', description: 'Appt notes from Dr.Satyanath'},
-      { id:2,name: 'Backache prescription', type: 'Prescription', issuedDate: 'November 10, 2016', description: 'Backache medicines'},
-      { id:3,name: 'X-ray report', type: 'Lab report', issuedDate: 'January 15, 2016', description: 'X-ray at Focus diagnostics'},
-      { id:4,name: 'MRI report', type: 'Lab report', issuedDate: 'February 4, 2016', description: 'MRI of spine'},
-    ];
+
+      /*  $scope.records = [
+          { id:1,name: 'Dr. Satyanath\'s notes', type: 'Doctor notes', issuedDate: 'October 12, 2015', description: 'Appt notes from Dr.Satyanath'},
+          { id:2,name: 'Backache prescription', type: 'Prescription', issuedDate: 'November 10, 2016', description: 'Backache medicines'},
+          { id:3,name: 'X-ray report', type: 'Lab report', issuedDate: 'January 15, 2016', description: 'X-ray at Focus diagnostics'},
+          { id:4,name: 'MRI report', type: 'Lab report', issuedDate: 'February 4, 2016', description: 'MRI of spine'},
+        ];*/
     $scope.dtOptions = DTOptionsBuilder.newOptions().withPaginationType('full_numbers').withBootstrap();
     $scope.dtColumnDefs = [
       DTColumnDefBuilder.newColumnDef(0),
@@ -93,6 +94,7 @@ app
 
     $scope.recordTypes = ['Consultation notes', 'Hospital admission records', 'Test results', 'X-rays'];
     $scope.recordType = { selected: $scope.recordTypes[0] };
+    $scope.recordTypeId = 2;
     $scope.appointmentId = modalInput.appointmentId;
 
     $scope.clearRecordType = function($event) {
@@ -101,10 +103,23 @@ app
       $event.stopPropagation();
     };
 
+    $scope.loadRecordTypes = function() {
+
+      $http.post(url,dataToSend,{
+        processData: false,
+        transformRequest: angular.identity,
+        headers: {'Authorization': $scope.tokenType + ' '+ $scope.accessToken}
+      }).then(function(response) {
+      });
+    };
+
+
+
     $scope.uploadHealthRecord = function () {
-      var url = ajax_url_prefix + 'user/my-health-records/upload';
+      var url = ajax_url_prefix + 'record/upload';
       var  dataToSend = new FormData();
-      dataToSend.append( 'recordFile', $( '#recordFile' )[0].files[0] );
+      dataToSend.append( 'file', $( '#recordFile' )[0].files[0] );
+      dataToSend.append('recordTypeId', $scope.recordTypeId);
 
       var forData = $('form#uploadRecordForm').serializeArray();
       $.each(forData,function(key,input){
