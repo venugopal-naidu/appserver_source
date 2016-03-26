@@ -32,18 +32,18 @@
                                     <th class="bt-0">Record Name</th>
                                     <th class="bt-0">Record Type</th>
                                     <th class="bt-0">Issued Date</th>
-                                    <th class="bt-0">Comments</th>
+                                    <th class="bt-0">Notes</th>
                                     <th class="bt-0"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr ng-repeat="record in records">
                                     <td>{{ record.name }}</td>
-                                    <td>{{ record.type }}</td>
-                                    <td>{{ record.issuedDate }}</td>
-                                    <td>{{ record.description }}</td>
+                                    <td>{{ record.recordDate }}</td>
+                                    <td>{{ record.recordDate }}</td>
+                                    <td>{{ record.notes }}</td>
                                     <td>
-                                        <a href ng-click="downloadHealthRecord(record.id)"><i class="fa fa-paperclip"></i></a>
+                                        <a href ng-click="downloadHealthRecord(record.fileLink)"><i class="fa fa-paperclip"></i></a>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -71,13 +71,13 @@
       <div class="form-group">
         <label for="recordName" class="col-sm-3 control-label">Record Name*</label>
         <div class="col-sm-9">
-          <input type="text" class="form-control" name="recordName" id="recordName" ng-model="recordName" placeholder="Record name to identify" required>
+          <input type="text" class="form-control" name="name" id="recordName" ng-model="name" placeholder="Record name to identify" required>
         </div>
       </div>
       <div class="form-group">
         <label class="col-sm-3 control-label">Record Type</label>
         <div class="col-sm-9">
-          <ui-select ng-model="recordType.selected" name="recordType" class="w-md mb-10" required>
+          <ui-select ng-model="recordType.selected" name="recordTypeId" class="w-md mb-10" required>
             <ui-select-match placeholder="Select record type">{{$select.selected}} <a href ng-click="clearRecordType($event)"><i class="fa fa-times"></i></a></ui-select-match>
             <ui-select-choices repeat="recordType in recordTypes | filter: $select.search">
               <span ng-bind-html="recordType | highlight: $select.search"></span>
@@ -89,7 +89,7 @@
         <label class="col-sm-3 control-label">Issued date</label>
         <div class="col-sm-9">
           <div class="input-group w-md">
-            <input type="text" class="form-control" name="issuedDate" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" required/>
+            <input type="text" class="form-control" name="recordDate" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" required/>
                     <span class="input-group-btn">
                       <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
@@ -99,7 +99,7 @@
       <div class="form-group">
         <label class="col-sm-3 control-label">Record</label>
         <div class="col-sm-9">
-          <input ng-model="record" ui-jq="filestyle" type="file" id="recordFile" name='recordFile' class="filestyle" ui-options="{
+          <input ng-model="record" ui-jq="filestyle" type="file" id="recordFile" name='file' class="filestyle" ui-options="{
                     buttonText: 'Select record',
                     iconName: 'fa fa-inbox'
                   }">
@@ -108,7 +108,7 @@
       <div class="form-group">
         <label class="col-sm-3 control-label" for="message">Description: </label>
         <div class="col-sm-9">
-          <textarea class="form-control" name="description" rows="3" id="message" placeholder="Write something about record..." ng-model="user.message"></textarea>
+          <textarea class="form-control" name="notes" rows="3" id="message" placeholder="Write something about record..." ng-model="notes"></textarea>
         </div>
       </div>
   </div>
