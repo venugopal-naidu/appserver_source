@@ -11,10 +11,11 @@ app
   .controller('MyHealthRecordsCtrl', function ($scope, $resource, DTOptionsBuilder, DTColumnDefBuilder, $uibModal, $http, $window, $state) {
     $scope.accessToken = $window.localStorage.accessToken;
     $scope.tokenType = $window.localStorage.tokenType;
+
     $scope.getMyRecords = function(){
       var url = ajax_url_prefix + 'record/listRecords';
       $http.get(url,{ headers: {'Authorization': $scope.tokenType + ' '+ $scope.accessToken}}).then(function(response){
-        $scope.records = response.data.records;
+        $scope.records = response.data;
       },function (response){
         if(response['status'] == 401){
           $scope.formErrors = response.data['error'];
@@ -25,12 +26,18 @@ app
       });
     };
 
-      /*  $scope.records = [
-          { id:1,name: 'Dr. Satyanath\'s notes', type: 'Doctor notes', issuedDate: 'October 12, 2015', description: 'Appt notes from Dr.Satyanath'},
-          { id:2,name: 'Backache prescription', type: 'Prescription', issuedDate: 'November 10, 2016', description: 'Backache medicines'},
-          { id:3,name: 'X-ray report', type: 'Lab report', issuedDate: 'January 15, 2016', description: 'X-ray at Focus diagnostics'},
-          { id:4,name: 'MRI report', type: 'Lab report', issuedDate: 'February 4, 2016', description: 'MRI of spine'},
-        ];*/
+    $scope.recordTypes = [];
+    $scope.loadRecordTypes = function() {
+      var url = ajax_url_prefix +'record/recordTypes';
+      $http.post(url,{
+        processData: false,
+        transformRequest: angular.identity,
+        headers: {'Authorization': $scope.tokenType + ' '+ $scope.accessToken}
+      }).then(function(response) {
+        $scope.recordTypes = response.data
+      });
+    };
+
     $scope.dtOptions = DTOptionsBuilder.newOptions().withPaginationType('full_numbers').withBootstrap();
     $scope.dtColumnDefs = [
       DTColumnDefBuilder.newColumnDef(0),
@@ -40,11 +47,13 @@ app
       DTColumnDefBuilder.newColumnDef(4).notSortable()
     ];
 
-    // Init upload health records modal.
-
-    $scope.modalInput = {'appointmentId': ''};
+    // Load the records and the record types
+    $scope.getMyRecords();
+    $scope.loadRecordTypes();
 
     $scope.openUploadRecordModal = function(size) {
+      // Init upload health records modal.
+      $scope.modalInput = {'appointmentId': '', 'recordTypes':$scope.recordTypes};
 
       var modalInstance = $uibModal.open({
         templateUrl: 'uploadHealthRecordModal',
@@ -60,19 +69,18 @@ app
       modalInstance.result.then(function (selectedItem) {
         $scope.selected = selectedItem;
       }, function () {
-        $log.info('Modal dismissed at: ' + new Date());
+        $scope.getMyRecords();
       });
     };
 
-    $scope.downloadHealthRecord = function(recordId){
-      var fileName = "test.pdf";
+    $scope.downloadHealthRecord = function(fileName, fileContentType, downLoadFileLink){
       var a = document.createElement("a");
       document.body.appendChild(a);
       a.style = "display: none";
 
-      var url = ajax_url_prefix + 'user/my-health-records/view?recordId='+recordId;
+      var url = appUrl + downLoadFileLink;
       $http.get(url, { responseType: 'arraybuffer',headers: {'Authorization': $scope.tokenType + ' '+ $scope.accessToken} }).then(function (response) {
-        var file = new Blob([response.data], {type: 'application/pdf'});
+        var file = new Blob([response.data], {type: fileContentType});
         var fileURL = window.URL.createObjectURL(file);
         a.href = fileURL;
         a.download = fileName;
@@ -87,41 +95,18 @@ app
       });
     }
 
-    $scope.getMyRecords();
 
   })
   .controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, modalInput, $http, $window, $state) {
-
-    $scope.recordTypes = ['Consultation notes', 'Hospital admission records', 'Test results', 'X-rays'];
-    $scope.recordType = { selected: $scope.recordTypes[0] };
-   /* BEGIN FIX ME test data */
-    $scope.recordTypeId = 2;
-    /* END FIX ME test data */
+    $scope.recordTypes =  modalInput.recordTypes;
     $scope.appointmentId = modalInput.appointmentId;
-
-    $scope.clearRecordType = function($event) {
-      $scope.recordType.selected = null;
-      $event.preventDefault();
-      $event.stopPropagation();
-    };
-
-    $scope.loadRecordTypes = function() {
-
-      $http.post(url,dataToSend,{
-        processData: false,
-        transformRequest: angular.identity,
-        headers: {'Authorization': $scope.tokenType + ' '+ $scope.accessToken}
-      }).then(function(response) {
-      });
-    };
-
-
+    $scope.recordTypeSelected = {};
 
     $scope.uploadHealthRecord = function () {
       var url = ajax_url_prefix + 'record/upload';
       var  dataToSend = new FormData();
       dataToSend.append( 'file', $( '#recordFile' )[0].files[0] );
-      dataToSend.append('recordTypeId', $scope.recordTypeId);
+      dataToSend.append('recordTypeId', $scope.recordTypeSelected.selected.id);
 
 
       var forData = $('form#uploadRecordForm').serializeArray();
@@ -150,14 +135,12 @@ app
         }
       });
 
+
     };
 
     $scope.cancel = function () {
       $uibModalInstance.dismiss('cancel');
     };
-
-
-
 
     // Date picker configs
 
