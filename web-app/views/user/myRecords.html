@@ -77,10 +77,10 @@
       <div class="form-group">
         <label class="col-sm-3 control-label">Record Type</label>
         <div class="col-sm-9">
-          <ui-select ng-model="recordType.selected" name="recordTypeId" class="w-md mb-10" required>
-            <ui-select-match placeholder="Select record type">{{$select.selected}} <a href ng-click="clearRecordType($event)"><i class="fa fa-times"></i></a></ui-select-match>
+          <ui-select ng-model="recordTypeSelected.selected" name="recordTypeSelected" class="w-md mb-10" required>
+            <ui-select-match placeholder="Select record type">{{$select.selected.name}}</ui-select-match>
             <ui-select-choices repeat="recordType in recordTypes | filter: $select.search">
-              <span ng-bind-html="recordType | highlight: $select.search"></span>
+              <span ng-bind-html="recordType.name | highlight: $select.search"></span>
             </ui-select-choices>
           </ui-select>
         </div>
