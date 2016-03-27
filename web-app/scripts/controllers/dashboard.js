@@ -195,7 +195,21 @@ app
       $event.stopPropagation();
     };
 
-      $scope.daysDisplayed=["2016-03-25", "2016-03-26", "2016-03-27"];
+      $scope.dateSetDisplayed = 0;
+      $scope.daysDisplayed = [];
+      // Get the day sets for the next 3 months
+      var dateSet = new Array(3);
+      for(var i=0; i<90; i++)
+      {
+          if(i%3 == 0)
+          {
+              dateSet = new Array(3);
+              $scope.daysDisplayed.push(dateSet);
+          }
+        dateSet.push(moment().day(i));
+      }
+
+//      $scope.daysDisplayed=["2016-03-25", "2016-03-26", "2016-03-27"];
       $scope.timeSlots = ["09", "10", "11", "12", "01", "02", "03", "04", "05", "06", "07", "08"];
       $scope.displayCalendarIndex = -1;
     /* Toggle and render calendar view */

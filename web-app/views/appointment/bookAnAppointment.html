@@ -283,7 +283,7 @@
                         <tr ng-show="$parent.displayCalendarIndex == $index"  ng-repeat-end>
                             <td colspan="3">
                                 <div class="row bg-success custom-font big">
-                                    <div class="col-md-4 col-sm-4 col-xs-12 text-center"  ng-repeat="day in daysDisplayed">
+                                    <div class="col-md-4 col-sm-4 col-xs-12 text-center"  ng-repeat="day in daysDisplayed[dateSetDisplayed]">
                                         <h4><b>{{ day }}</b></h4>
                                     </div>
                                 </div>
