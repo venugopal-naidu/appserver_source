@@ -30,8 +30,8 @@ class MediaController extends RestfulController {
     def medicalRecords = MedicalRecord.findAllWhere(member: member, deleted: false)
     respond(medicalRecords.collect { record ->
       [id        : record.id, name: record.name, notes: record.notes, recordType: record.recordType.name, appointmentId: record.appointmentId,
-       recordDate: DateUtil.getPrintableDateTimeString(record.recordDate),
-       uploadDate: DateUtil.getPrintableDateTimeString(record.uploadDate),
+       recordDate: DateUtil.getDateStringUserFormat(record.recordDate),
+       uploadDate: DateUtil.getDateTimeStringUserFormat(record.uploadDate),
        record    : [name    : record.media?.fileName, contentType: record.media?.contentType, size: record.media?.size,
                     fileLink: "record/download/${record.id}"]
       ]

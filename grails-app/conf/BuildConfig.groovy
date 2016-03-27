@@ -82,6 +82,7 @@ grails.project.dependency.resolution = {
     // plugins for the compile step
     compile ":scaffolding:2.1.2"
     compile ':cache:1.1.8'
+    compile ":cache-ehcache:1.0.5"
     compile ":asset-pipeline:1.9.9"
     //compile ":swagger4jaxrs:0.2"
     //compile ":jaxrs:0.11"

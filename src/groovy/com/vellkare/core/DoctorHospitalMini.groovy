@@ -20,7 +20,7 @@ class DoctorHospitalMini {
   String univ4
   String degree5
   String univ5
-  int experience = 0
+  Integer experience = 0
   String awards
   String language
   String photoUrl

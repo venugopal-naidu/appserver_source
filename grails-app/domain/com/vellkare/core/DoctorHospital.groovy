@@ -26,6 +26,7 @@ class DoctorHospital implements Serializable {
 
   static mapping = {
     id composite: ['doctor', 'hospital']
+    cache true
   }
 
   boolean equals(other) {
