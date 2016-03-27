@@ -23,7 +23,7 @@ app
     $scope.test = {};
     $scope.labs = [];
     $scope.lab = {};
-    $scope.appUrl = appUrl;
+    $scope.baseUrl = baseUrl;
     $scope.noDoctorsFound = false;
 
     $scope.searchTypes = [
