@@ -1,6 +1,6 @@
 package com.vellkare.core
 
-class Test {
+class Test implements Serializable {
   String name
   Double cost
 }

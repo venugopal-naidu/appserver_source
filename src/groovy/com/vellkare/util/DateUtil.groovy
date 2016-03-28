@@ -14,7 +14,7 @@ class DateUtil {
   static SimpleDateFormat userDfDate = new SimpleDateFormat(USER_DATE_FORMAT)
   static SimpleDateFormat userDfDateTime = new SimpleDateFormat(USER_DATE_TIME_FORMAT)
 
-  static final String TIME_FORMAT = "HH:mm:ss"
+  static final String TIME_FORMAT = "HH:mm a"
   static SimpleDateFormat dfTime = new SimpleDateFormat(TIME_FORMAT)
 
   static final String DATE_TIME_FORMAT = "MM-dd-yyyy HH:mm:ss a"
@@ -33,11 +33,15 @@ class DateUtil {
     userDfDate.parse(date)
   }
 
+  static String getDateStringUserFormat(Date date){
+    userDfDate.format(date)
+  }
+
   static Date parseDateTimeStringUserFormat(String date){
     userDfDateTime.parse(date)
   }
 
-  static Date getDateTimeStringUserFormat(Date date){
+  static String getDateTimeStringUserFormat(Date date){
     userDfDateTime.format(date)
   }
 

@@ -19,20 +19,44 @@ class SearchController {
     if (!location) {
       location = 'Hyderabad'
     }
-    def specialties = Speciality.findAll().collect { it.name?.toLowerCase()?.capitalize() }
-      .grep().unique().sort()
-    def hospitalNames = Hospital.findAllWhere(city: location).collect { it.name?.toLowerCase()?.capitalize() }
-      .grep().unique().sort()
+    def specialties = DoctorHospital.createCriteria().list{
+      createAlias('hospital', 'hospital')
+      createAlias('doctor', 'doctor')
+      createAlias('doctor.specialities', 'sps')
+      createAlias('sps.speciality', 'speciality')
+      projections{
+        distinct 'speciality.name'
+      }
+      ilike('hospital.city', "%${location}%")
+    }*.toLowerCase()*.capitalize().sort()
+
+      def hospitalNames = DoctorHospital.createCriteria().list{
+        createAlias('hospital', 'hospital')
+        projections{
+          distinct 'hospital.name'
+        }
+        ilike('hospital.city', "%${location}%")
+      }*.toLowerCase()*.capitalize().sort()
+
     respond (specialties: specialties, hospitals: hospitalNames)
   }
 
   def listHospitals(SearchCommand cmd){
     cmd.location = cmd.location?:'Hyderabad'
-    def hospitals =  Hospital.createCriteria().list{
-      if(cmd.specialty) {
-        ilike('specialists', "%${cmd.specialty}%")
+    def hospitals =  DoctorHospital.createCriteria().list{
+      createAlias('hospital', 'hospital')
+      createAlias('doctor', 'doctor')
+      createAlias('doctor.specialities', 'sps')
+      createAlias('sps.speciality', 'speciality')
+      projections{
+        distinct 'hospital'
       }
-      eq('city', cmd.location)
+      if(cmd.location) {
+        ilike('hospital.city', "%${cmd.location}%")
+      }
+      if(cmd.specialty) {
+        ilike('speciality.name', "%${cmd.specialty}%")
+      }
     }
     respond (location: cmd.location, specialty: cmd.specialty, hospitals: hospitals)
   }
@@ -40,32 +64,41 @@ class SearchController {
 
   def listHospitalsNames(SearchCommand cmd){
     cmd.location = cmd.location?:'Hyderabad'
-    def hospitals =  Hospital.createCriteria().list{
+    def hospitalNames = DoctorHospital.createCriteria().list{
+      createAlias('hospital', 'hospital')
+      createAlias('doctor', 'doctor')
+      createAlias('doctor.specialities', 'sps')
+      createAlias('sps.speciality', 'speciality')
       projections{
-        property 'name'
+        distinct 'hospital.name'
+      }
+      if(cmd.location) {
+        ilike('hospital.city', "%${cmd.location}%")
       }
       if(cmd.specialty) {
-        ilike('specialists', "%${cmd.specialty}%")
+        ilike('speciality.name', "%${cmd.specialty}%")
       }
-      eq('city', cmd.location)
-    }*.toLowerCase()*.capitalize().sort().unique()
-    respond (location: cmd.location, specialty: cmd.specialty, hospitals: hospitals)
+    }*.toLowerCase()*.capitalize().sort()
+    respond (location: cmd.location, specialty: cmd.specialty, hospitals: hospitalNames)
   }
-
-
 
   def listHospitalSpecialities(SearchCommand cmd){
     cmd.location = cmd.location?:'Hyderabad'
-    def specialties = Hospital.createCriteria().list{
-      if(cmd.hospital) {
-        ilike('name', "%${cmd.hospital}%")
+    def specialties = DoctorHospital.createCriteria().list{
+      createAlias('hospital', 'hospital')
+      createAlias('doctor', 'doctor')
+      createAlias('doctor.specialities', 'sps')
+      createAlias('sps.speciality', 'speciality')
+      projections{
+        distinct 'speciality.name'
       }
       if(cmd.location) {
-        ilike('city', "%${cmd.location}%")
+        ilike('hospital.city', "%${cmd.location}%")
       }
-    }.collect{
-      it.specialists?.tokenize(',')*.toLowerCase()*.trim()*.capitalize()
-    }.flatten().grep().unique().sort()
+      if(cmd.hospital) {
+        ilike('hospital.name', "%${cmd.hospital}%")
+      }
+    }*.toLowerCase()*.capitalize().sort()
 
     respond (location: cmd.location, hospital: cmd.hospital, specialties: specialties)
   }
@@ -74,7 +107,11 @@ class SearchController {
     cmd.location = cmd.location ?: 'Hyderabad'
     def doctors = DoctorHospital.createCriteria().list{
       createAlias('hospital', 'hospital')
-      createAlias('doctor', 'doctor')
+      if(cmd.specialty) {
+        createAlias('doctor', 'doctor')
+        createAlias('doctor.specialities', 'sps')
+        createAlias('sps.speciality', 'speciality')
+      }
       projections{
         distinct 'doctor'
       }
@@ -85,7 +122,7 @@ class SearchController {
         ilike('hospital.city', "%${cmd.location}%")
       }
       if(cmd.specialty) {
-        ilike('hospital.specialists', "%${cmd.specialty}%")
+        ilike('speciality.name', "%${cmd.specialty}%")
       }
     }.collect{ doctor->
       BeanUtil.transformObject(doctor.class, DoctorHospitalMini, doctor)

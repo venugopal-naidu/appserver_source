@@ -1,6 +1,6 @@
 package com.vellkare.core
 
-class Lab {
+class Lab implements Serializable {
   String name
   String address1
   String address2
@@ -36,6 +36,9 @@ class Lab {
   }
 
   static hasMany = [packages: LabPackageTest]
+  static mapping = {
+    cache true
+  }
 
   def printableAddress(){
     def sb = new StringBuilder()

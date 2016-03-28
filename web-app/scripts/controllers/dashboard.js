@@ -62,8 +62,8 @@ app
     /* Find and clear search result */
 
     $scope.findDoctor = function(){
-  /*
-   TEST DATA
+/*
+  // TEST DATA
    $scope.doctorsList = [{"awards":"","degree1":"MBBS","degree2":"MD (INTERNAL MEDICINE)","degree3":"ABIM","degree4":"","degree5":"","description":null,"experience":26,"gender":null,"hospitals":[{"address1":"JUBILEE HILLS","address2":"JUBILEE HILLS","address3":"","address4":"","availability":{"MONDAY":[{"from":"09:00:00","to":"21:00:00"}],"TUESDAY":[{"from":"09:00:00","to":"21:00:00"}],"WEDNESDAY":[{"from":"09:00:00","to":"21:00:00"}],"THURSDAY":[{"from":"09:00:00","to":"21:00:00"}],"FRIDAY":[{"from":"09:00:00","to":"21:00:00"}],"SATURDAY":[{"from":"09:00:00","to":"21:00:00"}],"SUNDAY":[{"from":"09:00:00","to":"21:00:00"}]},"id":652,"name":"APOLLO HEALTH CITY"}],
             "id":50,"language":"ENGLISH,HINDI,TELUGU","name":"DR.INDIRA RAMASAHAYAM REDDY","photoUrl":"/images/doctor/50.jpeg","specialties":["Internal medicine"],"univ1":"","univ2":"","univ3":"","univ4":"","univ5":"","velkareVerified":false}];
 */
@@ -195,8 +195,36 @@ app
       $event.stopPropagation();
     };
 
-      $scope.daysDisplayed=["2016-03-25", "2016-03-26", "2016-03-27"];
-      $scope.timeSlots = ["09", "10", "11", "12", "01", "02", "03", "04", "05", "06", "07", "08"];
+      $scope.dateSetIndex = 0;
+      $scope.datesDisplayed = [];
+      // Get the day sets for the next 3 months
+      var dateSet = new Array(3);
+      for(var i=0; i<90; i++)
+      {
+          if(i%3 == 0)
+          {
+              dateSet = [];
+              $scope.datesDisplayed.push(dateSet);
+          }
+        dateSet.push(moment().day(i).format("YYYY-MM-DD"));
+      }
+
+      $scope.dateSetDisplayed = $scope.datesDisplayed[$scope.dateSetIndex];
+
+
+      $scope.goToPrevDateSet = function() {
+          $scope.dateSetIndex--;
+          $scope.dateSetDisplayed = $scope.datesDisplayed[$scope.dateSetIndex];
+      }
+
+      $scope.goToNextDateSet = function() {
+          $scope.dateSetIndex++;
+          //alert($scope.dateSetIndex);
+          $scope.dateSetDisplayed = $scope.datesDisplayed[$scope.dateSetIndex];
+          var test = $scope.dateSetIndex;
+      }
+
+      $scope.timeSlots = ["09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"];
       $scope.displayCalendarIndex = -1;
     /* Toggle and render calendar view */
 
@@ -251,8 +279,13 @@ BEGIN CALENDAR CHANGES
 
 
       $scope.bookAppointment = function( day, timeSlot, startSubTimeSlot, endSubTimeSlot) {
-          $window.localStorage.appointmentStartTime = $scope.daysDisplayed[day]+'T'+timeSlot+':'+startSubTimeSlot+':00';
-          $window.localStorage.appointmentEndTime = $scope.daysDisplayed[day]+'T'+timeSlot+':'+endSubTimeSlot+':00';
+          $window.localStorage.appointmentStartTime = $scope.dateSetDisplayed[day]+'T'+timeSlot+':'+startSubTimeSlot+':00';
+          if (endSubTimeSlot == '00')
+          {
+              timeSlot++;
+          }
+
+          $window.localStorage.appointmentEndTime = $scope.dateSetDisplayed[day]+'T'+timeSlot+':'+endSubTimeSlot+':00';
           $window.localStorage.setItem('isAppointmentSelected', true);
           // If not authenticated, redirect to login page
           if($window.localStorage.isUserLoggedIn == 'true'){

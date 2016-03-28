@@ -1,6 +1,6 @@
 package com.vellkare.core
 
-class MedicalRecordType {
+class MedicalRecordType implements Serializable {
   String name
   String description
   Boolean enabled = true
@@ -13,5 +13,6 @@ class MedicalRecordType {
 
   static mapping = {
     version(false)
+    cache true
   }
 }

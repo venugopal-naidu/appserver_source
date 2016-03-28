@@ -77,8 +77,9 @@ app
     }else if($scope.selectedAppointment == 'Lab'){
       $scope.getLab($window.localStorage.selectedLab);
     }
-    $scope.fromTime = $window.localStorage.appointmentStartTime;
-    $scope.toTime = $window.localStorage.appointmentEndTime;
+
+    $scope.fromTime = moment($window.localStorage.appointmentStartTime).format('Do MMM YYYY hh:mm a');
+    $scope.toTime = moment($window.localStorage.appointmentEndTime).format('Do MMM YYYY hh:mm a');
 
     $scope.confirmDoctorAppointment = function() {
       $scope.accessToken = $window.localStorage.accessToken;
