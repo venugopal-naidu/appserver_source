@@ -1,4 +1,4 @@
-<div ng-controller="ConfirmAppointmentCtrl" class="page">
+<div class="page">
 
   <div class="container w-xxl p-15 bg-white mt-20" ng-if="selectedAppointment == 'Doctor'">
     <table class="table table-custom" id="doctorsSearchList">
@@ -47,7 +47,7 @@
 
     <form name="form" class="form-validation mt-20" novalidate>
       <div class="form-group">
-        <input type="text" name="instructions" class="form-control underline-input" placeholder="Special instructions to doctor" ng-model="instructions">
+        <input type="text" name="doctorInstructions" class="form-control underline-input" placeholder="Special instructions to doctor" ng-model="$parent.doctorInstructions">
       </div>
       <div class="row">
         <div class="col-sm-12">
@@ -93,7 +93,7 @@
 
 
       <div class="form-group">
-        <input type="text" class="form-control underline-input" placeholder="Special instructions to Lab" ng-model="instructions">
+        <input type="text" name="labInstructions" class="form-control underline-input" placeholder="Special instructions to Lab" ng-model="$parent.labInstructions">
       </div>
 
     <div class="row">
