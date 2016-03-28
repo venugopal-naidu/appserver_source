@@ -51,7 +51,8 @@ app
 
   })
   .controller('ConfirmAppointmentCtrl', function ($scope, $compile, uiCalendarConfig, $state, $window, $http) {
-    $scope.instructions = "";
+    $scope.doctorInstructions = "";
+    $scope.labInstructions = "";
     $scope.formErrors = null;
     $scope.invalidTokenError = null;
 
@@ -91,7 +92,7 @@ app
         "toTime":$window.localStorage.appointmentEndTime,
         "doctorId": $window.localStorage.selectedDoctor,
         "hospitalId": $window.localStorage.selectedHospital,
-        "notes": $scope.instructions
+        "notes": $scope.doctorInstructions
       };
       $http.post(url,dataToSend,{
         headers: {'Authorization': $scope.tokenType + ' '+ $scope.accessToken}
@@ -123,7 +124,7 @@ app
         "fromTime":$window.localStorage.appointmentStartTime,
         "toTime":$window.localStorage.appointmentEndTime,
         "labId": $window.localStorage.selectedLab,
-        "notes": $scope.instructions
+        "notes": $scope.labInstructions
       };
       $http.post(url,dataToSend,{
         headers: {'Authorization': $scope.tokenType + ' '+ $scope.accessToken}
