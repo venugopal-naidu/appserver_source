@@ -78,7 +78,9 @@ app
             $http.get(url,{
                 headers: {'Authorization': $scope.tokenType + ' '+ $scope.accessToken}
             }).then(function(response){
-
+              if(response['status'] == 200 && response.data['cancel'] == 'SUCCESS'){
+                $state.go($state.current, {}, {reload: true});
+              }
         },function (response){
                 if(response['status'] == 401){
                     $scope.formErrors = response.data['error'];
