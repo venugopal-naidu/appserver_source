@@ -34,7 +34,7 @@ app
 
 
         // COMMENT ME - stub data
-        var past = [
+        /*var past = [
 
                 {
                     appointmentId: 21,
@@ -45,11 +45,11 @@ app
                     specialInstructions: 'Bad cold',
                     status: 'COMPLETE',
                     hasMedicalRecords: false
-                }]
+                }]*/
 
         // COMMENT ME TILL HERE
 
-//        var past = response.data.past;
+        var past = response.data.past;
         $scope.pastAppointments = [];
         var newRowPast = [];
         $scope.pastAppointments.push(newRowPast);
