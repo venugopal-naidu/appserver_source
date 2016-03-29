@@ -1,9 +1,3 @@
-<%--
-Created by IntelliJ IDEA.
-User: roopesh
-Date: 11/03/16
-Time: 6:05 AM
---%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
@@ -36,7 +30,7 @@ Time: 6:05 AM
                                         <td valign="middle" width="270"
                                             style="padding: 5px 0 5px 20px;border-collapse: collapse">
                                             <div>
-                                                <a href="velkare.com"><h1 style="font-family:custom;color:#16a085" class="text-center">Velkare</h1></a>
+                                                <a class="logoLink" href="velkare.com"><h1 style="font-family:custom;color:#16a085;padding-top:15px" class="text-center">Velkare</h1></a>
                                             </div>
                                         </td>
                                     </tr>
@@ -146,10 +140,11 @@ Time: 6:05 AM
                         </tr>
                         <!-- Spacing -->
                         <tr>
-                            <td align="center" valign="middle"
+                            <td align="right" valign="middle"
                                 style="font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;font-size: 10px;color: #2c3e50;border-collapse: collapse"
                                 st-content="preheader">
-                                <a href="/privacyPolicy.html">Privacy Policy</a>
+                                <a style="padding-right: 20px" href="/legal/privacyPolicy.html">Privacy Policy</a>
+                                <a href="/legal/termsOfUse.html">Terms of Use</a>
                             </td>
                         </tr>
                         <!-- Spacing -->
@@ -164,10 +159,11 @@ Time: 6:05 AM
         </table>
         <!-- End of preheader --></div>
 </div>
-<!--
-    To complete registration go through the verification link ${verificationLink} and enter the following OPT.
-
-     <b>OTP: ${registration.verificationCode} </b>
-     -->
+<style>
+    a.logoLink
+    {
+        text-decoration:none !important;
+    }
+</style>
 </body>
 </html>
