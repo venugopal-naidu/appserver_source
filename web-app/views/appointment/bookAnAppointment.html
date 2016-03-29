@@ -135,10 +135,10 @@
                                             </li>
                                             <li class="mt-10" ng-repeat="hospital in doctor.hospitals">
                                                 <address>
-                                                    <label class="checkbox checkbox-custom-alt col-md-1 hospitalId{{doctor.id}}{{hospital.id}}">
-                                                        <input name="hospitalId{{doctor.id}}{{hospital.id}}" ng-model="$parent.hospitalId" type="radio" value="{{ hospital.id }}"><i></i>
+                                                    <label class="checkbox checkbox-custom-alt col-md-1 hospitalId{{doctor.id}}{{hospital.id}}" ng-if="doctor.hospitals.length > 1">
+                                                        <input name="hospitalId{{doctor.id}}" ng-model="$parent.$parent.hospitalId" type="radio" value="{{ hospital.id }}"><i></i>
                                                     </label>
-                                                    <div class="col-md-10">
+                                                    <div class="col-md-10" style="padding-left: 0">
                                                         <strong>{{ hospital.name }}</strong><br>
                                                         <span ng-if="hospital.address1 != null"><i class="fa fa-map-marker"></i> {{ hospital.address1 }}</span>
                                                         <span ng-if="hospital.address2 != null">, {{ hospital.address2 }}</span>
@@ -171,7 +171,13 @@
                                         </ul>
                                     </td>-->
                                     <td class="child">
-                                        <button class="btn btn-success btn-ef btn-ef-7 btn-ef-7b mb-10" style="margin-top: 110px" ng-click="showDoctorAppointmentCalendar(doctor,$index,hospitalId)"><i class="fa fa-calendar"></i> Book Appointment</button>
+                                        <span ng-if="doctor.hospitals.length == 1">
+                                            {{$parent.selectedHospital = doctor.hospitals[0].id; ""}}
+                                        </span>
+                                        <span ng-if="doctor.hospitals.length > 1">
+                                            {{$parent.selectedHospital = $parent.hospitalId; ""}}
+                                        </span>
+                                        <button class="btn btn-success btn-ef btn-ef-7 btn-ef-7b mb-10" style="margin-top: 110px" ng-click="showDoctorAppointmentCalendar(doctor,$index,selectedHospital)"><i class="fa fa-calendar"></i> Book Appointment</button>
                                     </td>
                                 </tr>
                                 <!--

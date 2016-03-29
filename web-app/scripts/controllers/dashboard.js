@@ -19,6 +19,7 @@ app
     $scope.specialty = { selected: '' };
     $scope.hospitals = [];
     $scope.hospital = {selected: ''};
+    $scope.hospitalId = null;
     $scope.tests = [];
     $scope.test = {};
     $scope.labs = [];
