@@ -60,4 +60,8 @@ class Doctor implements Serializable{
     awards nullable: true
   }
 
+  def getSpecilalitiesNamesList(){
+    specialities?specialities.collect{it.speciality.name.toLowerCase().capitalize()}.sort():[]
+  }
+
 }

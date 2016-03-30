@@ -11,7 +11,7 @@
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
 // }
 
-
+//grails.app.context = "/"
 grails.project.groupId = "com.vellkare" // change this to alter the default package name and Maven publishing destination
 
 // The ACCEPT header will not be used for content negotiation for user agents containing the following strings (defaults to the 4 major rendering engines)
@@ -91,11 +91,10 @@ grails.hibernate.osiv.readonly = false
 environments {
   development {
     grails.logging.jul.usebridge = true
-    grails.serverURL = "http://localhost:8080/vellkare"
-    debug 'org.hibernate.SQL'
+    grails.serverURL = "http://localhost:8080/velkare"
   }
   production {
-    grails.serverURL = "http://velkare.com/"
+    grails.serverURL = "http://www.velkare.com"
     grails.logging.jul.usebridge = false
     // TODO: grails.serverURL = "http://www.changeme.com"
   }
@@ -156,6 +155,7 @@ grails {
     disabled = false
   }
 }
+
 grails.mail.default.from = "vellkare.dev@gmail.com"
 
 grails.plugin.springsecurity.rejectIfNoRule = false
@@ -191,85 +191,6 @@ grails {
         }
         tokenServices {
           accessTokenValiditySeconds = 60 * 60 // 60 mins
-        }
-      }
-    }
-  }
-}
-
-vellkare {
-  auth {
-    social {
-      enabled = ['facebook', 'googlePlus', 'linkedIn', 'gitHub', 'instagram', 'digits']
-      facebook {
-        controllerName = 'facebook'
-        redirectURI = "${grails.serverURL}/api/v0/auth/social/facebook/authorize"
-        scope = 'email'
-      }
-      googlePlus {
-        controllerName = 'googlePlus'
-        redirectURI = "${grails.serverURL}/api/v0/auth/social/googlePlus/authorize"
-        scope = 'profile https://www.googleapis.com/auth/plus.login email'
-        state = '9876543210'
-      }
-      digits {
-        controllerName = 'digits'
-        redirectURI = "${grails.serverURL}/api/v0/auth/social/digits/authorize"
-      }
-      twitter {
-        controllerName = 'twitter'
-        redirectURI = "${grails.serverURL}/api/v0/auth/social/twitter/authorize"
-      }
-      linkedIn {
-        controllerName = 'linkedIn'
-        redirectURI = "${grails.serverURL}/api/v0/auth/social/linkedIn/authorize"
-        scope = 'r_basicprofile%20r_emailaddress%20w_share'
-        state = '9876543210'
-      }
-      gitHub {
-        controllerName = 'gitHub'
-        redirectURI = "${grails.serverURL}/api/v0/auth/social/gitHub/authorize"
-        scope = 'user,public_repo,repo,repo_deployment,repo_status,delete_repo,notifications'
-      }
-      instagram {
-        controllerName = 'instagram'
-        redirectURI = "${grails.serverURL}/api/v0/auth/social/instagram/authorize"
-        scope = 'basic+comments+relationships+likes'
-        state = '9876543210'
-      }
-    }
-  }
-}
-environments {
-  development {
-    vellkare {
-      auth {
-        social {
-          enabled = ['facebook', 'googlePlus', 'linkedIn', 'gitHub', 'instagram', 'digits']
-          facebook {
-            clientId = ''
-            clientSecret = ''
-          }
-          googlePlus {
-            clientId = ''
-            clientSecret = ''
-          }
-          digits {
-          }
-          twitter {
-          }
-          linkedIn {
-            clientId = ''
-            clientSecret = ''
-          }
-          gitHub {
-            clientId = ''
-            clientSecret = ''
-          }
-          instagram {
-            clientId = ''
-            clientSecret = ''
-          }
         }
       }
     }
@@ -313,7 +234,7 @@ app {
   emails {
     welcome = false
     otpVerification = true
-    newAppointment = false
+    newAppointment = true
     cancelAppointment = false
     confirmAppointment = false
 
@@ -331,7 +252,7 @@ images.labs.path='/images/lab/'
 
 grails.config.locations = ["file:/opt/tomcat/conf/velkare-config.groovy"]
 
-grails.email.mock.toAddress="vellkare.dev@gmail.com"
+grails.mail.overrideAddress="" // send all emails to this email address
 
 grails.plugin.console.enabled=true
 

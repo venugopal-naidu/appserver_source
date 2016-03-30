@@ -83,9 +83,7 @@
                                     <!-- Spacing -->
                                     <tr>
                                         <td>
-                                            Following are the details of the appointment you've requested. You will receive a confirmation email once your appointment is confirmed with the
-                                            <!-- <% if selectedAppointment == 'doctor' %> ADD APPOINTMENT TYPE HERE -->doctor
-                                            <!-- <% if selectedAppointment == 'lab' %> ADD APPOINTMENT TYPE HERE -->lab.
+                                            Following are the details of the appointment you've requested. You will receive a confirmation email once your appointment is confirmed with the ${appointmentType}
                                         </td>
 
                                     </tr>
@@ -94,7 +92,8 @@
                                         <td width="100%" height="10" style="border-collapse: collapse"/>
                                     </tr>
                                     <!-- Spacing -->
-                                    <!-- <% if selectedAppointment == 'doctor' %> ADD APPOINTMENT TYPE HERE -->
+                                    <g:if test="${appointmentType=='doctor'}">
+                                        <g:set var="doctor" value="${appointment.doctor}" />
                                     <tr>
                                         <td style="border-collapse: collapse">
 
@@ -106,7 +105,7 @@
                                                         <td>
                                                             <div>
                                                                 <div>
-                                                                    <img src="images/doctor_profile_pic.png" alt="Doctor photo"><!-- ADD DOCTOR IMAGE HERE -->
+                                                                    <img src="${imageLink}" alt="Doctor photo">
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -114,28 +113,71 @@
                                                             <ul style="display: inline-block;list-style-type: none;margin: 0;padding: 0;font-size:14px">
                                                                 <li>
                                                                     <h2 style="margin:0px; color: #22beef;font-family: Dosis, Arial, sans-serif;font-weight: 500;
-                                                                    line-height: 1.1;">Dr.Vishal Agarwal</h2><!-- ADD DOCTOR NAME HERE -->
+                                                                    line-height: 1.1;">${doctor.name}</h2>
                                                                     <strong>
-                                                                        <span>MBBS</span><!-- ADD DOCTOR Degrees HERE -->
-                                                                        <span>, MD</span><!-- ADD DOCTOR Degrees HERE -->
-                                                                    </strong>
+                                                                        <g:if test="${doctor.degree1}">
+                                                                        <span>${doctor.degree1}</span>
+                                                                        </g:if>
+                                                                    <g:if test="${doctor.degree2}">
+                                                                        , <span>${doctor.degree1}</span>
+                                                                    </g:if>
+                                                                    <g:if test="${doctor.degree3}">
+                                                                        , <span>${doctor.degree3}</span>
+                                                                    </g:if>
+                                                                    <g:if test="${doctor.degree4}">
+                                                                        , <span>${doctor.degree4}</span>
+                                                                    </g:if>
+
+                                                                </strong>
                                                                 </li>
+                                                                <g:if test="${doctor.specilalitiesNamesList}">
                                                                 <li>
-                                                                    <span style="color: #95a2a9;">Ophthalmology, Surgical Ophthalmology</span><!-- ADD DOCTOR SPECIALTIES HERE -->
+                                                                    <span style="color: #95a2a9;">${doctor.specilalitiesNamesList.join(', ')}</span>
                                                                 </li>
+                                                                </g:if>
+                                                                <g:if test="${appointment.hospital}" >
+                                                                    <g:set var="hospital" value="${appointment.hospital}" />
                                                                 <li>
                                                                     <address style="font-style: normal;margin-top: 10px;
-                                                                             line-height: 1.1;"><!-- ADD HOSPITAL ADDRESS WHERE APPT HAS BEEN TAKEN HERE -->
-                                                                        <strong>Vasan Eye Care</strong><br>
-                                                                        <span>Rd. no. 12</span>
-                                                                        <span>, Banjara Hills</span>
+                                                                             line-height: 1.1;">
+                                                                        <strong>${hospital.name.toLowerCase().capitalize()}</strong><br>
+                                                                        <g:if test="${hospital.address1}">
+                                                                         <span>${hospital.address1}</span>
+                                                                        </g:if>
+                                                                        <g:if test="${hospital.address2}">
+                                                                            , <span>${hospital.address2}</span>
+                                                                        </g:if>
+                                                                        <g:if test="${hospital.address3}">
+                                                                            , <span>${hospital.address3}</span>
+                                                                        </g:if>
+                                                                        <g:if test="${hospital.address4}">
+                                                                            , <span>${hospital.address4}</span>
+                                                                        </g:if><br/>
+                                                                        <g:if test="${hospital.city}">
+                                                                            , <span>${hospital.city}</span>
+                                                                        </g:if>
+                                                                        <g:if test="${hospital.district}">
+                                                                            , <span>${hospital.district}</span>
+                                                                        </g:if>
+                                                                        <g:if test="${hospital.state}">
+                                                                            , <span>${hospital.state}</span>
+                                                                        </g:if>
+                                                                        <g:if test="${hospital.country}">
+                                                                            , <span>${hospital.country.toLoweCase().capitalize()}</span>
+                                                                        </g:if>
+                                                                        <g:if test="${hospital.postalCode}">
+                                                                           ,  <span>${hospital.postalCode}</span>
+                                                                        </g:if>
+
+
                                                                     </address>
                                                                 </li>
+                                                                </g:if>
                                                                 <li style="margin-top: 15px;">
-                                                                    On: 30th Mar 2016<!-- ADD APPT DATE HERE -->
+                                                                    On: ${com.vellkare.util.DateUtil.getDateStringUserFormat(appointment.fromTime)}
                                                                 </li>
                                                                 <li>
-                                                                    10:00 AM to 10:15 AM<!-- ADD APPT FROM AND TO TIME HERE -->
+                                                                    ${com.vellkare.util.DateUtil.getPrintableTimeString(appointment.fromTime)} to ${com.vellkare.util.DateUtil.getPrintableTimeString(appointment.toTime)}
                                                                 </li>
                                                             </ul>
                                                         </td>
@@ -145,7 +187,9 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    <!-- <% if selectedAppointment == 'lab' %> ADD APPOINTMENT TYPE HERE -->
+                                    </g:if>
+                                    <g:if test="${appointmentType=='lab'}">
+                                        <g:set var="lab" value="${appointment.lab}" />
                                     <tr>
                                         <td style="border-collapse: collapse">
 
@@ -157,7 +201,7 @@
                                                         <td>
                                                             <div>
                                                                 <div>
-                                                                    <img src="images/lab_profile_pic.png" alt="Lab photo"><!-- ADD LAB IMAGE HERE -->
+                                                                    <img src="${imageLink}" alt="Lab photo">
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -165,21 +209,46 @@
                                                             <ul style="display: inline-block;list-style-type: none;margin: 0;padding: 0;font-size:14px">
                                                                 <li>
                                                                     <h2 style="margin:0px; color: #22beef;font-family: Dosis, Arial, sans-serif;font-weight: 500;
-                                                                    line-height: 1.1;">Vijaya Diagnostic Center</h2><!-- ADD LAB NAME HERE -->
+                                                                    line-height: 1.1;">${lab.name.toLowerCase().capitalize()}</h2>
                                                                 </li>
 
                                                                 <li>
                                                                     <address style="font-style: normal; margin-top: 10px;
-                                                                             line-height: 1.4;"><!-- ADD LAB ADDRESS  HERE -->
-                                                                        <span>Rd. no. 12</span>
-                                                                        <span>, Banjara Hills</span>
+                                                                             line-height: 1.4;">
+                                                                        <g:if test="${lab.address1}">
+                                                                            <span>${lab.address1}</span>
+                                                                        </g:if>
+                                                                        <g:if test="${lab.address2}">
+                                                                            , <span>${lab.address2}</span>
+                                                                        </g:if>
+                                                                        <g:if test="${lab.address3}">
+                                                                            , <span>${lab.address3}</span>
+                                                                        </g:if>
+                                                                        <g:if test="${lab.address4}">
+                                                                            , <span>${lab.address4}</span>
+                                                                        </g:if><br/>
+                                                                        <g:if test="${lab.city}">
+                                                                            , <span>${lab.city}</span>
+                                                                        </g:if>
+                                                                        <g:if test="${lab.district}">
+                                                                            , <span>${lab.district}</span>
+                                                                        </g:if>
+                                                                        <g:if test="${lab.state}">
+                                                                            , <span>${lab.state}</span>
+                                                                        </g:if>
+                                                                        <g:if test="${lab.country}">
+                                                                            , <span>${lab.country.toLoweCase().capitalize()}</span>
+                                                                        </g:if>
+                                                                        <g:if test="${lab.postalCode}">
+                                                                            , <span>${lab.postalCode}</span>
+                                                                        </g:if>
                                                                     </address>
                                                                 </li>
                                                                 <li style="margin-top: 15px;">
-                                                                    On: 30th Mar 2016<!-- ADD APPT DATE HERE -->
+                                                                    On: ${com.vellkare.util.DateUtil.getDateStringUserFormat(appointment.fromTime)}
                                                                 </li>
                                                                 <li>
-                                                                    10:00 AM to 10:15 AM<!-- ADD APPT FROM AND TO TIME HERE -->
+                                                                    ${com.vellkare.util.DateUtil.getPrintableTimeString(appointment.fromTime)} to ${com.vellkare.util.DateUtil.getPrintableTimeString(appointment.toTime)}
                                                                 </li>
                                                             </ul>
                                                         </td>
@@ -189,6 +258,7 @@
                                             </div>
                                         </td>
                                     </tr>
+                                    </g:if>
 
 
                                     <!-- Spacing -->
@@ -205,7 +275,7 @@
                                         <td>
                                             For any queries about your appointment,
                                             call <span style="color: #22beef">9988990000</span> or email
-                                            <a href="mailto:support@velkare.com?Subject=Questions about appointment 2788" target="_top">support@velkare.com</a> <!-- ADD APPOINTMENT ID TO THE EMAIL FOR CONVENIENCE?? -->
+                                            <a href="mailto:support@velkare.com?Subject=Questions about appointment ${appointment.id}" target="_top">support@velkare.com</a>
                                         </td>
 
                                     </tr>
