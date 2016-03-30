@@ -4,6 +4,9 @@
 body {
     background-color: #ffffff;
 }
+#header .branding{
+    background-color: transparent !important;
+}
 #footer {
     background-color: #51445f;
     color: #ffffff

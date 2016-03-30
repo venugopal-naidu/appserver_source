@@ -19,12 +19,14 @@ app
     $scope.specialty = { selected: '' };
     $scope.hospitals = [];
     $scope.hospital = {selected: ''};
+    $scope.hospitalId = null;
     $scope.tests = [];
     $scope.test = {};
     $scope.labs = [];
     $scope.lab = {};
     $scope.baseUrl = baseUrl;
     $scope.noDoctorsFound = false;
+    $scope.nolabsFound = false;
 
     $scope.searchTypes = [
       {id: 1, name: 'Doctor'},
@@ -68,7 +70,11 @@ app
             "id":50,"language":"ENGLISH,HINDI,TELUGU","name":"DR.INDIRA RAMASAHAYAM REDDY","photoUrl":"/images/doctor/50.jpeg","specialties":["Internal medicine"],"univ1":"","univ2":"","univ3":"","univ4":"","univ5":"","velkareVerified":false}];
 */
       $scope.searchStarted = true;
-        $scope.noDoctorsFound = false;
+      $scope.noDoctorsFound = false;
+      $scope.doctorsList = [];
+      //Start loader
+      $('#pageloader').toggleClass('hide animate');
+
       var url = ajax_url_prefix + 'search/doctor';
       var dataToSend = { "location": 'Hyderabad', "specialty": $scope.specialty.selected ,"hospital": $scope.hospital.selected };
       $http.post(url,dataToSend).then(function(response){
@@ -78,10 +84,14 @@ app
         }else {
           $scope.noDoctorsFound = true;
         }
-
+        //End loader
+        $('#pageloader').toggleClass('hide animate');
       },function(response){
         $scope.noDoctorsFound = true;
+        //End loader
+        $('#pageloader').toggleClass('hide animate');
       });
+
     };
 
     $scope.clearDoctorsResult = function(){
@@ -92,10 +102,25 @@ app
     };
 
     $scope.findLab = function(){
+      $scope.noLabsFound = false;
+      $scope.labsList = [];
+      //Start loader
+      $('#pageloader').toggleClass('hide animate');
       var url = ajax_url_prefix + 'search/lab/listLabs';
       var dataToSend = { "location": 'Hyderabad', "testName": $scope.test.selected ,"labName": $scope.lab.selected };
-      $http.post(url,dataToSend).success(function(data){
-        $scope.labsList = data.labs;
+      $http.post(url,dataToSend).then(function(response){
+        if(response.data.labs != null && response.data.labs.length > 0){
+          $scope.labsList = response.data.labs;
+          $scope.noLabsFound = false;
+        }else {
+          $scope.noLabsFound = true;
+        }
+        //End loader
+        $('#pageloader').toggleClass('hide animate');
+      },function(){
+        //End loader
+        $('#pageloader').toggleClass('hide animate');
+        $scope.noLabsFound = true;
       });
     };
     $scope.clearLabsResult = function(){

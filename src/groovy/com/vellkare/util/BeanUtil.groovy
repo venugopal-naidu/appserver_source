@@ -20,12 +20,24 @@ class BeanUtil {
     if(fromObj instanceof Doctor && toType == DoctorHospitalMini) {
       def doctor = fromObj
       DoctorHospitalMini d = new DoctorHospitalMini()
-      ['id','name', 'description', 'website', 'velkareVerified',
-       'degree1', 'univ1', 'degree2', 'univ2', 'degree3', 'univ3',
-       'degree4', 'univ4', 'degree5', 'univ5', 'experience', 'awards', 'language'].each { name ->
-        def val = doctor."${name}"
-        d."${name}" = val
-      }
+      d.id = doctor.id
+      d.name = doctor.name
+      d.description = doctor.description
+      d.website = doctor.website
+      d.velkareVerified = doctor.velkareVerified
+      d.degree1 = doctor.degree1
+      d.degree2 = doctor.degree2
+      d.degree3 = doctor.degree3
+      d.degree4 = doctor.degree4
+      d.degree5 = doctor.degree5
+      d.univ1 = doctor.univ1
+      d.univ2 = doctor.univ2
+      d.univ3 = doctor.univ3
+      d.univ4 = doctor.univ4
+      d.univ5= doctor.univ5
+      d.experience = doctor.experience
+      d.awards = doctor.awards
+      d.language = doctor.language
 
       if (doctor.hospitals) {
         d.hospitals = doctor.hospitals.collect { DoctorHospital dh ->
@@ -43,7 +55,7 @@ class BeanUtil {
         }
       }
       if(doctor.specialities){
-        d.specialties = doctor.specialities.collect { it.speciality.name.toLowerCase().capitalize() }
+        d.specialties = doctor.specialities.collect { it.speciality.name.toLowerCase().capitalize() }.sort().unique()
       }
       def photoUrl = cfg.images.doctors.path?:"/images/doctor/"
       photoUrl= "${photoUrl}${doctor.id}.jpeg"

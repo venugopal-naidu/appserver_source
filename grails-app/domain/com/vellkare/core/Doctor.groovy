@@ -2,7 +2,7 @@ package com.vellkare.core
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 
-class Doctor {
+class Doctor implements Serializable{
 
   String name
   String description
@@ -22,7 +22,7 @@ class Doctor {
   String univ4
   String degree5
   String univ5
-  int experience = 0
+  Integer experience = 0
   String awards
   String language
 
@@ -33,6 +33,10 @@ class Doctor {
   Set<DoctorHospital> hospitals = new HashSet<>()
 
   static hasMany = [ specialities: DoctorSpeciality, hospitals : DoctorHospital]
+
+  static mapping = {
+    cache true
+  }
 
   static constraints = {
     description  nullable: true
@@ -54,6 +58,10 @@ class Doctor {
     univ5 nullable: true
     experience nullable:true
     awards nullable: true
+  }
+
+  def getSpecilalitiesNamesList(){
+    specialities?specialities.collect{it.speciality.name.toLowerCase().capitalize()}.sort():[]
   }
 
 }

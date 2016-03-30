@@ -2,7 +2,7 @@ package com.vellkare.core
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
-class Hospital {
+class Hospital implements Serializable{
   String name;
   String hosGeocode
   String address1
@@ -20,6 +20,10 @@ class Hospital {
   String email
   String specialists
   Boolean velkareVerified
+
+  static mapping = {
+    cache true
+  }
 
   static constraints = {
     address1 nullable: true

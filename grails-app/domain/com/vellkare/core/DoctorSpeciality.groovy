@@ -17,6 +17,7 @@ class DoctorSpeciality implements Serializable{
 
   static mapping = {
     id composite: ['doctor', 'speciality']
+    cache true
     version false
   }
 

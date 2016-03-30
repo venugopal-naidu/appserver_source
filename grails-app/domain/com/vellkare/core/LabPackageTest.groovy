@@ -17,6 +17,7 @@ class LabPackageTest implements Serializable {
   static mapping = {
     id composite: [ 'lab','_package', 'test']
     _package column: 'package_id'
+    cache true
   }
 
   boolean equals(other) {

@@ -1,3 +1,4 @@
+
 <div class="page page-dashboard page-datatables">
     <!-- Free from search -->
     <form role="form">
@@ -84,21 +85,23 @@
 
         </div>
     </form>
-    <div class="row"  ng-show="searchType.selected.name == 'Doctor' && searchStarted==true && doctorsList.length > 0">
-        <div class="col-md-12" ng-show="searchStarted==true && doctorsList.length > 0">
+    <div class="row"  ng-show="searchType.selected.name == 'Doctor'">
+        <div class="col-md-12" ng-show="noDoctorsFound && doctorsList.length <= 0">
+            <h3 class="text-center">We couldn't find doctors for you</h3>
+        </div>
+        <div class="col-md-12" ng-show="doctorsList.length > 0">
             <!-- tile -->
             <section class="tile" fullscreen="isFullscreen03">
-
                 <!-- tile header -->
                 <div class="tile-header dvd dvd-btm">
                     <h1 class="custom-font"><strong>List of Doctors </strong></h1>
-                    <div class="pull-right">
+                    <!--<div class="pull-right">
                         <label class="checkbox checkbox-inline checkbox-custom-alt mt-0">
                             <input type="checkbox" checked="checked" aria-controls="doctorsSearchList"><i></i> Male </label>
                         <label class="checkbox checkbox-inline checkbox-custom-alt">
                             <input type="checkbox" checked="checked" aria-controls="doctorsSearchList"><i></i> Female
                         </label>
-                    </div>
+                    </div>-->
 
                 </div>
                 <!-- /tile header -->
@@ -132,10 +135,10 @@
                                             </li>
                                             <li class="mt-10" ng-repeat="hospital in doctor.hospitals">
                                                 <address>
-                                                    <label class="checkbox checkbox-custom-alt col-md-1 hospitalId{{doctor.id}}{{hospital.id}}">
-                                                        <input name="hospitalId{{doctor.id}}{{hospital.id}}" ng-model="$parent.hospitalId" type="radio" value="{{ hospital.id }}" checked="checked"><i></i>
+                                                    <label class="checkbox checkbox-custom-alt col-md-1 hospitalId{{doctor.id}}{{hospital.id}}" ng-if="doctor.hospitals.length > 1">
+                                                        <input name="hospitalId{{doctor.id}}" ng-model="$parent.$parent.hospitalId" type="radio" value="{{ hospital.id }}"><i></i>
                                                     </label>
-                                                    <div class="col-md-10">
+                                                    <div class="col-md-10" style="padding-left: 0">
                                                         <strong>{{ hospital.name }}</strong><br>
                                                         <span ng-if="hospital.address1 != null"><i class="fa fa-map-marker"></i> {{ hospital.address1 }}</span>
                                                         <span ng-if="hospital.address2 != null">, {{ hospital.address2 }}</span>
@@ -168,7 +171,13 @@
                                         </ul>
                                     </td>-->
                                     <td class="child">
-                                        <button class="btn btn-success btn-ef btn-ef-7 btn-ef-7b mb-10" style="margin-top: 110px" ng-click="showDoctorAppointmentCalendar(doctor,$index,hospitalId)"><i class="fa fa-calendar"></i> Book Appointment</button>
+                                        <span ng-if="doctor.hospitals.length == 1">
+                                            {{$parent.selectedHospital = doctor.hospitals[0].id; ""}}
+                                        </span>
+                                        <span ng-if="doctor.hospitals.length > 1">
+                                            {{$parent.selectedHospital = $parent.hospitalId; ""}}
+                                        </span>
+                                        <button class="btn btn-success btn-ef btn-ef-7 btn-ef-7b mb-10" style="margin-top: 110px" ng-click="showDoctorAppointmentCalendar(doctor,$index,selectedHospital)"><i class="fa fa-calendar"></i> Book Appointment</button>
                                     </td>
                                 </tr>
                                 <!--
@@ -210,12 +219,12 @@
 
             </section>
         </div>
-        <div class="col-md-12" ng-show="noDoctorsFound">
-            No doctors found
-        </div>
     </div>
-    <div class="row"  ng-show="searchType.selected.name == 'Lab' && labsList.length > 0">
-        <div class="col-md-12">
+    <div class="row"  ng-show="searchType.selected.name == 'Lab'">
+        <div class="col-md-12" ng-show="noLabsFound && labsList.length <= 0">
+            <h3 class="text-center">We couldn't find labs for you</h3>
+        </div>
+        <div class="col-md-12" ng-show="labsList.length > 0">
             <!-- tile -->
             <section class="tile" fullscreen="isFullscreen03">
 
@@ -356,6 +365,11 @@
     }
     .fc .fc-content .fc-view.fc-agenda .fc-agenda-slots tr{
         line-height: 0px !important;
+    }
+
+    #pageloader.animate{
+        z-index: 9999 !important;
+        margin: 0 !important;
     }
 
 </style>
