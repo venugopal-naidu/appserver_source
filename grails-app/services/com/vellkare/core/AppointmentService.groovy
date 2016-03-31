@@ -21,7 +21,12 @@ class AppointmentService {
       mailService.sendMail {
         to member.email
         subject "Your booking request is being looked into!"
-        def bodyArgs = [view: '/emails/appointment/new', model: [appointment: appointment]]
+        def model = [appointment: appointment]
+        model << [ appointmentType:  appointment.type==Appointment.AppointmentType.DOCTOR_APPOINTMENT?'doctor': 'lab']
+        def imageName = (appointment.doctor?appointment.doctorId:appointment.labId)+'.jpeg'
+        model << [imageLink:"${grailsApplication.config.grails.serverURL}/images/${model.appointmentType}/${imageName}" ]
+        def bodyArgs = [view: '/emails/appointment/new', model: model]
+
         def mailHtml = contentService.applyTemplate(bodyArgs.view, bodyArgs.model)
         html(mailHtml)
       }
