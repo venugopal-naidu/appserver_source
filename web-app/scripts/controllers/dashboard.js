@@ -224,15 +224,15 @@ app
       $scope.datesDisplayed = [];
       // Get the day sets for the next 3 months
       var dateSet = new Array(3);
-      for(var i=0; i<90; i++)
+    for(var i=0; i<90; i++)
+    {
+      if(i%3 == 0)
       {
-          if(i%3 == 0)
-          {
-              dateSet = [];
-              $scope.datesDisplayed.push(dateSet);
-          }
-        dateSet.push(moment().day(i).format("YYYY-MM-DD"));
+        dateSet =[];
+        $scope.datesDisplayed.push(dateSet);
       }
+      dateSet.push(moment().add(i, 'days').format("YYYY-MM-DD"));
+    }
 
       $scope.dateSetDisplayed = $scope.datesDisplayed[$scope.dateSetIndex];
 
