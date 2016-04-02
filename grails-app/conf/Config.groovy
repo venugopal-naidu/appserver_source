@@ -250,7 +250,10 @@ verification.otp.size=10
 images.doctors.path='/images/doctor/'
 images.labs.path='/images/lab/'
 
-grails.config.locations = ["file:/opt/tomcat/conf/velkare-config.groovy", "file:/usr/share/tomcat/conf/velkare-config.groovy"]
+grails.config.locations = ["file:/opt/tomcat/conf/velkare-config.groovy",
+                           "file:/usr/share/tomcat/conf/velkare-config.groovy",
+                           "file:/usr/local/jakarta/tomcat/conf/velkare-config.groovy"
+]
 
 grails.mail.overrideAddress="" // send all emails to this email address
 
