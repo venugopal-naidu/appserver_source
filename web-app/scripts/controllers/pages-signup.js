@@ -14,7 +14,7 @@ app.controller('SignupCtrl', function ($scope, $state, $http, $window, $location
     $scope.signUp = function() {
       $scope.emailError = null;
       var dataToSend = {
-        "clientId":"vellkare-client",
+        "clientId":"velkare-client",
         "firstName":$scope.firstName,
         "lastName":$scope.lastName,
         "phoneNumber":$scope.phoneNumber,
@@ -77,7 +77,7 @@ app.controller('SignupCtrl', function ($scope, $state, $http, $window, $location
 
     $scope.confirmOTP = function() {
       var dataToSend = {
-        "clientId":"vellkare-client",
+        "clientId":"velkare-client",
         "uid":$scope.uid,
         "otp":$scope.otp,
         "password":$scope.password

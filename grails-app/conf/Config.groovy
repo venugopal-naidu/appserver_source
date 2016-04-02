@@ -11,7 +11,7 @@
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
 // }
 
-//grails.app.context = "/"
+grails.app.context = "/"
 grails.project.groupId = "com.vellkare" // change this to alter the default package name and Maven publishing destination
 
 // The ACCEPT header will not be used for content negotiation for user agents containing the following strings (defaults to the 4 major rendering engines)
@@ -91,7 +91,7 @@ grails.hibernate.osiv.readonly = false
 environments {
   development {
     grails.logging.jul.usebridge = true
-    grails.serverURL = "http://localhost:8080/velkare"
+    grails.serverURL = "http://localhost:8080"
   }
   production {
     grails.serverURL = "http://www.velkare.com"
@@ -228,7 +228,7 @@ cors.headers = ['Access-Control-Allow-Origin': '*']
 
 logging.controller.enabled = true
 
-grails.client.config.clientId = 'vellkare-client'
+grails.client.config.clientId = 'velkare-client'
 
 app {
   emails {
@@ -250,7 +250,7 @@ verification.otp.size=10
 images.doctors.path='/images/doctor/'
 images.labs.path='/images/lab/'
 
-grails.config.locations = ["file:/opt/tomcat/conf/velkare-config.groovy"]
+grails.config.locations = ["file:/opt/tomcat/conf/velkare-config.groovy", "file:/usr/share/tomcat/conf/velkare-config.groovy"]
 
 grails.mail.overrideAddress="" // send all emails to this email address
 

@@ -17,33 +17,6 @@ CREATE TABLE location
     ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
     version BIGINT NOT NULL
 );
-CREATE TABLE registration
-(
-    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    version BIGINT NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    email_verification_sent_count INT NOT NULL,
-    email_verified BIT NOT NULL,
-    email_verified_date DATETIME,
-    first_name VARCHAR(255) NOT NULL,
-    last_email_verification_sent_date DATETIME,
-    last_name VARCHAR(255),
-    last_phone_verification_sent_date DATETIME,
-    phone_number VARCHAR(255) NOT NULL,
-    phone_number_verified BIT NOT NULL,
-    phone_number_verified_date DATETIME,
-    phone_verification_sent_count INT NOT NULL,
-    registration_date DATETIME NOT NULL,
-    uuid VARCHAR(255),
-    verification_attempts INT NOT NULL,
-    verification_code VARCHAR(255),
-    verification_code_expiery_date DATETIME,
-    verification_status VARCHAR(255) NOT NULL,
-    tnc_checked BIT NOT NULL,
-    last_failed_verification_attempt_date DATETIME,
-    member_id BIGINT UNSIGNED DEFAULT NULL,
-    FOREIGN KEY (member_id) REFERENCES member(ID)
-);
 
 CREATE TABLE login
 (
@@ -90,6 +63,33 @@ CREATE TABLE member
     FOREIGN KEY (current_address_id) REFERENCES address (id),
     FOREIGN KEY (login_id) REFERENCES login (id)
 );
+CREATE TABLE registration
+(
+    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    version BIGINT NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    email_verification_sent_count INT NOT NULL,
+    email_verified BIT NOT NULL,
+    email_verified_date DATETIME,
+    first_name VARCHAR(255) NOT NULL,
+    last_email_verification_sent_date DATETIME,
+    last_name VARCHAR(255),
+    last_phone_verification_sent_date DATETIME,
+    phone_number VARCHAR(255) NOT NULL,
+    phone_number_verified BIT NOT NULL,
+    phone_number_verified_date DATETIME,
+    phone_verification_sent_count INT NOT NULL,
+    registration_date DATETIME NOT NULL,
+    uuid VARCHAR(255),
+    verification_attempts INT NOT NULL,
+    verification_code VARCHAR(255),
+    verification_code_expiery_date DATETIME,
+    verification_status VARCHAR(255) NOT NULL,
+    tnc_checked BIT NOT NULL,
+    last_failed_verification_attempt_date DATETIME,
+    member_id BIGINT UNSIGNED DEFAULT NULL,
+    FOREIGN KEY (member_id) REFERENCES member(ID)
+);
 CREATE TABLE doctor
 (
     ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -120,6 +120,7 @@ CREATE TABLE doctor
     version BIGINT NOT NULL,
     description VARCHAR(255)
 );
+
 CREATE TABLE hospital
 (
     ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -293,19 +294,6 @@ CREATE TABLE lab_package_test
     FOREIGN KEY (TEST_ID) REFERENCES test (ID)
 );
 
-
-CREATE TABLE media
-(
-    ID BIGINT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    version BIGINT NOT NULL,
-    extension VARCHAR(255),
-    file_name VARCHAR(255),
-    location VARCHAR(255) NOT NULL,
-    media_type VARCHAR(255) NOT NULL,
-    picture_types VARCHAR(255) NOT NULL,
-    public_media BIT NOT NULL
-);
-
 CREATE TABLE member_role
 (
     role_id BIGINT UNSIGNED NOT NULL,
@@ -472,3 +460,57 @@ CREATE TABLE medical_record
     FOREIGN KEY (appointment_id) REFERENCES appointment (id),
     FOREIGN KEY (media_id) REFERENCES media (id)
 );
+CREATE TABLE lab_location
+(
+    ID BIGINT UNSIGNED NOT NULL,
+    LOCATION_ID BIGINT NOT NULL,
+    LOCATION VARCHAR(240),
+    ADDRESS1 VARCHAR(240),
+    ADDRESS2 VARCHAR(240),
+    CITY VARCHAR(240),
+    DISTRICT VARCHAR(240),
+    STATE VARCHAR(240),
+    COUNTRY VARCHAR(240),
+    POSTAL_CODE VARCHAR(10),
+    WEBSITE VARCHAR(360),
+    PHONE VARCHAR(50),
+    FAX VARCHAR(240),
+    EMAIL VARCHAR(50),
+    CREATED_BY INT,
+    CREATION_DATE DATETIME,
+    LAST_UPDATED_BY INT,
+    LAST_UPDATE_DATE DATETIME,
+    IMAGE_LOCATION VARCHAR(240)
+);
+
+
+
+CREATE INDEX IDX_FK_APPOINTMENT_MEMBER_ID ON appointment (member_id);
+CREATE INDEX IDX_LAB_PACKAGE_TEST_LAB_ID ON lab_package_test (LAB_ID);
+CREATE UNIQUE INDEX UK_IDX_LOGIN_USERNAME ON login (username);
+CREATE INDEX IDX_FK_MEMBER_PERMANENT_ADDRESS_ID ON member (permanent_address_id);
+CREATE INDEX IDX_FK_MEMBER_CURRENT_ADDRESS_ID  ON member (current_address_id);
+CREATE INDEX IDX_FK_MEMBER_LOGIN_ID  ON member (login_id);
+CREATE INDEX IDX_FK_MEMBER_ROLE_MEMBER_ID  ON member_role (member_id);
+CREATE UNIQUE INDEX IDX_UK_OAUTH_ACCESS_TOKEN_VALUE ON oauth_access_token (value);
+CREATE UNIQUE INDEX IDX_UK_OAUTH_ACCESS_TOKEN_AUTHENTICATION_KEY  ON oauth_access_token (authentication_key);
+CREATE INDEX IDX_FK_OAUTH_ACCESS_TOKEN_SCOPE_OAUTH_ACCESS_TOKEN_ID ON oauth_access_token_scope (oauth_access_token_id);
+CREATE UNIQUE INDEX IDX_UK_OAUTH_AUTHORIZATION_CODE_CODE  ON oauth_authorization_code (code);
+CREATE UNIQUE INDEX IDX_UK_OAUTH_CLIENT_CLIENT_ID  ON oauth_client (client_id);
+CREATE INDEX IDX_FK_OAUTH_CLIENT_AUTHORITIES_OAUTH_CLIENT_ID  ON oauth_client_authorities (oauth_client_id);
+CREATE INDEX IDX_FK_OAUTH_CLIENT_AUTHORIZED_GRANT_TYPES_OAUTH_CLIENT_ID  ON oauth_client_authorized_grant_types (oauth_client_id);
+CREATE INDEX IDX_FK_OAUTH_CLIENT_REDIRECT_URIS_OAUTH_CLIENT_ID  ON oauth_client_redirect_uris (oauth_client_id);
+CREATE INDEX IDX_FK_OAUTH_CLIENT_RESOURCE_IDS_OAUTH_CLIENT_ID  ON oauth_client_resource_ids (oauth_client_id);
+CREATE INDEX IDX_FK_OAUTH_CLIENT_SCOPES_OAUTH_CLIENT_ID ON oauth_client_scopes (oauth_client_id);
+CREATE UNIQUE INDEX IDX_UK_OAUTH_REFRESH_TOKEN_VALUE  ON oauth_refresh_token (value);
+CREATE UNIQUE INDEX IDX_UK_PENDING_EMAIL_CONFIRMATION_CONFIRMATION_TOKEN  ON pending_email_confirmation (confirmation_token);
+CREATE INDEX IDX_PENDING_EMAIL_CONFIRMATION_TIMESTAMP ON pending_email_confirmation (timestamp);
+CREATE INDEX IDX_PENDING_EMAIL_CONFIRMATION_CONFIRMATION_TOKEN  ON pending_email_confirmation (confirmation_token);
+CREATE UNIQUE INDEX IDX_UK_REGISTRATION_EMAIL  ON registration (email);
+CREATE INDEX IDX_FK_REGISTRATION_MEMBER_ID  ON registration (member_id);
+CREATE INDEX IDX_FK_SOCIAL_CONNECTION_LOGIN_ID  ON social_connection (login_id);
+
+
+ALTER TABLE DOCTOR ADD IMAGE_LOCATION VARCHAR(240);
+ALTER TABLE HOSPITAL ADD IMAGE_LOCATION VARCHAR(240);
+ALTER TABLE LAB ADD IMAGE_LOCATION VARCHAR(240);

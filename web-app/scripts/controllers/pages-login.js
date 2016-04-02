@@ -35,7 +35,7 @@ app
 
     $scope.login = function() {
       var dataToSend = {
-        "clientId":"vellkare-client",
+        "clientId":"velkare-client",
         "username":$scope.username,
         "password":$scope.password
       };
