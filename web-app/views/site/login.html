@@ -1,0 +1,50 @@
+<div class="page page-core page-login">
+
+  <div class="container w-420 p-15 bg-white mt-40 text-center">
+
+
+    <h2 class="text-light text-greensea">Log In</h2>
+
+    <form name="form" class="form-validation mt-20" novalidate>
+      <div class="form-group">
+        <input type="text" name="username" class="form-control underline-input" placeholder="User Name" ng-model="username" required>
+        <p class="help-block text-left">
+          <span ng-show="userNameError != null" class="text-danger">{{ userNameError }}</span>
+        </p>
+      </div>
+
+      <div class="form-group">
+        <input type="password" name="password" placeholder="Password" class="form-control underline-input" ng-model="password" required>
+        <p class="help-block text-left">
+          <span ng-show="passwordError != null" class="text-danger">{{ passwordError }}</span>
+        </p>
+      </div>
+
+
+      <div class="row form-group">
+        <div class="col-sm-6">
+          <label class="checkbox checkbox-custom checkbox-custom-sm inline-block pull-left">
+            <input type="checkbox"><i></i> Remember me
+          </label>
+        </div>
+        <div class="col-sm-6">
+          <button type="submit" class="btn btn-small btn-greensea pull-right" ng-click="login()" ng-disabled='form.$invalid'>Login</button>
+        </div>
+      </div>
+
+    </form>
+    <div class="row">
+      <div class="col-sm-6">
+        <a ui-sref="site.forgotpass" class="pull-left">Forgot Password?</a>
+      </div>
+      <div class="col-sm-6">
+        <a ui-sref="site.signup" class="pull-right">Not registered? Sign up here</a>
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+</div>

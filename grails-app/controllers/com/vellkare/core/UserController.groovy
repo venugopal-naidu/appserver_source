@@ -135,6 +135,29 @@ class UserController {
       respond new InternalErrorResponse('internal.error', [])
     }
   }
+
+  @Transactional
+  def createCSR(MemberRegistrationCommand cmd) {
+    try {
+      if (!cmd.validate()) {
+        response.setStatus(HttpStatus.SC_BAD_REQUEST)
+        respond new ValidationErrorResponse(cmd.errors)
+        return
+      }
+      Member m = cmd.createMember()
+      m.addToRoles(MemberRole.create(m, Role.findByAuthority(Role.Authority.ROLE_CSR)))
+      OAuth2AccessToken token = securityService.getToken(cmd.clientId, "password", cmd.username, cmd.password)
+      def tokenApiModel = new TokenApiModel(token)
+      def memberApiModel = memberService.findByUsername(cmd.username) as MemberApiModel
+      respond new NewMemberApiModel(token: tokenApiModel, member: memberApiModel)
+
+    } catch (e) {
+      transactionService.rollback(transactionStatus)
+      response.setStatus(500)
+      log.error("Signup Internal Error : ${e.getMessage()}", e)
+      respond new InternalErrorResponse('internal.error', [])
+    }
+  }
 }
 
 @Validateable

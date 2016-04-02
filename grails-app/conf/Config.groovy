@@ -11,6 +11,7 @@
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
 // }
 
+grails.app.context = "/"
 grails.project.groupId = "com.vellkare" // change this to alter the default package name and Maven publishing destination
 
 // The ACCEPT header will not be used for content negotiation for user agents containing the following strings (defaults to the 4 major rendering engines)
@@ -76,6 +77,8 @@ grails.web.disable.multipart = false
 // request parameters to mask when logging exceptions
 grails.exceptionresolver.params.exclude = ['password']
 
+grails.cache.enabled = true
+
 // configure auto-caching of queries by default (if false you can cache individual queries with 'cache: true')
 grails.hibernate.cache.queries = false
 
@@ -88,10 +91,10 @@ grails.hibernate.osiv.readonly = false
 environments {
   development {
     grails.logging.jul.usebridge = true
-    grails.serverURL = "http://localhost:8080/vellkare"
+    grails.serverURL = "http://localhost:8080"
   }
   production {
-    grails.serverURL = "http://192.168.0.125:8080/vellkare"
+    grails.serverURL = "http://www.velkare.com"
     grails.logging.jul.usebridge = false
     // TODO: grails.serverURL = "http://www.changeme.com"
   }
@@ -132,7 +135,7 @@ log4j.main = {
     }
   }
 
-  debug 'org.hibernate.SQL'
+//  debug 'org.hibernate.SQL'
 
 }
 
@@ -149,11 +152,10 @@ grails {
              "mail.smtp.host"           : "smtp.gmail.com",
              "mail.smtp.user"           : "vellkare.dev@gmail.com",
              "mail.smtp.password"       : "vellkare"]
-    disabled = true
-
+    disabled = false
   }
-
 }
+
 grails.mail.default.from = "vellkare.dev@gmail.com"
 
 grails.plugin.springsecurity.rejectIfNoRule = false
@@ -196,105 +198,12 @@ grails {
 }
 
 vellkare {
-  auth {
-    social {
-      enabled = ['facebook', 'googlePlus', 'linkedIn', 'gitHub', 'instagram', 'digits']
-      facebook {
-        controllerName = 'facebook'
-        redirectURI = "${grails.serverURL}/api/v0/auth/social/facebook/authorize"
-        scope = 'email'
-      }
-      googlePlus {
-        controllerName = 'googlePlus'
-        redirectURI = "${grails.serverURL}/api/v0/auth/social/googlePlus/authorize"
-        scope = 'profile https://www.googleapis.com/auth/plus.login email'
-        state = '9876543210'
-      }
-      digits {
-        controllerName = 'digits'
-        redirectURI = "${grails.serverURL}/api/v0/auth/social/digits/authorize"
-      }
-      twitter {
-        controllerName = 'twitter'
-        redirectURI = "${grails.serverURL}/api/v0/auth/social/twitter/authorize"
-      }
-      linkedIn {
-        controllerName = 'linkedIn'
-        redirectURI = "${grails.serverURL}/api/v0/auth/social/linkedIn/authorize"
-        scope = 'r_basicprofile%20r_emailaddress%20w_share'
-        state = '9876543210'
-      }
-      gitHub {
-        controllerName = 'gitHub'
-        redirectURI = "${grails.serverURL}/api/v0/auth/social/gitHub/authorize"
-        scope = 'user,public_repo,repo,repo_deployment,repo_status,delete_repo,notifications'
-      }
-      instagram {
-        controllerName = 'instagram'
-        redirectURI = "${grails.serverURL}/api/v0/auth/social/instagram/authorize"
-        scope = 'basic+comments+relationships+likes'
-        state = '9876543210'
-      }
-    }
-  }
-}
-environments {
-  development {
-    vellkare {
-      auth {
-        social {
-          enabled = ['facebook', 'googlePlus', 'linkedIn', 'gitHub', 'instagram', 'digits']
-          facebook {
-            clientId = ''
-            clientSecret = ''
-          }
-          googlePlus {
-            clientId = ''
-            clientSecret = ''
-          }
-          digits {
-          }
-          twitter {
-          }
-          linkedIn {
-            clientId = ''
-            clientSecret = ''
-          }
-          gitHub {
-            clientId = ''
-            clientSecret = ''
-          }
-          instagram {
-            clientId = ''
-            clientSecret = ''
-          }
-        }
-      }
-    }
-  }
-}
-
-vellkare {
   media {
-    profile {
-      className = 'com.vellkare.core.Member'
-      label = 'Member'
-      path = '/Media/profile/'
-      mediaTypes = ['small', 'medium']
-      small.size = [48, 48]
-      medium.size = [300, 200]
-      defaultMedia = '/Media/default/default-profile'
-      defaultExtension = "png"
-    }
-    workspace {
-      className = 'com.vellkare.core.Tenant'
-      label = 'Workspace'
-      path = '/Media/workspace/'
-      mediaTypes = ['small', 'medium']
-      small.size = [48, 48]
-      medium.size = [300, 200]
-      defaultMedia = '/Media/default/default-workspace'
-      defaultExtension = "png"
+    healthRecord {
+      maxSize = 1024*1024*10  // maximum 10 MB
+      supportedTypes = ['tif', 'tiff', 'gif', 'jpeg', 'jpg',
+                        'jif', 'jfif', 'jp2', 'jpx',  'j2k',
+                        'j2c', 'fpx',  'pcd', 'png',  'pdf']
     }
   }
 }
@@ -319,14 +228,31 @@ cors.headers = ['Access-Control-Allow-Origin': '*']
 
 logging.controller.enabled = true
 
-grails.client.config.clientId = 'vellkare-client'
+grails.client.config.clientId = 'velkare-client'
 
-grails {
-  email {
-    rule {
-      welcomeEmail: true
-    }
+app {
+  emails {
+    welcome = false
+    otpVerification = true
+    newAppointment = true
+    cancelAppointment = false
+    confirmAppointment = false
+
   }
-
-
+  sms{
+    welcome = false
+    otpVerification = false
+  }
 }
+
+verification.otp.size=10
+
+images.doctors.path='/images/doctor/'
+images.labs.path='/images/lab/'
+
+grails.config.locations = ["file:/opt/tomcat/conf/velkare-config.groovy", "file:/usr/share/tomcat/conf/velkare-config.groovy"]
+
+grails.mail.overrideAddress="" // send all emails to this email address
+
+grails.plugin.console.enabled=true
+

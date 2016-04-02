@@ -1,0 +1,54 @@
+<header class="clearfix">
+
+  <!-- Branding -->
+  <div class="branding {{main.settings.brandingColor}}">
+    <a class="brand" ui-sref="app_nl.home">
+      <span><strong>Velkare</strong></span>
+    </a>
+    <a href="javascript:;" class="offcanvas-toggle visible-xs-inline" offcanvas-sidebar><i class="fa fa-bars"></i></a>
+  </div>
+  <!-- Branding end -->
+
+  <!-- Right-side navigation -->
+  <ul class="nav-right pull-right list-inline" ng-if="user.userId == 'null' || user.userId == ''">
+    <li class="dropdown nav-profile" uib-dropdown>
+      <a class="btn pull-left" ui-sref="site.signup"><b>SIGN UP</b></a>
+      </li>
+    <li class="dropdown nav-profile" uib-dropdown>
+      <a class="btn pull-left" ui-sref="site.login"><b>LOGIN</b>
+      </a>
+    </li>
+  </ul>
+  <!-- Right-side navigation end -->
+
+  <!-- Right-side navigation -->
+  <ul class="nav-right pull-right list-inline" ng-if="user.userId != 'null'">
+
+    <li class="dropdown nav-profile" uib-dropdown>
+
+      <a href class="dropdown-toggle" uib-dropdown-toggle>
+        <!--<img src="images/profile-photo.jpg" alt="" class="img-circle size-30x30">-->
+        <span>{{ user.firstName }} {{ user.lastName }} <fa name="angle-down"></fa></span>
+      </a>
+
+      <ul class="dropdown-menu animated littleFadeInRight" role="menu" style="right: 5px;left: auto !important;">
+        <li>
+          <a ui-sref="app.dashboard">
+            <fa name="user"></fa>Dashboard
+          </a>
+        </li>
+        <li>
+          <a href="#" ng-click="lgout()">
+            <fa name="sign-out"></fa>Logout
+          </a>
+        </li>
+
+      </ul>
+
+    </li>
+  </ul>
+  <!-- Right-side navigation end -->
+
+
+
+</header>

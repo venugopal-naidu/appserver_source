@@ -1,22 +1,19 @@
 <div id="sidebar-wrap" ng-controller="NavCtrl">
   <uib-accordion close-others="oneAtTime" slimscroll="{height: '100%'}">
-
-    <uib-accordion-group is-open="status.isFirstOpen" ng-class="{'open': status.isFirstOpen, 'closed': !status.isFirstOpen}">
-      <uib-accordion-heading>
-      </uib-accordion-heading>
+    <div class="panel-body">
       <ul id="navigation">
-        <li ui-sref-active="active"><a ui-sref="app.dashboard"><fa name="dashboard"></fa> <span>{{ 'Menu.DASHBOARD' | translate }}</span></a></li>
+        <li ui-sref-active="active"><a ui-sref="app.appointment.bookAnAppointment"><fa name="dashboard"></fa> <span>Book an appointment</span></a></li>
         <li ui-sref-active="active" class="active">
-          <a ui-sref="app.calendar" href="#/app/calendar">
+          <a ui-sref="app.myAppointments">
             <i class="fa fa-calendar-o" name="calendar-o"></i>
-            <span class="ng-binding">My Calendar</span>
+            <span class="ng-binding">My appointments</span>
           </a>
         </li>
         <li ui-sref-active="active" class="active">
-          <a ui-sref="app.custom.myrecords" class="ng-binding" href="#/app/custom/myrecords"><i class="fa fa-file" name="upload"></i>My Health Records
+          <a ui-sref="app.myRecords" class="ng-binding"><i class="fa fa-file" name="upload"></i>My health records
           </a>
         </li>
       </ul>
-    </uib-accordion-group>
+    </div>
   </uib-accordion>
 </div>

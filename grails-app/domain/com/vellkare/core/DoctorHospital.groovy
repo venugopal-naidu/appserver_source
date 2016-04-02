@@ -9,6 +9,15 @@ class DoctorHospital implements Serializable {
   Doctor doctor
   Hospital hospital
   boolean velkareVerified = false
+  String serviceHoursFrom
+  String serviceHoursTo
+  Long serviceProviderId
+
+  static constraints = {
+    serviceHoursFrom nullable: true
+    serviceHoursTo nullable: true
+    serviceProviderId nullable: true
+  }
 
   static belongsTo = [
     doctor  : Doctor,
@@ -17,6 +26,7 @@ class DoctorHospital implements Serializable {
 
   static mapping = {
     id composite: ['doctor', 'hospital']
+    cache true
   }
 
   boolean equals(other) {
@@ -31,7 +41,7 @@ class DoctorHospital implements Serializable {
   int hashCode() {
     def builder = new HashCodeBuilder()
     if (doctor) builder.append(doctor.id)
-    if (hospital) builder.append(hospital.id)
+    if (hospital) builder.append('.').append(hospital.id)
     builder.toHashCode()
   }
 

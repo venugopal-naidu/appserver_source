@@ -1,0 +1,363 @@
+
+<div class="page page-dashboard page-datatables">
+    <!-- Free from search -->
+    <form role="form">
+        <div class="form-group">
+            <div>
+                <h4>Search for doctors or labs</h4>
+            </div>
+        </div>
+        <div class="row">
+        <div class="col-md-2">
+            <label type="text" class="form-control"><i class="fa fa-map-marker pr10"></i>Hyderabad</label>
+        </div>
+        <div class="form-group col-md-2">
+            <ui-select ng-model="searchType.selected" on-select="searchTypeChanged($item)">
+                <ui-select-match placeholder="Looking for Doctor/Lab">{{$select.selected.name}}</ui-select-match>
+                <ui-select-choices repeat="searchType in searchTypes | filter: $select.search">
+                    <span ng-bind-html="searchType.name | highlight: $select.search"></span>
+                </ui-select-choices>
+            </ui-select>
+        </div>
+        <div ng-show="searchType.selected.name == 'Doctor'">
+            <div class="form-group col-md-4">
+                <ui-select ng-model="specialty.selected" search-enabled="true" on-select="specialtyChanged($item)">
+                    <ui-select-match placeholder="Specialty">{{$select.selected}}</ui-select-match>
+                    <ui-select-choices repeat="specialty in specialties | filter: $select.search">
+                        <span ng-bind-html="specialty | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class="form-group col-md-4">
+                <ui-select ng-model="hospital.selected"  search-enabled="true"  on-select="hospitalChanged($item)">
+                    <ui-select-match placeholder="Hospital">{{$select.selected}}</ui-select-match>
+                    <ui-select-choices repeat="hospitalName in hospitals track by $index ">
+                        <span ng-bind-html="hospitalName | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div>
+                <div class="form-group pull-right">
+                    <a style="margin-right:20px" href="" ng-click="clearDoctorsResult()">Reset</a>
+                    <button class="btn btn-primary pa20" title="Find Doctors" ng-click="findDoctor()"><i class="fa fa-search"></i> <span>Search</span></button>
+                </div>
+            </div>
+
+        </div>
+        <div data-ng-show="searchType.selected.name == 'Lab'">
+            <div class="form-group col-md-4">
+                <ui-select ng-model="test.selected" search-enabled="true" append-to-body="true"  on-select="testChanged($item)">
+                    <ui-select-match placeholder="Test category">{{$select.selected}}</ui-select-match>
+                    <ui-select-choices repeat="test in tests | filter: $select.search">
+                        <span ng-bind-html="test | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class="form-group col-md-4">
+                <ui-select ng-model="lab.selected"  search-enabled="true" append-to-body="true"  on-select="labChanged($item)">
+                    <ui-select-match placeholder="Diagnose center">{{$select.selected}}</ui-select-match>
+                    <ui-select-choices repeat="lab in labs | filter: $select.search">
+                        <span ng-bind-html="lab | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class="row">
+                <div class="form-group pull-right">
+                    <a style="margin-right:20px" href="" ng-click="clearLabsResult()">Reset</a>
+                    <button class="btn btn-primary pa20" title="Find Doctors" ng-click="findLab()"><i class="fa fa-search"></i> <span>Search</span></button>
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </form>
+    <div class="row"  ng-show="searchType.selected.name == 'Doctor'">
+        <div class="col-md-12" ng-show="noDoctorsFound && doctorsList.length <= 0">
+            <h3 class="text-center">We couldn't find doctors for you</h3>
+        </div>
+        <div class="col-md-12" ng-show="doctorsList.length > 0">
+            <!-- tile -->
+            <section class="tile" fullscreen="isFullscreen03">
+                <!-- tile header -->
+                <div class="tile-header dvd dvd-btm">
+                    <h1 class="custom-font"><strong>List of Doctors </strong></h1>
+                    <!--<div class="pull-right">
+                        <label class="checkbox checkbox-inline checkbox-custom-alt mt-0">
+                            <input type="checkbox" checked="checked" aria-controls="doctorsSearchList"><i></i> Male </label>
+                        <label class="checkbox checkbox-inline checkbox-custom-alt">
+                            <input type="checkbox" checked="checked" aria-controls="doctorsSearchList"><i></i> Female
+                        </label>
+                    </div>-->
+
+                </div>
+                <!-- /tile header -->
+
+                <!-- tile body -->
+                <div class="tile-body dataTables_wrapper form-inline no-footer">
+                    <table class="table table-custom" id="doctorsSearchList">
+                        <tbody>
+                                <tr class="child" ng-repeat-start="doctor in doctorsList">
+                                    <td class="child">
+                                        <div class="dotor-profile-pic">
+                                            <div class="thumb thumb-xl">
+                                                <img class="img-thumbnail" ng-src="{{ baseUrl + doctor.photoUrl }}" alt="">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="child">
+                                        <ul style="display: inline-block;list-style-type: none;margin: 0;padding: 0;">
+                                            <li>
+                                                <h2 class="custom-font text-cyan m-0">{{ doctor.name }}</h2>
+                                                <strong>
+                                                    <span ng-if="doctor.degree1 != ''">{{ doctor.degree1 }}</span>
+                                                    <span ng-if="doctor.degree2 != ''">, {{ doctor.degree2 }}</span>
+                                                    <span ng-if="doctor.degree3 != ''">, {{ doctor.degree3 }}</span>
+                                                    <span ng-if="doctor.degree4 != ''">, {{ doctor.degree4 }}</span>
+                                                    <span ng-if="doctor.degree5 != ''">, {{ doctor.degree5 }}</span>
+                                                </strong>
+                                            </li>
+                                            <li>
+                                                <span class="text-muted" ng-repeat="specialty in doctor.specialties">{{ specialty }}, </span>
+                                            </li>
+                                            <li class="mt-10" ng-repeat="hospital in doctor.hospitals">
+                                                <address>
+                                                    <label class="checkbox checkbox-custom-alt col-md-1 hospitalId{{doctor.id}}{{hospital.id}}" ng-if="doctor.hospitals.length > 1">
+                                                        <input name="hospitalId{{doctor.id}}" ng-model="$parent.$parent.hospitalId" type="radio" value="{{ hospital.id }}"><i></i>
+                                                    </label>
+                                                    <div class="col-md-10" style="padding-left: 0">
+                                                        <strong>{{ hospital.name }}</strong><br>
+                                                        <span ng-if="hospital.address1 != null"><i class="fa fa-map-marker"></i> {{ hospital.address1 }}</span>
+                                                        <span ng-if="hospital.address2 != null">, {{ hospital.address2 }}</span>
+                                                        <!--<span ng-if="hospital.address3 != null">{{ hospital.address3 }}</span>
+                                                        <span ng-if="hospital.address4 != null">{{ hospital.address4 }}</span><br />
+                                                        <abbr title="Phone">P:</abbr> {{ hospital.phone }}&ndash;&gt;-->
+                                                        <!--<p class="text-muted">
+                                                            <i class="fa fa-clock-o"></i>  <span ng-repeat="availability in hospital.availability"> {{ availability.from | date: 'h:mma'}} To {{ availability.to | date: 'h:mma'}}, </span>
+                                                        </p>-->
+                                                    </div>
+
+                                                </address>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <!--<td class="child">
+                                        <ul class="list-unstyled">
+                                            <li class="m-10">
+                                                <span class="strong days-timing">MON-SAT</span>
+                                                <br>
+                                                <span class="hours-timing">{{ doctor.hospitals[0].availability[0].from | date: 'h:mma' }} To {{ doctor.hospitals[0].availability[0].to | date: 'h:mma' }}</span>
+                                                <br />
+                                                <span class="hours-timing">{{ doctor.hospitals[0].availability[1].from | date: 'h:mma' }} To {{ doctor.hospitals[0].availability[1].to | date: 'h:mma' }}</span>
+                                            </li>
+                                            <li  class="m-10">
+                                                <span style="display: inline;">SUN</span>
+                                                <br tyle="display: inline;">
+                                                <span style="display: inline;">10:00AM-1:00PM</span>
+                                            </li>
+                                        </ul>
+                                    </td>-->
+                                    <td class="child">
+                                        <span ng-if="doctor.hospitals.length == 1">
+                                            {{$parent.selectedHospital = doctor.hospitals[0].id; ""}}
+                                        </span>
+                                        <span ng-if="doctor.hospitals.length > 1">
+                                            {{$parent.selectedHospital = $parent.hospitalId; ""}}
+                                        </span>
+                                        <button class="btn btn-success btn-ef btn-ef-7 btn-ef-7b mb-10" style="margin-top: 110px" ng-click="showDoctorAppointmentCalendar(doctor,$index,selectedHospital)"><i class="fa fa-calendar"></i> Book Appointment</button>
+                                    </td>
+                                </tr>
+                                <!--
+                                BEGIN CALENDAR CHANGES
+                                <tr id="doctor_calendar_{{$index}}" class="collapse doctorAppointment" ng-repeat-end>
+                                    <td style="border: 0" colspan="4" ng-controller="AppointmentCtrl">
+                                        <div class="calendar" id="doctorAppointment_{{$index}}" calendar="doctorAppointment" ng-model="eventSources" ui-calendar="uiConfig.calendar"></div>
+                                    </td>
+                                </tr>
+                                END CALENDAR CHANGES
+                                -->
+                                <tr ng-show="$parent.displayCalendarIndex == $index"  ng-repeat-end>
+                                    <td colspan="3">
+                                        <div class="row bg-success custom-font big">
+                                            <div class="col-md-4 col-sm-4 col-xs-12 text-center"  ng-repeat="day in dateSetDisplayed">
+                                                <h4><b>
+                                                    <span ng-show="$index == 0 && dateSetIndex != 0" class="pull-left text-small" ng-click="goToPrevDateSet()">< prev </span>{{ day }}
+                                                    <span ng-show="$index == 2 && dateSetIndex != 90" class="pull-right text-small" ng-click="goToNextDateSet()"> next ></span></b></h4>
+                                            </div>
+                                        </div>
+                                        <div class="appointment-calendar">
+                                            <div class="row" ng-repeat="timeSlot in timeSlots">
+                                                <div class="col-md-4 col-sm-4 col-xs-12" ng-repeat="day in dateSetDisplayed">
+                                                    <div class="row" ng-class="$index%2 ==0 ? 'even-background' : 'odd-background'">
+                                                        <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '00', '15')" class="btn btn-time-slot">{{ timeSlot > 12 ? timeSlot-12: timeSlot }}:00{{ timeSlot > 12 ? 'PM' : 'AM' }}</button></div>
+                                                        <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '15', '30')" class="btn btn-time-slot">{{ timeSlot > 12 ? timeSlot-12: timeSlot }}:15{{ timeSlot > 12 ? 'PM' : 'AM' }}</button></div>
+                                                        <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '30', '45')" class="btn btn-time-slot">{{ timeSlot > 12 ? timeSlot-12: timeSlot }}:30{{ timeSlot > 12 ? 'PM' : 'AM' }}</button></div>
+                                                        <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '45', '00')" class="btn btn-time-slot">{{ timeSlot > 12 ? timeSlot-12: timeSlot }}:45{{ timeSlot > 12 ? 'PM' : 'AM' }}</button></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /tile body -->
+
+            </section>
+        </div>
+    </div>
+    <div class="row"  ng-show="searchType.selected.name == 'Lab'">
+        <div class="col-md-12" ng-show="noLabsFound && labsList.length <= 0">
+            <h3 class="text-center">We couldn't find labs for you</h3>
+        </div>
+        <div class="col-md-12" ng-show="labsList.length > 0">
+            <!-- tile -->
+            <section class="tile" fullscreen="isFullscreen03">
+
+                <!-- tile header -->
+                <div class="tile-header dvd dvd-btm">
+                    <h1 class="custom-font"><strong>List of Labs </strong></h1>
+                </div>
+                <!-- /tile header -->
+                <!-- tile body -->
+                <div class="tile-body dataTables_wrapper form-inline no-footer" >
+                    <table class="table table-custom" id="labsSearchList">
+                        <tbody>
+                        <tr class="child" ng-repeat-start="lab in labsList">
+                            <td class="child">
+                                <div class="dotor-profile-pic">
+                                    <div class="thumb thumb-xl">
+                                        <img class="img-thumbnail" ng-src="{{ lab.labImageUrl }}" alt="">
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="child">
+                                <ul style="display: inline-block;list-style-type: none;margin: 0;padding: 0;">
+                                    <li>
+                                        <h2 class="custom-font text-cyan m-0">{{lab.name}}</h2>
+                                    </li>
+                                    <li class="mt-10">
+                                        <address>
+                                            <span ng-if="lab.address1 != ''"><i class="fa fa-map-marker"></i> {{ lab.address1 }}</span>
+                                            <span ng-if="lab.address2 != ''">, {{ lab.address2 }}</span>
+                                            <span ng-if="lab.address3 != ''">, {{ lab.address3 }}</span>
+                                            <span ng-if="lab.city != ''">{{ lab.city }}</span>
+                                            <span ng-if="lab.district != ''"> {{ lab.district }}</span><br />
+                                            <span ng-if="lab.country != ''">, {{ lab.country }}</span>
+                                        </address>
+                                    </li>
+                                </ul>
+                            </td>
+                            <!--<td class="child">
+                                <ul class="list-unstyled">
+                                    <li class="m-10">
+                                        <span class="strong days-timing">MON-SAT</span>
+                                        <br>
+                                        <span class="hours-timing">10:00AM-1:00PM</span>
+                                        ,&nbsp;
+                                        <span class="hours-timing">5:00PM-10:00PM</span>
+                                    </li>
+                                    <li  class="m-10">
+                                        <span style="display: inline;">SUN</span>
+                                        <br tyle="display: inline;">
+                                        <span style="display: inline;">10:00AM-1:00PM</span>
+                                    </li>
+                                </ul>
+                            </td>-->
+                            <td class="child">
+                                <button class="btn btn-success btn-ef btn-ef-7 btn-ef-7b mb-10" style="margin-top: 110px" ng-click="showLabAppointmentCalendar(lab,$index)"><i class="fa fa-calendar"></i> Book Appointment</button>
+                            </td>
+                        </tr>
+                        <!--
+                                BEGIN CALENDAR CHANGES
+                        <tr id="lab_calendar_{{$index}}" class="collapse labAppointment" ng-repeat-end>
+                            <td style="border: 0" colspan="4" ng-controller="AppointmentCtrl">
+                                <div class="calendar" id="labAppointment_{{$index}}" calendar="labAppointment" ng-model="eventSources" ui-calendar="uiConfig.calendar"></div>
+                            </td>
+                        </tr>
+                        END CALENDAR CHANGES
+                        -->
+                        <tr ng-show="$parent.displayCalendarIndex == $index"  ng-repeat-end>
+                            <td colspan="3">
+                                <div class="row bg-success custom-font big">
+                                    <div class="col-md-4 col-sm-4 col-xs-12 text-center"  ng-repeat="day in dateSetDisplayed">
+                                        <h4><b>
+                                            <span ng-show="$index == 0 && dateSetIndex != 0" class="pull-left text-small" ng-click="goToPrevDateSet()">< prev </span>{{ day }}
+                                            <span ng-show="$index == 2 && dateSetIndex != 90" class="pull-right text-small" ng-click="goToNextDateSet()"> next ></span>
+                                        </b></h4>
+                                    </div>
+                                </div>
+                                <div class="appointment-calendar">
+                                    <div class="row" ng-repeat="timeSlot in timeSlots">
+                                        <div class="col-md-4 col-sm-4 col-xs-12" ng-repeat="day in dateSetDisplayed">
+                                            <div class="row" ng-class="$index%2 ==0 ? 'even-background' : 'odd-background'">
+                                                <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '00', '15')" class="btn btn-time-slot">{{ timeSlot > 12 ? timeSlot-12: timeSlot }}:00{{ timeSlot > 12 ? 'PM' : 'AM' }}</button></div>
+                                                <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '15', '30')" class="btn btn-time-slot">{{ timeSlot > 12 ? timeSlot-12: timeSlot }}:15{{ timeSlot > 12 ? 'PM' : 'AM' }}</button></div>
+                                                <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '30', '45')" class="btn btn-time-slot">{{ timeSlot > 12 ? timeSlot-12: timeSlot }}:30{{ timeSlot > 12 ? 'PM' : 'AM' }}</button></div>
+                                                <div class="col-md-3"><button type="button" ng-click="bookAppointment($index, timeSlot, '45', '00')" class="btn btn-time-slot">{{ timeSlot > 12 ? timeSlot-12: timeSlot }}:45{{ timeSlot > 12 ? 'PM' : 'AM' }}</button></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tbody>
+                        </tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /tile body -->
+
+            </section>
+            <!-- /tile -->
+        </div>
+    </div>
+    <!-- tile -->
+</div>
+<!--TODO: MOVE THIS TO CUSTOM STYLES -->
+<style>
+
+    table.fc-agenda-slots td.fc-widget-content:hover
+    {
+        cursor: pointer;
+    }
+    .fc-widget-header{
+        border-top: 1px solid #e2e2e2 !important;
+        border-bottom: 1px solid #e2e2e2 !important;
+        background-color: #f2f2f2 !important;
+    }
+    .fc-widget-header.fc-first{
+        border-left: 1px solid #e2e2e2 !important;
+    }
+    .fc-widget-header.fc-last{
+        border-right: 1px solid #e2e2e2 !important;
+    }
+    .fc .fc-header{
+         color: #000;
+         background-color: #ffffff;
+    }
+    .fc .fc-header .fc-button{
+        color: darkgray;
+    }
+    .fc .fc-header .fc-button:hover{
+        color: black;
+    }
+    .fc .fc-header h2{
+        font-size: 20px
+    }
+    .ui-select-bootstrap .ui-select-choices{
+        top: 100% !important;
+    }
+    .fc .fc-content .fc-view.fc-agenda .fc-agenda-slots tr{
+        line-height: 0px !important;
+    }
+
+    #pageloader.animate{
+        z-index: 9999 !important;
+        margin: 0 !important;
+    }
+
+</style>
+
+

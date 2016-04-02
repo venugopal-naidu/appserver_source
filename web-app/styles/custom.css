@@ -1,0 +1,62 @@
+.frontend {
+
+}
+.page {
+    background-color: #ffffff;
+}
+body {
+    background-color: #ffffff;
+}
+#header .branding{
+    background-color: transparent !important;
+}
+#footer {
+    background-color: #51445f;
+    color: #ffffff
+}
+
+#footer a:hover{
+    text-decoration: underline;
+    color:#ffffff;
+}
+
+#footer a:visited{
+    text-decoration: underline;
+    color:#ffffff;
+}
+
+.pr10 {
+    padding-right:10px;
+}
+
+.nm {
+    margin:0px;
+}
+
+.np {
+    padding:0px;
+}
+
+.btn-time-slot {
+    /*border-radius: 5px;*/
+    /*border:solid 1px;*/
+    margin-bottom: 5px;
+    /*width:70px;*/
+    background-color: transparent;
+}
+.btn-time-slot:hover {
+    background-color: #5cb85c;
+    color: #ffffff;
+}
+
+.even-background {
+    background-color: #ffffff;
+}
+.odd-background {
+    background-color: #f1f1f1;
+}
+
+.appointment-calendar {
+    height:200px;
+    overflow: auto;
+}

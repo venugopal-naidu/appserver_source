@@ -1,0 +1,107 @@
+<div class="page">
+
+  <div class="container w-xxl p-15 bg-white mt-20" ng-if="selectedAppointment == 'Doctor'">
+    <table class="table table-custom" id="doctorsSearchList">
+      <tbody>
+      <tr class="child">
+        <td class="child">
+          <div class="dotor-profile-pic">
+            <div class="thumb thumb-xl">
+              <img class="img-thumbnail" ng-src="images/doctor_profile_pic.png" alt="">
+            </div>
+          </div>
+        </td>
+        <td class="child">
+          <ul style="display: inline-block;list-style-type: none;margin: 0;padding: 0;">
+            <li>
+              <h2 class="custom-font text-cyan m-0">{{ doctor.name }}</h2>
+              <strong>
+                <span ng-if="doctor.degree1 != ''">{{ doctor.degree1 }}</span>
+                <span ng-if="doctor.degree2 != ''">, {{ doctor.degree2 }}</span>
+                <span ng-if="doctor.degree3 != ''">, {{ doctor.degree3 }}</span>
+                <span ng-if="doctor.degree4 != ''">, {{ doctor.degree4 }}</span>
+                <span ng-if="doctor.degree5 != ''">, {{ doctor.degree5 }}</span>
+              </strong>
+            </li>
+            <li>
+              <span class="text-muted" ng-repeat="specialty in doctor.specialties">{{ specialty }}, </span>
+            </li>
+            <li>
+              <address>
+                <strong><i class="fa fa-hospital-o"></i> {{ hospital.name }}</strong><br>
+                <span ng-if="hospital.address1 != null"><i class="fa fa-map-marker"></i> {{ hospital.address1 }}</span>
+                <span ng-if="hospital.address2 != null">, {{ hospital.address2 }}</span>
+              </address>
+            </li>
+            <li>
+              From:{{ fromTime }}
+            </li>
+            <li>
+                  To: {{ toTime }}
+            </li>
+          </ul>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <form name="form" class="form-validation mt-20" novalidate>
+      <div class="form-group">
+        <input type="text" name="doctorInstructions" class="form-control underline-input" placeholder="Special instructions to doctor" ng-model="$parent.doctorInstructions">
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <a href="" ng-click="confirmDoctorAppointment()" class="btn btn-greensea pull-right">Confirm Appointment</a>
+        </div>
+      </div>
+    </form>
+
+
+  </div>
+
+  <div class="container w-xxl p-15 bg-white mt-20" ng-if="selectedAppointment == 'Lab'">
+    <table class="table table-custom" id="labSearchList">
+      <tbody>
+      <tr class="child">
+        <td class="child">
+          <div class="dotor-profile-pic">
+            <div class="thumb thumb-xl">
+              <img class="img-thumbnail" ng-src="images/diagnostic_center.jpg" alt="">
+            </div>
+          </div>
+        </td>
+        <td class="child">
+          <ul class="list-unstyled">
+            <li>
+              <h2 class="custom-font text-cyan m-0">{{ lab.name }}</h2>
+              <address>
+                <span ng-if="lab.address1 != null"><i class="fa fa-map-marker"></i> {{ lab.address1 }}</span>
+                <span ng-if="lab.address2 != null">, {{ lab.address2 }}</span>
+              </address>
+            </li>
+              <li>
+                  From:{{ fromTime }}
+              </li>
+              <li>
+                  To: {{ toTime }}
+              </li>
+          </ul>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+
+      <div class="form-group">
+        <input type="text" name="labInstructions" class="form-control underline-input" placeholder="Special instructions to Lab" ng-model="$parent.labInstructions">
+      </div>
+
+    <div class="row">
+      <div class="col-sm-12">{{ instructions }}
+        <a href="" ng-click="confirmLabAppointment()" class="btn btn-greensea pull-right">Confirm Appointment</a>
+      </div>
+    </div>
+
+  </div>
+
+</div>

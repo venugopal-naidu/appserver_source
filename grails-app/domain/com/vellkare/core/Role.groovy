@@ -6,7 +6,7 @@ class Role implements Serializable {
   boolean isActive = true
 
   static enum Authority {
-    ROLE_ADMIN, ROLE_USER
+    ROLE_ADMIN, ROLE_USER, ROLE_CSR
   }
 
   static mapping = {

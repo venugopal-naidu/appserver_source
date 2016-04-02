@@ -1,0 +1,120 @@
+<div class="page page-tables-bootstrap">
+    <!-- page content -->
+    <div class="pagecontent">
+        <!-- row -->
+        <div class="row">
+            <!-- col -->
+            <div class="col-md-12">
+                <!-- tile -->
+                <!--<section class="tile" fullscreen="isFullscreen02">-->
+                    <!--<form class="form-inline" ng-submit="uploadRecord()">-->
+
+                        <!--<div class="form-group">-->
+                            <!--<input ui-jq="filestyle" type="file" class="filestyle" ui-options="{buttonText: 'Select file'iconName: 'fa fa-inbox'}" nv-file-select="" uploader="uploader">-->
+                        <!--</div>-->
+
+                    <!--</form>-->
+                <!--</section>-->
+                <section class="tile" fullscreen="isFullscreen02">
+                    <!-- tile header -->
+                    <div class="tile-header dvd dvd-btm">
+                        <h1 class="custom-font"><strong>My Health Records</strong></h1>
+                       <button style="margin-bottom:20px; margin-right:20px" class="controls btn btn-primary" ng-click="openUploadRecordModal(lg)">Upload a new record</button>
+                    </div>
+                    <!-- /tile header -->
+
+                    <!-- tile body -->
+                    <div class="tile-body table-custom">
+
+                        <table datatable="ng" dt-options="dtOptions" dt-column-defs="dtColumnDefs" class="table table-custom">
+                                <thead>
+                                <tr>
+                                    <th class="bt-0">Record Name</th>
+                                    <th class="bt-0">Record Type</th>
+                                    <th class="bt-0">Issued Date</th>
+                                    <th class="bt-0">Notes</th>
+                                    <th class="bt-0"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="healthRecord in records">
+                                    <td>{{ healthRecord.name }}</td>
+                                    <td>{{ healthRecord.recordType }}</td>
+                                    <td>{{ healthRecord.recordDate }}</td>
+                                    <td>{{ healthRecord.notes }}</td>
+                                    <td>
+                                        <a href ng-click="downloadHealthRecord(healthRecord.record.name, healthRecord.record.contentType, healthRecord.record.fileLink)"><i class="fa fa-paperclip"></i></a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                    </div>
+                    <!-- /tile body -->
+
+                </section>
+                <!-- /tile -->
+            </div>
+            <!-- /col -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /page content -->
+</div>
+
+<!-- Upload health record modal-->
+<script type="text/ng-template" id="uploadHealthRecordModal">
+  <form class="form-horizontal form-validation" name="uploadRecordForm" id='uploadRecordForm' method="post" enctype="multipart/form-data" novalidate>
+  <div class="modal-header">
+    <h3 class="modal-title custom-font">Upload Health Record</h3>
+  </div>
+  <div class="modal-body">
+      <div class="form-group">
+        <label for="recordName" class="col-sm-3 control-label">Record Name*</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" name="name" id="recordName" ng-model="name" placeholder="Record name to identify" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">Record Type</label>
+        <div class="col-sm-9">
+          <ui-select ng-model="recordTypeSelected.selected" name="recordTypeSelected" class="w-md mb-10" required>
+            <ui-select-match placeholder="Select record type">{{$select.selected.name}}</ui-select-match>
+            <ui-select-choices repeat="recordType in recordTypes | filter: $select.search">
+              <span ng-bind-html="recordType.name | highlight: $select.search"></span>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">Issued date</label>
+        <div class="col-sm-9">
+          <div class="input-group w-md">
+            <input type="text" class="form-control" name="recordDate" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" required/>
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">Record</label>
+        <div class="col-sm-9">
+          <input ng-model="record" ui-jq="filestyle" type="file" id="recordFile" name='file' class="filestyle" ui-options="{
+                    buttonText: 'Select record',
+                    iconName: 'fa fa-inbox'
+                  }">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label" for="message">Description: </label>
+        <div class="col-sm-9">
+          <textarea class="form-control" name="notes" rows="3" id="message" placeholder="Write something about record..." ng-model="notes"></textarea>
+        </div>
+      </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success btn-ef btn-ef-3 btn-ef-3c" ng-click="uploadHealthRecord()" ng-disabled='uploadRecordForm.$invalid'><i class="fa fa-upload"></i> Upload</button>
+    <button class="btn btn-lightred btn-ef btn-ef-4 btn-ef-4c" ng-click="cancel()"><i class="fa fa-arrow-left"></i> Cancel</button>
+  </div>
+  </form>
+</script>

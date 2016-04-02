@@ -17,6 +17,7 @@ class DoctorSpeciality implements Serializable{
 
   static mapping = {
     id composite: ['doctor', 'speciality']
+    cache true
     version false
   }
 
@@ -41,7 +42,7 @@ class DoctorSpeciality implements Serializable{
   int hashCode() {
     def builder = new HashCodeBuilder()
     if (doctor) builder.append(doctor.id)
-    if (speciality) builder.append(speciality.id)
+    if (speciality) builder.append('.').append(speciality.id)
     builder.toHashCode()
   }
 

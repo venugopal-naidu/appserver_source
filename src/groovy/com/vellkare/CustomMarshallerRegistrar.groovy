@@ -2,6 +2,11 @@ package com.vellkare
 
 import com.vellkare.api.FieldErrorApiModel
 import com.vellkare.api.RestMessage
+import com.vellkare.core.AvailabilityMini
+import com.vellkare.core.Doctor
+import com.vellkare.core.DoctorHospital
+import com.vellkare.core.DoctorHospitalMini
+import com.vellkare.core.HospitalAvailabilityMini
 import com.vellkare.core.Member
 import com.vellkare.core.MemberApiModel
 import com.vellkare.core.SocialAccountApiModel
@@ -61,7 +66,6 @@ class CustomMarshallerRegistrar {
             } ?: []
             return map
         }
-
 
         Member.metaClass.asType = { Class clazz ->
             Member member = delegate

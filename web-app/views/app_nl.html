@@ -1,0 +1,62 @@
+<div class="{{main.settings.navbarHeaderColor}} header-fixed appWrapper" ng-class="{'header-fixed': main.settings.headerFixed, 'header-static': !main.settings.headerFixed, 'rightbar-show': main.settings.rightbarShow, 'rightbar-hidden': !main.settings.rightbarShow}">
+  <section ng-include="'views/header_nl.html'" id="header" class="{{main.settings.navbarHeaderColor}}"></section>
+  <div style="min-height:560px" class="row">
+    <div class="col-md-9">
+      <section style="left:0px;" ui-view id="content" autoscroll="false"></section>
+    </div>
+    <div class="col-md-3">
+      <div style="position: absolute;top: 45px;height: auto; padding:20px;">
+        <section class="tile" fullscreen="isFullscreen01">
+
+          <!-- tile header -->
+          <div class="tile-header dvd dvd-btm bg-slategray">
+            Features
+          </div>
+          <div class="tile-body">
+            <ul style="list-style: none">
+              <li><a href="#">Book an appointment</a></li>
+              <li><a href="#">Upload health records</a></li>
+              <li><a href="#">View appointments</a></li>
+            </ul>
+          </div>
+          <div class="tile-header dvd dvd-btm bg-slategray">
+            Subscription Benefits
+          </div>
+          <div class="tile-body">
+            <ul style="list-style: none">
+              <li><a href="#">Free health checkup</a></li>
+              <li><a href="#">Discounted prices</a></li>
+              <li><a href="#">Insurance discounts</a></li>
+              <li><a href="#">Customized health packages</a></li>
+              <li><a href="#">Personalized service</a></li>
+            </ul>
+          </div>
+        <br/>
+      </section>
+      </div>
+    </div>
+  </div>
+
+  </div>
+  <section style=" position:absolute; z-index:997; left:0;right:0;bottom:0;height:200px" id="footer"> 
+    <footer> 
+      <div class="row">
+        <div style="padding-left:30px" class="col-md-6">
+          <h3>ABOUT US<br/></h3>
+          <h4>Our aim is to provide a one stop shop for<br/> all your and your family's healthcare needs.
+          </h4>
+        </div>
+        <div style="padding-left:10px" class="col-md-6">
+          <h3>CONTACT US<br/></h3>
+            <h4>Ground floor, Raghuma Towers, <br/>Madhapur, Hyderabad<br/>
+            support@velkare.com
+          </h4>
+        </div>
+      <div style="padding-bottom: 20px" class="pull-right"> 
+            <a style="padding-right:50px" class="text-white text-uppercase" href="legal/privacyPolicy.html" target="_blank">Privacy Policy</a> 
+            <a style="padding-right:20px" class="text-white text-uppercase" href="legal/termsOfUse.html" target="_blank">Terms Of Use</a> 
+
+        </div> 
+    </footer> 
+  </section>
+</div>

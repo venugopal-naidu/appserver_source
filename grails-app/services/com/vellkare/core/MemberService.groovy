@@ -1,8 +1,13 @@
 package com.vellkare.core
 
+import grails.transaction.Transactional
+
 class MemberService {
 
   static transactional = false
+  def grailsApplication
+  def mailService
+  def contentService
 
   def generateUUID() {
     UUID.randomUUID().toString()
@@ -28,7 +33,31 @@ class MemberService {
     }
   }
 
+  @Transactional
+  def createMember(Registration registration, String password) {
+    Login login = new Login(username: registration.email, password: password, enabled: true)
+    login.save(failOnError: true, flush: true)
+    Member m = new Member(login: login, firstName: registration.firstName, lastName: registration.lastName,
+      email: registration.email, primaryPhone: registration.phoneNumber)
+    m.save(failOnError: true, flush: true)
+    registration.member = m
+    registration.verificationSuccessful(true,true) // setting both verification as true as the otp is save in both the cases
+    m.addToRoles(MemberRole.create(m, Role.findByAuthority(Role.Authority.ROLE_USER)))
 
+    if (grailsApplication.config.app?.emails?.welcome && m.email) {
+      mailService.sendMail {
+        to m.email
+        subject "Welcome Member!"
+        def bodyArgs = [view: '/emails/member/welcome', model: [member: m]]
+        def mailHtml = contentService.applyTemplate(bodyArgs.view, bodyArgs.model)
+        html(mailHtml)
+      }
+    }
+
+    return m
+  }
+
+  @Transactional
   def updateMember(Member member, MemberCommand cmd) {
     member.firstName = cmd.firstName
     member.lastName = cmd.lastName
@@ -38,6 +67,7 @@ class MemberService {
     member.save(failOnError: true, flush: true)
   }
 
+  @Transactional
   def updateMember(Member member, MemberProfileCommand cmd) {
     member.firstName = cmd.firstName
     member.lastName = cmd.lastName

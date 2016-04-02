@@ -15,6 +15,12 @@ class UrlMappings {
     "/api/$namespace/users/signup"(controller: 'user') {
       action = [POST: "create"]
     }
+
+    "/api/$namespace/users/signupCSR"(controller: 'user') {
+      action = [POST: "createCSR"]
+    }
+
+
     "/api/$namespace/users/$id"(controller: 'user') {
       constraints {
         id(matches: /[0-9]*/)
@@ -60,15 +66,36 @@ class UrlMappings {
       action = [GET: "getMedia", POST: "saveMedia"]
     }
 
+    "/api/$namespace/registration/create"(controller: 'registration', action: 'register')
+    "/api/$namespace/registration/verifyUid"(controller: 'registration', action: 'verifyUid')
+    "/api/$namespace/registration/confirm"(controller: 'registration', action: 'confirmRegistration')
 
     "/api/$namespace/search/doctor"(controller: 'search', action: 'searchDoctor') {}
-    "/api/$namespace/search/specialitiesAndHospitals"(controller: 'search', action: 'listSpecialitiesAndHospitals') {}
+    "/api/$namespace/search/specialtiesAndHospitals"(controller: 'search', action: 'listSpecialitiesAndHospitals') {}
     "/api/$namespace/search/hospitals"(controller: 'search', action: 'listHospitals') {}
-    "/api/$namespace/search/hospital/specialities"(controller: 'search', action: 'listHospitalSpecialities') {}
+    "/api/$namespace/search/hospitalNames"(controller: 'search', action: 'listHospitalsNames') {}
+    "/api/$namespace/search/hospital/specialties"(controller: 'search', action: 'listHospitalSpecialities') {}
+    "/api/$namespace/search/lab/testsAndLabs"(controller: 'search', action: 'listTestAndLabsNames') {}
+    "/api/$namespace/search/lab/listLabNames"(controller: 'search', action: 'listLabsForTest') {}
+    "/api/$namespace/search/lab/listTests"(controller: 'search', action: 'listTestInLab') {}
+    "/api/$namespace/search/lab/listLabs"(controller: 'search', action: 'listLabs') {}
+    "/api/$namespace/search/doctorAndHospital"(controller: 'search', action: 'doctorHospitalDetails') {}
+    "/api/$namespace/search/lab"(controller: 'search', action: 'labDetails') {}
+
+    "/api/$namespace/appointment/create"(controller: 'appointment', action: 'makeAnAppointment') {}
+    "/api/$namespace/appointment/cancel/$appointmentId"(controller: 'appointment', action: 'cancelAppointment') {}
+    "/api/$namespace/appointment/confirm/$appointmentId"(controller: 'appointment', action: 'confirmAppointment') {}
+    "/api/$namespace/appointment/list"(controller: 'appointment', action: 'listAppointments') {}
 
 
+    "/api/$namespace/record/recordTypes"(controller: 'media', action: 'listMedicalRecordTypes') {}
+    "/api/$namespace/record/listRecords"(controller: 'media', action: 'listMedicalRecords') {}
+    "/api/$namespace/record/upload"(controller: 'media', action: 'saveMedicalRecord') {}
+    "/api/$namespace/record/delete/$id"(controller: 'media', action: 'deleteMedicalRecord') {}
+    name downloaRecord:
+      "/api/$namespace/record/download/$id"(controller: 'media', action: 'downloadMedicalRecord') {}
 
-    "/api/$namespace/doctor/$action"(controller: 'doctor') {}
+    "/api/$namespace/doctor/show/$id"(controller: 'doctor', action: 'show') {}
 
 
 
@@ -80,7 +107,7 @@ class UrlMappings {
     "/api/swagger"(controller: 'apiDoc', action: 'swagger') {}
     "/api/swagger-api"(controller: 'apiDoc', action: 'swaggerApi') {}
 
-    "/"(view: "/index")
+    "/"(resource: "/index.html")
 
     "/$controller/$action?/$id?(.$format)?" {
       constraints {

@@ -1,0 +1,9 @@
+<div class="{{main.settings.navbarHeaderColor}} {{main.settings.activeColor}} {{containerClass}} header-fixed aside-fixed rightbar-hidden appWrapper sidebar-sm-forced" ng-class="{'header-fixed': main.settings.headerFixed, 'header-static': !main.settings.headerFixed, 'aside-fixed': main.settings.asideFixed, 'aside-static': !main.settings.asideFixed, 'rightbar-show': main.settings.rightbarShow, 'rightbar-hidden': !main.settings.rightbarShow}">
+    <section ng-include="'views/header.html'" id="header" class="{{main.settings.navbarHeaderColor}}"></section>
+    <div id="controls">
+        <aside ng-include="'views/nav.html'" id="sidebar" class="{{main.settings.sidebarColor}}" ng-class="{'aside-fixed':main.settings.asideFixed}"></aside>
+    </div>
+    <div class="view-container" ui-view-container>
+        <section ui-view id="content" autoscroll="false"></section>
+    </div>
+</div>

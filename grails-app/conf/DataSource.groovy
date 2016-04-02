@@ -66,8 +66,8 @@ environments {
       url = "jdbc:mysql://localhost/vellkare"
       driverClassName = "com.mysql.jdbc.Driver"
       pooled = true
-      username = "vellkare"
-      password = "Vellkare@1234"
+      username = "root"
+      password = "123456"
       properties {
         maxActive = -1
         minEvictableIdleTimeMillis = 1800000

@@ -1,6 +1,6 @@
 package com.vellkare.core
 
-class SubscriptionPlan {
+class SubscriptionPlan implements Serializable {
 
   static constraints = {
   }
